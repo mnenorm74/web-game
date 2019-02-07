@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebGame", "WebGame\WebGame.csproj", "{123F5206-6A29-48E0-8478-579F87A2FCC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{05562287-5A5B-46C2-8979-9D747F523E94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{123F5206-6A29-48E0-8478-579F87A2FCC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{123F5206-6A29-48E0-8478-579F87A2FCC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{123F5206-6A29-48E0-8478-579F87A2FCC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05562287-5A5B-46C2-8979-9D747F523E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05562287-5A5B-46C2-8979-9D747F523E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05562287-5A5B-46C2-8979-9D747F523E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05562287-5A5B-46C2-8979-9D747F523E94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

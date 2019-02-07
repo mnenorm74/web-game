@@ -1,9 +1,10 @@
-﻿namespace WebGame.Domain
+namespace WebGame.Domain
 {
     public enum PlayerDecision
     {
-        Rock,
-        Scissors,
-        Paper
+        None = 0,
+        Rock = 1,
+        Scissors = 2,
+        Paper = 3
     }
 }

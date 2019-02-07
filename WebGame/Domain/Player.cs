@@ -1,4 +1,4 @@
-﻿namespace WebGame.Domain
+namespace WebGame.Domain
 {
     public class Player
     {

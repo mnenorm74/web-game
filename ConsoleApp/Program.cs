@@ -13,7 +13,6 @@ namespace ConsoleApp
         {
             userRepo = new InMemoryUserRepository();
             gameRepo = new InMemoryGameRepository();
-
         }
 
         public static void Main(string[] args)
@@ -29,47 +28,56 @@ namespace ConsoleApp
             {
                 TurnsCount = int.TryParse(Console.ReadLine(), out var gamesCount) ? gamesCount : 5
             };
-
-            var humanUser = userRepo.GetOrCreateUser("Human"); // TODO: get or create
-            var aiUser = userRepo.GetOrCreateUser("AI");
+            var humanUser = userRepo.ReadOrCreateUser("Human");
+            var aiUser = userRepo.ReadOrCreateUser("AI");
             game.AddPlayer(humanUser);
             game.AddPlayer(aiUser);
-            var savedGame = gameRepo.Insert(game);
+
+            var savedGame = gameRepo.Create(game);
             humanUser.CurrentGameId = savedGame.Id;
             aiUser.CurrentGameId = savedGame.Id;
             userRepo.Update(humanUser);
             userRepo.Update(aiUser);
 
             RunGameLoop(humanUser.Id);
+
+            Console.WriteLine("Game is finished");
+            Console.ReadLine();
         }
 
         private void RunGameLoop(string humanUserId)
         {
             while (true)
             {
-                var user = userRepo.GetById(humanUserId);
-                var game = gameRepo.GetById(user.CurrentGameId);
+                var user = userRepo.ReadById(humanUserId);
+                var game = gameRepo.ReadById(user.CurrentGameId);
                 ShowScore(game);
-                if (game.IsFinished()) return;
+
+                if (game.IsFinished())
+                    return;
+
                 PlayerDecision? decision = AskHumanDecision(game);
-                if (!decision.HasValue) break; // Exit game
+                if (!decision.HasValue)
+                    return;
                 game.SetPlayerDecision(humanUserId, decision.Value);
+
                 var aiPlayer = game.Players.First(p => p.UserId != humanUserId);
                 game.SetPlayerDecision(aiPlayer.UserId, PlayerDecision.Rock);
+
                 gameRepo.Update(game);
             }
-
         }
 
         private static PlayerDecision? AskHumanDecision(GameEntity game)
         {
+            Console.WriteLine();
+            Console.WriteLine("Select your next decision:");
+            Console.WriteLine("1 - Rock");
+            Console.WriteLine("2 - Scissors");
+            Console.WriteLine("3 - Paper");
+            
             while (true)
             {
-                Console.WriteLine();
-                Console.WriteLine("Select your next decision:");
-                Console.WriteLine("1 - Rock");
-                Console.WriteLine("2 - Scissors");
-                Console.WriteLine("3 - Paper");
                 var key = Console.ReadKey(true);
                 if (key.KeyChar == '1') return PlayerDecision.Rock;
                 if (key.KeyChar == '2') return PlayerDecision.Scissors;

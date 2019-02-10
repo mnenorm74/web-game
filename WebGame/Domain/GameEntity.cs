@@ -15,6 +15,8 @@ namespace WebGame.Domain
         public GameEntity(string id)
         {
             Id = id;
+            Players = new List<Player>();
+            Status = GameStatus.WaitingToStart;
         }
 
         public string Id;
@@ -49,25 +51,17 @@ namespace WebGame.Domain
 
         private void FinishTurn()
         {
-            //TODO pe: move to extension method for PlayerDecision
-            var d0 = (int)Players[0].Decision - 1;
-            var d1 = (int)Players[1].Decision - 1;
-            if (d0 == (d1 + 1)%3) Players[1].Score++;
-            if (d1 == (d0 + 1)%3) Players[0].Score++;
+            if (Players[1].Decision.Beats(Players[0].Decision))
+                Players[1].Score++;
+            if (Players[0].Decision.Beats(Players[1].Decision))
+                Players[0].Score++;
+
             foreach (var player in Players)
                 player.Decision = PlayerDecision.None;
-            if (CurrentTurnIndex == TurnsCount - 1)
-                Status = GameStatus.Finished;
-            else 
-                CurrentTurnIndex++;
-        }
-    }
 
-    public enum GameStatus
-    {
-        WaitingToStart,
-        Playing,
-        Finished,
-        Canceled
+            CurrentTurnIndex++;
+            if (CurrentTurnIndex == TurnsCount)
+                Status = GameStatus.Finished;
+        }
     }
 }

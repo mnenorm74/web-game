@@ -1,0 +1,41 @@
+using MongoDB.Driver;
+
+namespace WebGame.Domain
+{
+    public class MongoUserRepositoty : IUserRepository
+    {
+        private readonly IMongoCollection<UserEntity> userCollection;
+
+        public MongoUserRepositoty(IMongoDatabase database)
+        {
+            userCollection = database.GetCollection<UserEntity>("users");
+        }
+
+        public UserEntity ReadById(string id)
+        {
+            return userCollection.Find(u => u.Id == id).Single();
+        }
+
+        public UserEntity ReadOrCreateUser(string id)
+        {
+            return userCollection.FindOneAndUpdate<UserEntity>(
+                u => u.Id == id, 
+                Builders<UserEntity>.Update.SetOnInsert(u => u.Name, "Anonymous"), 
+                new FindOneAndUpdateOptions<UserEntity, UserEntity>
+                {
+                    IsUpsert = true,
+                    ReturnDocument = ReturnDocument.After
+                });
+            //var userEntity = userCollection.FindSync(u => u.Id == id).FirstOrDefault();
+            //if (userEntity != null) return userEntity;
+            //var newUser = new UserEntity(id, "");
+            //userCollection.InsertOne(newUser);
+            //return newUser;
+        }
+
+        public void Update(UserEntity user)
+        {
+            userCollection.ReplaceOne(u => u.Id == user.Id, user);
+        }
+    }
+}

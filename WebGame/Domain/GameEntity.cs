@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace WebGame.Domain
 {
@@ -19,6 +21,7 @@ namespace WebGame.Domain
             Status = GameStatus.WaitingToStart;
         }
 
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         public string Id;
         public List<Player> Players;
         public int TurnsCount;

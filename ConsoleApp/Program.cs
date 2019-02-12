@@ -1,5 +1,7 @@
 using System;
+using System.Dynamic;
 using System.Linq;
+using MongoDB.Driver;
 using WebGame.Domain;
 
 namespace ConsoleApp
@@ -11,8 +13,11 @@ namespace ConsoleApp
 
         private Program(string[] args)
         {
-            userRepo = new InMemoryUserRepository();
-            gameRepo = new InMemoryGameRepository();
+            var mongoConnectionString = Environment.GetEnvironmentVariable("PROJECT5100_MONGO_CONNECTION_STRING")
+                                        ?? "mongodb://localhost:27017";
+            var db = new MongoClient(mongoConnectionString).GetDatabase("web-game");
+            userRepo = new MongoUserRepositoty(db);
+            gameRepo = new MongoGameRepository(db);
         }
 
         public static void Main(string[] args)
@@ -22,27 +27,48 @@ namespace ConsoleApp
 
         private void RunMenuLoop()
         {
+            var humanUser = userRepo.ReadOrCreateUser("Human");
+            var aiUser = userRepo.ReadOrCreateUser("AI");
+            if (FindCurrentGame(humanUser) == null)
+                StartNewGame(humanUser, aiUser);
+            RunGameLoop(humanUser.Id);
+
+            Console.WriteLine("Game is finished");
+            Console.ReadLine();
+        }
+
+        private GameEntity StartNewGame(UserEntity humanUser, UserEntity aiUser)
+        {
             Console.WriteLine("Enter desired number of games in match:");
-            
             var game = new GameEntity
             {
                 TurnsCount = int.TryParse(Console.ReadLine(), out var gamesCount) ? gamesCount : 5
             };
-            var humanUser = userRepo.ReadOrCreateUser("Human");
-            var aiUser = userRepo.ReadOrCreateUser("AI");
             game.AddPlayer(humanUser);
             game.AddPlayer(aiUser);
-
             var savedGame = gameRepo.Create(game);
             humanUser.CurrentGameId = savedGame.Id;
             aiUser.CurrentGameId = savedGame.Id;
             userRepo.Update(humanUser);
             userRepo.Update(aiUser);
+            return game;
+        }
 
-            RunGameLoop(humanUser.Id);
-
-            Console.WriteLine("Game is finished");
-            Console.ReadLine();
+        private GameEntity FindCurrentGame(UserEntity humanUser)
+        {
+            if (humanUser.CurrentGameId == null) return null;
+            var game = gameRepo.ReadById(humanUser.CurrentGameId);
+            switch (game.Status)
+            {
+                case GameStatus.WaitingToStart:
+                case GameStatus.Playing:
+                    return game;
+                case GameStatus.Finished:
+                case GameStatus.Canceled:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void RunGameLoop(string humanUserId)
@@ -91,24 +117,5 @@ namespace ConsoleApp
             Console.WriteLine();
             Console.WriteLine($"Score: Human {game.Players[0].Score} : {game.Players[1].Score} Computer");
         }
-    }
-
-    internal class GameService
-    {
-        private readonly IGameRepository gameRepo;
-
-        public GameService(IGameRepository gameRepo)
-        {
-            this.gameRepo = gameRepo;
-        }
-
-        public void SetPlayerDecision(PlayerDecision decision)
-        {
-
-        }
-    }
-
-    public class RandomAi
-    {
     }
 }

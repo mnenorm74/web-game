@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace WebGame.Domain
 {
     public class GameEntity
     {
+        [BsonElement]
+        private readonly List<Player> players;
+
         public GameEntity(int turnsCount)
             : this(Guid.Empty, GameStatus.WaitingToStart, turnsCount, 0, new List<Player>())
         {
@@ -23,7 +25,6 @@ namespace WebGame.Domain
             this.players = players;
         }
 
-        [BsonId(IdGenerator = typeof(AscendingGuidGenerator))]
         public Guid Id
         {
             get;
@@ -31,16 +32,14 @@ namespace WebGame.Domain
             private set;
         }
 
-        [BsonRequired]
-        private readonly List<Player> players;
-
         [BsonIgnore]
         public IReadOnlyList<Player> Players => players;
-        [BsonRequired]
+
+        [BsonElement]
         public int TurnsCount { get; }
-        [BsonRequired]
+
         public int CurrentTurnIndex { get; private set; }
-        [BsonRequired]
+
         public GameStatus Status { get; private set; }
 
         public void AddPlayer(UserEntity user)
@@ -79,9 +78,7 @@ namespace WebGame.Domain
 
             CurrentTurnIndex++;
             if (CurrentTurnIndex == TurnsCount)
-            {
                 Status = GameStatus.Finished;
-            }
         }
     }
 }

@@ -1,17 +1,14 @@
 using System;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebGame.Domain
 {
     public class UserEntity
     {
-        [BsonConstructor]
         public UserEntity(Guid id)
         {
             Id = id;
         }
 
-        [BsonId]
         public Guid Id
         {
             get;

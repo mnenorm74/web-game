@@ -1,0 +1,420 @@
+swagger: "2.0"
+info:
+  description: "API простой пошаговой веб-игры"
+  version: "1.0.0"
+  title: "Web Game"
+host: "localhost:8080"
+basePath: "/api/"
+tags:
+- name: "users"
+  description: "Операции с пользователям"
+- name: "games"
+  description: "Операции с играми"
+schemes:
+- "http"
+paths:
+  /users:
+    post:
+      tags:
+      - "users"
+      summary: "Создать пользователя"
+      description: ""
+      operationId: "createUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Данные для создания пользователя"
+        required: true
+        schema:
+          $ref: "#/definitions/UserToPost"
+      responses:
+        201:
+          headers:
+            Location:
+              type: "string"
+              format: "uri"
+              description: "URI созданного пользователя"
+          description: "Пользователь создан"
+        400:
+          description: "Некорректные входные данные"
+        422:
+          description: "Ошибка при проверке"
+  /users/{userId}:
+    get:
+      tags:
+      - "users"
+      summary: "Получить пользователя"
+      description: ""
+      operationId: "getUserById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "Пользователь не найден"
+    put:
+      tags:
+      - "users"
+      summary: "Обновить пользователя"
+      description: ""
+      operationId: "updateUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Обновленные данные пользователя"
+        required: true
+        schema:
+          $ref: "#/definitions/UserToPut"
+      responses:
+        204:
+          description: "Пользователь обновлен"
+        400:
+          description: "Некорректные входные данные"
+        404:
+          description: "Пользователь не найден"
+        422:
+          description: "Ошибка при проверке"
+    patch:
+      tags:
+      - "users"
+      summary: "Частично обновить пользователя"
+      description: ""
+      operationId: "partiallyUpdateUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "JSON Patch для пользователя"
+        required: true
+        schema:
+          $ref: "#/definitions/PatchRequest"
+      responses:
+        204:
+          description: "Пользователь обновлен"
+        400:
+          description: "Некорректные входные данные"
+        404:
+          description: "Пользователь не найден"
+        422:
+          description: "Ошибка при проверке"
+    delete:
+      tags:
+      - "users"
+      summary: "Удалить пользователя"
+      description: ""
+      operationId: "deleteUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        204:
+          description: "Пользователь удален"
+        404:
+          description: "Пользователь не найден"
+  /games/{gameId}:
+    get:
+      tags:
+      - "games"
+      summary: "Получить игру"
+      description: ""
+      operationId: "getGameById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "gameId"
+        in: "path"
+        description: "Идентификатор игры"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Game"
+        404:
+          description: "Игра не найдена"
+  /games/{gameId}/status:
+    get:
+      tags:
+      - "games"
+      summary: "Получить статус игры"
+      description: ""
+      operationId: "getGameStatusById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "gameId"
+        in: "path"
+        description: "Идентификатор игры"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/GameStatus"
+        404:
+          description: "Игра не найдена"
+  /games/{gameId}/players/{userId}:
+    get:
+      tags:
+      - "games"
+      summary: "Получить игрока в игре"
+      description: ""
+      operationId: "getPlayerOfGame"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "gameId"
+        in: "path"
+        description: "Идентификатор игры"
+        required: true
+        type: "string"
+        format: "uuid"
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Player"
+        404:
+          description: "Игра или пользователь не найдены"
+    put:
+      tags:
+      - "games"
+      summary: "Добавить игрока в игру"
+      description: ""
+      operationId: "addPlayerToGame"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "gameId"
+        in: "path"
+        description: "Идентификатор игры"
+        required: true
+        type: "string"
+        format: "uuid"
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Имя игрока"
+        required: true
+        schema:
+          $ref: "#/definitions/PlayerToPut"
+      responses:
+        204:
+          description: "Пользователь добавлен в качестве игрока"
+        400:
+          description: "Некорректные входные данные"
+        404:
+          description: "Игра или пользователь не найдены"
+        422:
+          description: "Ошибка при проверке"
+  /games/{gameId}/players/{userId}/decision:
+    post:
+      tags:
+      - "games"
+      summary: "Задать решение игрока"
+      description: ""
+      operationId: "setPlayerDecision"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "gameId"
+        in: "path"
+        description: "Идентификатор игры"
+        required: true
+        type: "string"
+        format: "uuid"
+      - name: "userId"
+        in: "path"
+        description: "Идентификатор пользователя"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Решение игрока"
+        required: true
+        schema:
+          $ref: "#/definitions/PlayerDecision"
+      responses:
+        201:
+          description: "Решение задано"
+        400:
+          description: "Некорректные входные данные"
+        404:
+          description: "Игра или пользователь не найдены"
+        422:
+          description: "Неверное состояние игры"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      userName:
+        type: "string"
+      fullName:
+        type: "string"
+      email:
+        type: "string"
+    xml:
+      name: "User"
+  UserToChange:
+    type: "object"
+    properties:
+      userName:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+    xml:
+      name: "User"
+  UserToPut:
+   allOf:
+      - $ref: '#/definitions/UserToChange'
+  UserToPost:
+   allOf:
+      - $ref: '#/definitions/UserToChange'
+  Player:
+    type: "object"
+    properties:
+      userId:
+        type: "string"
+        format: "uuid"
+      name:
+        type: "string"
+      decision:
+        $ref: '#/definitions/PlayerDecision'
+      score:
+        type: "integer"
+        format: "int32"
+    xml:
+      name: "Player"
+  PlayerDecision:
+    type: "string"
+    enum:
+    - "none"
+    - "rock"
+    - "scissors"
+    - "paper"
+  PlayerToPut:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+    xml:
+      name: "Player"
+  Game:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+      status:
+        $ref: "#/definitions/GameStatus"
+      players:
+        type: "array"
+        xml:
+          name: "Player"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Player"
+    xml:
+      name: "Game"
+  GameStatus:
+    type: "string"
+    enum:
+    - "waitingToStart"
+    - "playing"
+    - "finished"
+    - "canceled"
+  PatchRequest:
+    type: "array"
+    items:
+      $ref: "#/definitions/PatchDocument"
+  PatchDocument:
+    description: "JSON Patch документ, определенный согласно RFC 6902"
+    required:
+     - "op"
+     - "path"
+    properties:
+     op:
+      type: "string"
+      description: "Операция"
+      enum:
+       - "add"
+       - "remove"
+       - "replace"
+       - "move"
+       - "copy"
+       - "test"
+     path:
+      type: "string"
+      description: "JSON Pointer, к которому будет применена операция"
+     value:
+      type: "object"
+      description: "Значение, которое будет использоваться в операции"
+     from:
+      type: "string"
+      description: "JSON Pointer, из которого берется значение в случае move или copy"

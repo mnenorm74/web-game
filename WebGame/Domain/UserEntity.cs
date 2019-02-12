@@ -15,6 +15,7 @@ namespace WebGame.Domain
 
         public string Id { get; }
         public string Name { get; set; }
+        public int GamesPlayed { get; set; }
         public string CurrentGameId { get; set; } // Для того, чтобы использовать индекс по Game.Id, а не искать игру по индексу на Game.Players.UserId
 
         public override string ToString()

@@ -39,11 +39,13 @@ namespace ConsoleApp
 
         private GameEntity StartNewGame(UserEntity humanUser, UserEntity aiUser)
         {
-            Console.WriteLine("Enter desired number of games in match:");
-            var game = new GameEntity
+            Console.WriteLine("Enter desired number of turns in game:");
+            if (!int.TryParse(Console.ReadLine(), out var turnsCount))
             {
-                TurnsCount = int.TryParse(Console.ReadLine(), out var gamesCount) ? gamesCount : 5
-            };
+                turnsCount = 5;
+                Console.WriteLine($"Bad input. Use default value for turns count: {turnsCount}");
+            }
+            var game = new GameEntity(turnsCount);
             game.AddPlayer(humanUser);
             game.AddPlayer(aiUser);
             var savedGame = gameRepo.Create(game);
@@ -58,6 +60,7 @@ namespace ConsoleApp
         {
             if (humanUser.CurrentGameId == null) return null;
             var game = gameRepo.ReadById(humanUser.CurrentGameId);
+            if (game == null) return null;
             switch (game.Status)
             {
                 case GameStatus.WaitingToStart:
@@ -80,7 +83,10 @@ namespace ConsoleApp
                 ShowScore(game);
 
                 if (game.IsFinished())
+                {
+                    UpdatePlayersWhenGameFinished(game);
                     return;
+                }
 
                 PlayerDecision? decision = AskHumanDecision(game);
                 if (!decision.HasValue)
@@ -91,6 +97,17 @@ namespace ConsoleApp
                 game.SetPlayerDecision(aiPlayer.UserId, PlayerDecision.Rock);
 
                 gameRepo.Update(game);
+            }
+        }
+
+        private void UpdatePlayersWhenGameFinished(GameEntity game)
+        {
+            foreach (var player in game.Players)
+            {
+                var playerUser = userRepo.ReadById(player.UserId);
+                playerUser.GamesPlayed++;
+                playerUser.CurrentGameId = null;
+                userRepo.Update(playerUser);
             }
         }
 

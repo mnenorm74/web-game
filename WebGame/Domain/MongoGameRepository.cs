@@ -4,11 +4,12 @@ namespace WebGame.Domain
 {
     public class MongoGameRepository : IGameRepository
     {
+        public const string CollectionName = "games";
         private readonly IMongoCollection<GameEntity> gameCollection;
 
         public MongoGameRepository(IMongoDatabase database)
         {
-            gameCollection = database.GetCollection<GameEntity>("games");
+            gameCollection = database.GetCollection<GameEntity>(CollectionName);
         }
 
         public GameEntity Create(GameEntity game)

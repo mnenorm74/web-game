@@ -8,31 +8,41 @@ namespace WebGame.Domain
 {
     public class GameEntity
     {
-        public GameEntity()
+        public GameEntity(int turnsCount)
+            : this(null, GameStatus.WaitingToStart, turnsCount, 0, new List<Player>())
         {
-            Players = new List<Player>();
-            Status = GameStatus.WaitingToStart;
         }
 
-        public GameEntity(string id)
+        [BsonConstructor]
+        public GameEntity(string id, GameStatus status, int turnsCount, int currentTurnIndex, List<Player> players)
         {
             Id = id;
-            Players = new List<Player>();
-            Status = GameStatus.WaitingToStart;
+            Status = status;
+            TurnsCount = turnsCount;
+            CurrentTurnIndex = currentTurnIndex;
+            this.players = players;
         }
 
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        public string Id;
-        public List<Player> Players;
-        public int TurnsCount;
-        public int CurrentTurnIndex;
-        public GameStatus Status;
+        public string Id { get; private set; }
+
+        [BsonRequired]
+        private readonly List<Player> players;
+
+        [BsonIgnore]
+        public IReadOnlyList<Player> Players => players;
+        [BsonRequired]
+        public int TurnsCount { get; }
+        [BsonRequired]
+        public int CurrentTurnIndex { get; private set; }
+        [BsonRequired]
+        public GameStatus Status { get; private set; }
 
         public void AddPlayer(UserEntity user)
         {
             if (Status != GameStatus.WaitingToStart)
                 throw new ArgumentException(Status.ToString());
-            Players.Add(new Player(user.Id, user.Name));
+            players.Add(new Player(user.Id, user.Name));
             if (Players.Count == 2)
                 Status = GameStatus.Playing;
         }
@@ -64,7 +74,9 @@ namespace WebGame.Domain
 
             CurrentTurnIndex++;
             if (CurrentTurnIndex == TurnsCount)
+            {
                 Status = GameStatus.Finished;
+            }
         }
     }
 }

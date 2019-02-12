@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WebGame.Domain
 {
@@ -10,7 +11,7 @@ namespace WebGame.Domain
         public GameEntity Create(GameEntity game)
         {
             var id = Guid.NewGuid().ToString();
-            game.Id = id;
+            game = new GameEntity(id, game.Status, game.TurnsCount, game.CurrentTurnIndex, game.Players.ToList());
             entities[id] = game;
             return game;
         }

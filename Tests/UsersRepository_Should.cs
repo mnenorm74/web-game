@@ -11,7 +11,9 @@ namespace Tests
         [SetUp]
         public void SetUp()
         {
-            repo = new MongoUserRepositoty(TestMongoDatabase.Create());
+            var db = TestMongoDatabase.Create();
+            db.DropCollection(MongoUserRepositoty.CollectionName);
+            repo = new MongoUserRepositoty(db);
         }
 
         private MongoUserRepositoty repo;

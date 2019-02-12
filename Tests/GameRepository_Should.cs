@@ -11,7 +11,9 @@ namespace Tests
         [SetUp]
         public void SetUp()
         {
-            repo = new MongoGameRepository(TestMongoDatabase.Create());
+            var db = TestMongoDatabase.Create();
+            db.DropCollection(MongoGameRepository.CollectionName);
+            repo = new MongoGameRepository(db);
         }
 
         private MongoGameRepository repo;
@@ -19,7 +21,7 @@ namespace Tests
         [Test]
         public void CreateGame()
         {
-            var gameEntity = repo.Create(new GameEntity());
+            var gameEntity = repo.Create(new GameEntity(10));
             Console.WriteLine(gameEntity.Id);
             gameEntity.Id.Should().NotBeNullOrEmpty();
         }
@@ -27,7 +29,7 @@ namespace Tests
         [Test]
         public void FindGameById()
         {
-            var gameEntity = repo.Create(new GameEntity());
+            var gameEntity = repo.Create(new GameEntity(10));
             repo.ReadById(gameEntity.Id)
                 .Should().NotBeNull();
         }
@@ -35,9 +37,8 @@ namespace Tests
         [Test]
         public void UpdateGame()
         {
-            var createdGame = repo.Create(new GameEntity());
-            var player = new Player("userId", "someName");
-            createdGame.Players.Add(player);
+            var createdGame = repo.Create(new GameEntity(10));
+            createdGame.AddPlayer(new UserEntity("userId", "Name"));
             repo.Update(createdGame);
             var retrievedGame = repo.ReadById(createdGame.Id);
             retrievedGame.Players.Should().HaveCount(1);

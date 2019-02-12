@@ -9,12 +9,12 @@ namespace WebGame.Domain
     public class GameEntity
     {
         public GameEntity(int turnsCount)
-            : this(null, GameStatus.WaitingToStart, turnsCount, 0, new List<Player>())
+            : this(Guid.Empty, GameStatus.WaitingToStart, turnsCount, 0, new List<Player>())
         {
         }
 
         [BsonConstructor]
-        public GameEntity(string id, GameStatus status, int turnsCount, int currentTurnIndex, List<Player> players)
+        public GameEntity(Guid id, GameStatus status, int turnsCount, int currentTurnIndex, List<Player> players)
         {
             Id = id;
             Status = status;
@@ -23,8 +23,13 @@ namespace WebGame.Domain
             this.players = players;
         }
 
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        public string Id { get; private set; }
+        [BsonId(IdGenerator = typeof(AscendingGuidGenerator))]
+        public Guid Id
+        {
+            get;
+            // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local For MongoDB
+            private set;
+        }
 
         [BsonRequired]
         private readonly List<Player> players;
@@ -42,7 +47,7 @@ namespace WebGame.Domain
         {
             if (Status != GameStatus.WaitingToStart)
                 throw new ArgumentException(Status.ToString());
-            players.Add(new Player(user.Id, user.Name));
+            players.Add(new Player(user.Id, user.Login));
             if (Players.Count == 2)
                 Status = GameStatus.Playing;
         }
@@ -52,7 +57,7 @@ namespace WebGame.Domain
             return CurrentTurnIndex >= TurnsCount;
         }
 
-        public void SetPlayerDecision(string userId, PlayerDecision decision)
+        public void SetPlayerDecision(Guid userId, PlayerDecision decision)
         {
             if (Status != GameStatus.Playing)
                 throw new ArgumentException(Status.ToString());

@@ -15,7 +15,7 @@ namespace Tests
         [Test]
         public void CanSerializeUser()
         {
-            var userEntity = new UserEntity("someUserId", "someUserName") { CurrentGameId = "someGameId" };
+            var userEntity = new UserEntity(Guid.NewGuid()) { Login = "someUserName", CurrentGameId = Guid.NewGuid() };
             AssertCorrectSerialization(userEntity);
         }
 
@@ -24,25 +24,25 @@ namespace Tests
         {
             var players = new List<Player>
             {
-                new Player("userId1", "name1") { Decision = PlayerDecision.Paper, Score = 42 },
-                new Player("userId2", "name2") { Decision = PlayerDecision.Rock, Score = 40 }
+                new Player(Guid.NewGuid(), "name1") { Decision = PlayerDecision.Paper, Score = 42 },
+                new Player(Guid.NewGuid(), "name2") { Decision = PlayerDecision.Rock, Score = 40 }
             };
-            var entity = new GameEntity("someGameId", GameStatus.Playing, 10, 2, players);
+            var entity = new GameEntity(Guid.NewGuid(), GameStatus.Playing, 10, 2, players);
             AssertCorrectSerialization(entity);
         }
 
         [Test]
         public void CanSerializeNotStartedGame()
         {
-            var entity = new GameEntity("someGameId", GameStatus.WaitingToStart, 10, 0, new List<Player>());
+            var entity = new GameEntity(Guid.NewGuid(), GameStatus.WaitingToStart, 10, 0, new List<Player>());
             AssertCorrectSerialization(entity);
         }
 
         [Test]
         public void CanSerializeNotStartedGameWithPlayers()
         {
-            var players = new List<Player> { new Player("userId", "name") };
-            var entity = new GameEntity("someGameId", GameStatus.WaitingToStart, 10, 2, players);
+            var players = new List<Player> { new Player(Guid.NewGuid(), "name") };
+            var entity = new GameEntity(Guid.NewGuid(), GameStatus.WaitingToStart, 10, 2, players);
             AssertCorrectSerialization(entity);
         }
 

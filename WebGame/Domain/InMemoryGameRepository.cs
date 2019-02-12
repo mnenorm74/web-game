@@ -6,17 +6,17 @@ namespace WebGame.Domain
 {
     public class InMemoryGameRepository : IGameRepository
     {
-        private readonly Dictionary<string, GameEntity> entities = new Dictionary<string, GameEntity>();
+        private readonly Dictionary<Guid, GameEntity> entities = new Dictionary<Guid, GameEntity>();
 
         public GameEntity Create(GameEntity game)
         {
-            var id = Guid.NewGuid().ToString();
+            var id = Guid.NewGuid();
             game = new GameEntity(id, game.Status, game.TurnsCount, game.CurrentTurnIndex, game.Players.ToList());
             entities[id] = game;
             return game;
         }
 
-        public GameEntity ReadById(string id)
+        public GameEntity FindById(Guid id)
         {
             return entities.TryGetValue(id, out var entity) ? entity : null;
         }

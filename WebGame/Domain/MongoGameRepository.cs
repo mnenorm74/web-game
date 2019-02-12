@@ -1,3 +1,4 @@
+using System;
 using MongoDB.Driver;
 
 namespace WebGame.Domain
@@ -18,9 +19,9 @@ namespace WebGame.Domain
             return game;
         }
 
-        public GameEntity ReadById(string gameId)
+        public GameEntity FindById(Guid gameId)
         {
-            return gameCollection.Find(g => g.Id == gameId).Single();
+            return gameCollection.Find(g => g.Id == gameId).SingleOrDefault();
         }
 
         public void Update(GameEntity game)

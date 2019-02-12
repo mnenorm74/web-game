@@ -6,22 +6,21 @@ namespace WebGame.Domain
 {
     public class InMemoryUserRepository : IUserRepository
     {
-        private readonly Dictionary<string, UserEntity> entities = new Dictionary<string, UserEntity>();
+        private readonly Dictionary<Guid, UserEntity> entities = new Dictionary<Guid, UserEntity>();
 
-        public UserEntity ReadById(string id)
+        public UserEntity FindById(Guid id)
         {
             return entities.TryGetValue(id, out var entity) ? entity : null;
         }
 
-        public UserEntity ReadOrCreateUser(string name)
+        public UserEntity GetOrCreateByLogin(string login)
         {
-            var existedUser = entities.Values.FirstOrDefault(u => u.Name == name);
+            var existedUser = entities.Values.FirstOrDefault(u => u.Login == login);
             if (existedUser != null)
                 return existedUser;
 
-            var id = Guid.NewGuid().ToString();
-            var user = new UserEntity(id, name);
-            entities[id] = user;
+            var user = new UserEntity(Guid.NewGuid());
+            entities[user.Id] = user;
             return user;
         }
 

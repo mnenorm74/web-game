@@ -1,9 +1,11 @@
+using System;
+
 namespace WebGame.Domain
 {
     public interface IUserRepository
     {
-        UserEntity ReadById(string id);
-        UserEntity ReadOrCreateUser(string id);
+        UserEntity FindById(Guid id);
+        UserEntity GetOrCreateByLogin(string login);
         void Update(UserEntity user);
     }
 }

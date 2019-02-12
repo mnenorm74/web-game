@@ -27,8 +27,8 @@ namespace ConsoleApp
 
         private void RunMenuLoop()
         {
-            var humanUser = userRepo.ReadOrCreateUser("Human");
-            var aiUser = userRepo.ReadOrCreateUser("AI");
+            var humanUser = userRepo.GetOrCreateByLogin("Human");
+            var aiUser = userRepo.GetOrCreateByLogin("AI");
             if (FindCurrentGame(humanUser) == null)
                 StartNewGame(humanUser, aiUser);
             RunGameLoop(humanUser.Id);
@@ -59,7 +59,7 @@ namespace ConsoleApp
         private GameEntity FindCurrentGame(UserEntity humanUser)
         {
             if (humanUser.CurrentGameId == null) return null;
-            var game = gameRepo.ReadById(humanUser.CurrentGameId);
+            var game = gameRepo.FindById(humanUser.CurrentGameId.Value);
             if (game == null) return null;
             switch (game.Status)
             {
@@ -74,12 +74,12 @@ namespace ConsoleApp
             }
         }
 
-        private void RunGameLoop(string humanUserId)
+        private void RunGameLoop(Guid humanUserId)
         {
             while (true)
             {
-                var user = userRepo.ReadById(humanUserId);
-                var game = gameRepo.ReadById(user.CurrentGameId);
+                var user = userRepo.FindById(humanUserId);
+                var game = gameRepo.FindById(user.CurrentGameId.Value);
                 ShowScore(game);
 
                 if (game.IsFinished())
@@ -104,7 +104,7 @@ namespace ConsoleApp
         {
             foreach (var player in game.Players)
             {
-                var playerUser = userRepo.ReadById(player.UserId);
+                var playerUser = userRepo.FindById(player.UserId);
                 playerUser.GamesPlayed++;
                 playerUser.CurrentGameId = null;
                 userRepo.Update(playerUser);

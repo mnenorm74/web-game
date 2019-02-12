@@ -1,3 +1,4 @@
+using System;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebGame.Domain
@@ -5,14 +6,14 @@ namespace WebGame.Domain
     public class Player
     {
         [BsonConstructor]
-        public Player(string userId, string name)
+        public Player(Guid userId, string name)
         {
             UserId = userId;
             Name = name;
         }
 
         [BsonElement("userId")]
-        public string UserId { get; }
+        public Guid UserId { get; }
 
         [BsonElement("name")]
         public string Name { get; } // Снэпшот имени на момент старта игры. Может быть такое требование!

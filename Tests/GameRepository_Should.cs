@@ -23,26 +23,27 @@ namespace Tests
         {
             var gameEntity = repo.Create(new GameEntity(10));
             Console.WriteLine(gameEntity.Id);
-            gameEntity.Id.Should().NotBeNullOrEmpty();
+            gameEntity.Id.Should().NotBe(Guid.Empty);
         }
 
         [Test]
         public void FindGameById()
         {
             var gameEntity = repo.Create(new GameEntity(10));
-            repo.ReadById(gameEntity.Id)
-                .Should().NotBeNull();
+            repo.FindById(gameEntity.Id)
+                .Should().NotBe(Guid.Empty);
         }
 
         [Test]
         public void UpdateGame()
         {
             var createdGame = repo.Create(new GameEntity(10));
-            createdGame.AddPlayer(new UserEntity("userId", "Name"));
+            var userId = Guid.NewGuid();
+            createdGame.AddPlayer(new UserEntity(userId) { Login = "someUserName" });
             repo.Update(createdGame);
-            var retrievedGame = repo.ReadById(createdGame.Id);
+            var retrievedGame = repo.FindById(createdGame.Id);
             retrievedGame.Players.Should().HaveCount(1);
-            retrievedGame.Players[0].UserId.Should().Be("userId");
+            retrievedGame.Players[0].UserId.Should().Be(userId);
         }
     }
 }

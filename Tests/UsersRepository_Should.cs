@@ -1,5 +1,9 @@
 using System;
 using FluentAssertions;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Bson.Serialization.Serializers;
 using NUnit.Framework;
 using WebGame.Domain;
 
@@ -21,29 +25,29 @@ namespace Tests
         [Test]
         public void CreateUser()
         {
-            var newId = Guid.NewGuid().ToString();
-            var user = repo.ReadOrCreateUser(newId);
-            user.Id.Should().Be(newId);
+            var user = repo.GetOrCreateByLogin("login");
+            Console.WriteLine(user.Id);
+            user.Login.Should().Be("login");
+            user.Id.Should().NotBe(Guid.Empty);
         }
 
         [Test]
         public void FindUserById()
         {
-            var newId = Guid.NewGuid().ToString();
-            var user = repo.ReadOrCreateUser(newId);
-            var retrieved = repo.ReadById(newId);
-            retrieved.Should().BeEquivalentTo(user);
+            var user = repo.GetOrCreateByLogin("login");
+            var retrieved = repo.FindById(user.Id);
+            retrieved.Login.Should().Be("login");
         }
 
         [Test]
         public void UpdateUser()
         {
-            var newId = Guid.NewGuid().ToString();
-            var user = repo.ReadOrCreateUser(newId);
-            user.CurrentGameId = "42";
+            var gameId = Guid.NewGuid();
+            var user = repo.GetOrCreateByLogin("login");
+            user.CurrentGameId = gameId;
             repo.Update(user);
-            var retrieved = repo.ReadById(newId);
-            retrieved.CurrentGameId.Should().Be("42");
+            var retrieved = repo.FindById(user.Id);
+            retrieved.CurrentGameId.Should().Be(gameId);
         }
     }
 }

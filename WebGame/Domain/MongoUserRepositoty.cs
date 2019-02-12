@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 
 namespace WebGame.Domain
@@ -13,13 +14,13 @@ namespace WebGame.Domain
             userCollection = database.GetCollection<UserEntity>("users");
         }
 
-        public UserEntity ReadById(string id)
+        public UserEntity FindById(Guid id)
         {
             //см userCollection.FindЧегоТоТам
             throw new NotImplementedException();
         }
 
-        public UserEntity ReadOrCreateUser(string id)
+        public UserEntity GetOrCreateByLogin(string login)
         {
             //см userCollection.InsertЧегоТоТам
             throw new NotImplementedException();
@@ -42,24 +43,24 @@ namespace WebGame.Domain
             userCollection = database.GetCollection<UserEntity>(CollectionName);
         }
 
-        public UserEntity ReadById(string id)
+        public UserEntity FindById(Guid id)
         {
-            return userCollection.Find(u => u.Id == id).Single();
+            return userCollection.Find(u => u.Id == id).SingleOrDefault();
         }
 
-        public UserEntity ReadOrCreateUser(string id)
+        public UserEntity GetOrCreateByLogin(string login)
         {
             return userCollection.FindOneAndUpdate<UserEntity>(
-                u => u.Id == id, 
-                Builders<UserEntity>.Update.SetOnInsert(u => u.Name, "Anonymous"), 
+                u => u.Login == login, 
+                Builders<UserEntity>.Update.SetOnInsert(u => u.Id, Guid.NewGuid()), 
                 new FindOneAndUpdateOptions<UserEntity, UserEntity>
                 {
                     IsUpsert = true,
                     ReturnDocument = ReturnDocument.After
                 });
-            //var userEntity = userCollection.FindSync(u => u.Id == id).FirstOrDefault();
+            //var userEntity = userCollection.FindSync(u => u.Login == login).FirstOrDefault();
             //if (userEntity != null) return userEntity;
-            //var newUser = new UserEntity(id, "");
+            //var newUser = new UserEntity(){Login = login};
             //userCollection.InsertOne(newUser);
             //return newUser;
         }
@@ -70,7 +71,7 @@ namespace WebGame.Domain
         }
 
         // Атомарное обновление
-        public void UpdatePlayersWhenGameIsFinished(IEnumerable<string> userIds)
+        public void UpdatePlayersWhenGameIsFinished(IEnumerable<Guid> userIds)
         {
             var updateBuilder = Builders<UserEntity>.Update;
             userCollection.UpdateMany(

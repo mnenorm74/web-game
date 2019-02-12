@@ -6,7 +6,19 @@ namespace WebGame.Domain
 {
     public class InMemoryUserRepository : IUserRepository
     {
+        private readonly Guid AdminId = Guid.Parse("77777777-7777-7777-7777-777777777777");
         private readonly Dictionary<Guid, UserEntity> entities = new Dictionary<Guid, UserEntity>();
+
+        public InMemoryUserRepository()
+        {
+            AddAdmin();
+        }
+
+        private void AddAdmin()
+        {
+            var user = new UserEntity(AdminId);
+            entities[user.Id] = user;
+        }
 
         public UserEntity FindById(Guid id)
         {
@@ -24,9 +36,9 @@ namespace WebGame.Domain
             return user;
         }
 
-        public void Update(UserEntity game)
+        public void Update(UserEntity user)
         {
-            entities[game.Id] = game;
+            entities[user.Id] = user;
         }
     }
 }

@@ -1,6 +1,6 @@
+using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace WebApi
 {
@@ -8,10 +8,7 @@ namespace WebApi
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-            var sw = (ISwaggerProvider)host.Services.GetService(typeof(ISwaggerProvider));
-            var doc = sw.GetSwagger("web-game");
-            host.Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

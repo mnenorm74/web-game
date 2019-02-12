@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.JsonPatch;
 using WebApi.Models;
+using WebGame.Domain;
 
 namespace WebApi.Controllers
 {
@@ -10,6 +11,13 @@ namespace WebApi.Controllers
     [Produces("application/json", "application/xml")]
     public class UsersController : Controller
     {
+        private readonly IUserRepository userRepository;
+
+        public UsersController(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+
         /// <summary>
         /// Создать пользователя
         /// </summary>
@@ -30,6 +38,9 @@ namespace WebApi.Controllers
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="422">Ошибка при проверке</response>
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
         [Consumes("application/json")]
         public virtual IActionResult CreateUser([FromBody] UserToCreate body)
         {
@@ -44,8 +55,9 @@ namespace WebApi.Controllers
         /// <response code="404">Пользователь не найден</response>
         [HttpDelete]
         [Route("{userId}")]
-        [Consumes("application/json")]
-        public virtual IActionResult DeleteUser([FromRoute, Required] Guid userId)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public virtual IActionResult DeleteUser([FromRoute, Required] string userId)
         {
             throw new NotImplementedException();
         }
@@ -59,10 +71,23 @@ namespace WebApi.Controllers
         [HttpGet]
         [Route("{userId}")]
         [ProducesResponseType(typeof(UserDto), 200)]
-        [Consumes("application/json")]
+        [ProducesResponseType(404)]
         public virtual ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId)
         {
-            throw new NotImplementedException();
+            var userEntity = userRepository.FindById(userId);
+
+            if (userEntity == null)
+                return NotFound();
+
+            var user = new UserDto
+            {
+                Id = userEntity.Id,
+                Login = userEntity.Login,
+                FullName = $"{userEntity.LastName} {userEntity.FirstName}",
+                CurrentGameId = userEntity.CurrentGameId,
+                GamesPlayed = userEntity.GamesPlayed
+            };
+            return Ok(user);
         }
 
         /// <summary>
@@ -76,11 +101,17 @@ namespace WebApi.Controllers
         /// <response code="422">Ошибка при проверке</response>
         [HttpPatch]
         [Route("{userId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
         [Consumes("application/json-patch+json")]
         public virtual IActionResult PartiallyUpdateUser([FromRoute, Required] Guid userId,
             [FromBody] JsonPatchDocument<UserToUpdate> body)
         {
             throw new NotImplementedException();
+            //if (!ModelState.IsValid)
+            //    return new UnprocessableEntityObjectResult(ModelState);
         }
 
         /// <summary>
@@ -94,6 +125,10 @@ namespace WebApi.Controllers
         /// <response code="422">Ошибка при проверке</response>
         [HttpPut]
         [Route("{userId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
         [Consumes("application/json")]
         public virtual IActionResult UpdateUser([FromRoute, Required] Guid userId, [FromBody] UserToUpdate body)
         {

@@ -4,9 +4,11 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using WebGame.Domain;
 
 namespace WebApi
 {
@@ -22,11 +24,31 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(setupAction =>
+            {
+                setupAction.ReturnHttpNotAcceptable = true;
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+
+                //var jsonInputFormatter = setupAction.InputFormatters
+                //    .OfType<JsonInputFormatter>().FirstOrDefault();
+                //jsonInputFormatter?.SupportedMediaTypes
+                //    .Add("application/vnd.kontur.v2+json");
+
+                //var jsonOutputFormatter = setupAction.OutputFormatters
+                //    .OfType<JsonOutputFormatter>().FirstOrDefault();
+                //jsonOutputFormatter?.SupportedMediaTypes
+                //    .Add("application/vnd.kontur.hateoas+json");
+
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("web-game", new OpenApiInfo());
+                c.SwaggerDoc("web-game", new OpenApiInfo
+                {
+                    Title = "Web Game API",
+                    Version = "0.1",
+                });
 
                 c.DescribeAllEnumsAsStrings();
 
@@ -36,6 +58,10 @@ namespace WebApi
 
                 c.EnableAnnotations();
             });
+
+            services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -19,6 +19,8 @@ namespace WebGame.Domain
             private set;
         }
         public string Login { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
         public int GamesPlayed { get; set; }
         public Guid? CurrentGameId { get; set; } // Для того, чтобы использовать индекс по Game.Id, а не искать игру по индексу на Game.Players.UserId
 

@@ -8,7 +8,7 @@ namespace WebGame.Domain
         UserEntity FindById(Guid id);
         UserEntity GetOrCreateByLogin(string login);
         void Update(UserEntity user);
-        void UpdateOrCreate(UserEntity user);
         void Delete(Guid id);
+        PageList<UserEntity> GetPage(int pageNumber, int pageSize);
     }
 }

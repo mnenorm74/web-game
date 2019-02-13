@@ -23,7 +23,7 @@ namespace WebGame.Domain
 
         public void Create(UserEntity user)
         {
-            entities.Add(user.Id, user);
+            entities[user.Id] = user;
         }
 
         public UserEntity FindById(Guid id)
@@ -48,14 +48,20 @@ namespace WebGame.Domain
                 entities[user.Id] = user;
         }
 
-        public void UpdateOrCreate(UserEntity user)
-        {
-            entities[user.Id] = user;
-        }
-
         public void Delete(Guid id)
         {
             entities.Remove(id);
+        }
+
+        public PageList<UserEntity> GetPage(int pageNumber, int pageSize)
+        {
+            var count = entities.Count;
+            var items = entities
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(pair => pair.Value)
+                .ToList();
+            return new PageList<UserEntity>(items, count, pageNumber, pageSize);
         }
     }
 }

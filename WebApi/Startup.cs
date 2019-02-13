@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -50,8 +52,8 @@ namespace WebApi
                     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src =>
                         $"{src.FirstName} {src.LastName}"));
 
-                cfg.CreateMap<UserToCreate, UserEntity>()
-                    .ConstructUsing(x => new UserEntity(Guid.NewGuid()));
+                cfg.CreateMap<UserToCreateDto, UserEntity>();
+                cfg.CreateMap<UserToUpdateDto, UserEntity>();
             });
 
             services.AddSingleton<IUserRepository, InMemoryUserRepository>();

@@ -37,15 +37,14 @@ namespace WebGame.Domain
             throw new NotImplementedException();
         }
 
-        public void UpdateOrCreate(UserEntity user)
-        {
-            //см userCollection.ReplaceЧегоТоТам
-            throw new NotImplementedException();
-        }
-
         public void Delete(Guid id)
         {
             //см userCollection.DeleteЧегоТоТам
+            throw new NotImplementedException();
+        }
+
+        public PageList<UserEntity> GetPage(int pageNumber, int pageSize)
+        {
             throw new NotImplementedException();
         }
     }
@@ -62,7 +61,10 @@ namespace WebGame.Domain
 
         public void Create(UserEntity user)
         {
-            userCollection.InsertOne(user);
+            userCollection.ReplaceOne(u => u.Id == user.Id, user, new UpdateOptions
+            {
+                IsUpsert = true
+            });
         }
 
         public UserEntity FindById(Guid id)
@@ -92,17 +94,21 @@ namespace WebGame.Domain
             userCollection.ReplaceOne(u => u.Id == user.Id, user);
         }
 
-        public void UpdateOrCreate(UserEntity user)
-        {
-            userCollection.ReplaceOne(u => u.Id == user.Id, user, new UpdateOptions
-            {
-                IsUpsert = true
-            });
-        }
-
         public void Delete(Guid id)
         {
             userCollection.DeleteOne(u => u.Id == id);
+        }
+
+        // Медленная, но простая реализация пейджинга для MongoDB
+        public PageList<UserEntity> GetPage(int pageNumber, int pageSize)
+        {
+            var items = userCollection
+                .Find(x => true)
+                .Skip((pageNumber - 1) * pageSize)
+                .Limit(pageSize)
+                .ToList();
+            var count = userCollection.CountDocuments(x => true);
+            return new PageList<UserEntity>(items, count, pageNumber, pageSize);
         }
 
         // Атомарное обновление

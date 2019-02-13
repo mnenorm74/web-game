@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 using WebApi.Models;
 using WebGame.Domain;
 
@@ -13,10 +17,12 @@ namespace WebApi.Controllers
     public class UsersController : Controller
     {
         private readonly IUserRepository userRepository;
+        private readonly LinkGenerator linkGenerator;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, LinkGenerator linkGenerator)
         {
             this.userRepository = userRepository;
+            this.linkGenerator = linkGenerator;
         }
 
         /// <summary>
@@ -26,16 +32,17 @@ namespace WebApi.Controllers
         /// <response code="200">OK</response>
         /// <response code="404">Пользователь не найден</response>
         [HttpGet("{userId}", Name = nameof(GetUserById))]
+        [HttpHead("{userId}")]
         [ProducesResponseType(typeof(UserDto), 200)]
         [ProducesResponseType(404)]
         public virtual ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId)
         {
-            var userEntity = userRepository.FindById(userId);
+            var userFromRepo = userRepository.FindById(userId);
 
-            if (userEntity == null)
+            if (userFromRepo == null)
                 return NotFound();
 
-            var user = Mapper.Map<UserDto>(userEntity);
+            var user = Mapper.Map<UserDto>(userFromRepo);
             return Ok(user);
         }
 
@@ -53,7 +60,7 @@ namespace WebApi.Controllers
         ///     }
         ///
         /// </remarks>
-        /// <param name="body">Данные для создания пользователя</param>
+        /// <param name="user">Данные для создания пользователя</param>
         /// <response code="201">Пользователь создан</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="422">Ошибка при проверке</response>
@@ -62,12 +69,22 @@ namespace WebApi.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(422)]
         [Consumes("application/json")]
-        public virtual IActionResult CreateUser([FromBody] UserToCreate body)
+        public virtual IActionResult CreateUser([FromBody] UserToCreateDto user)
         {
-            if (body == null)
+            if (user == null)
                 return BadRequest();
 
-            var userEntity = Mapper.Map<UserEntity>(body);
+            if (!user.Login.All(c => char.IsLetter(c) || char.IsDigit(c)))
+            {
+                ModelState.AddModelError(nameof(UserToCreateDto),
+                    "Login should contain only letters or digits.");
+            }
+
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            var userEntity = new UserEntity(Guid.NewGuid());
+            Mapper.Map(user, userEntity);
             userRepository.Create(userEntity);
 
             return CreatedAtRoute(
@@ -85,52 +102,179 @@ namespace WebApi.Controllers
         [HttpDelete("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public virtual IActionResult DeleteUser([FromRoute, Required] string userId)
+        public virtual IActionResult DeleteUser([FromRoute, Required] Guid userId)
         {
-            throw new NotImplementedException();
-        }
+            var userFromRepo = userRepository.FindById(userId);
+            if (userFromRepo == null)
+                return NotFound();
 
-        /// <summary>
-        /// Частично обновить пользователя
-        /// </summary>
-        /// <param name="userId">Идентификатор пользователя</param>
-        /// <param name="body">JSON Patch для пользователя</param>
-        /// <response code="204">Пользователь обновлен</response>
-        /// <response code="400">Некорректные входные данные</response>
-        /// <response code="404">Пользователь не найден</response>
-        /// <response code="422">Ошибка при проверке</response>
-        [HttpPatch("{userId}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(422)]
-        [Consumes("application/json-patch+json")]
-        public virtual IActionResult PartiallyUpdateUser([FromRoute, Required] Guid userId,
-            [FromBody] JsonPatchDocument<UserToUpdate> body)
-        {
-            throw new NotImplementedException();
-            //if (!ModelState.IsValid)
-            //    return new UnprocessableEntityObjectResult(ModelState);
+            userRepository.Delete(userId);
+            return NoContent();
         }
 
         /// <summary>
         /// Обновить пользователя
         /// </summary>
         /// <param name="userId">Идентификатор пользователя</param>
-        /// <param name="body">Обновленные данные пользователя</param>
+        /// <param name="user">Обновленные данные пользователя</param>
+        /// <response code="201">Пользователь создан</response>
         /// <response code="204">Пользователь обновлен</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Пользователь не найден</response>
         /// <response code="422">Ошибка при проверке</response>
         [HttpPut("{userId}")]
+        [ProducesResponseType(201)]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
         [Consumes("application/json")]
-        public virtual IActionResult UpdateUser([FromRoute, Required] Guid userId, [FromBody] UserToUpdate body)
+        public virtual IActionResult UpdateUser([FromRoute, Required] Guid userId, [FromBody] UserToUpdateDto user)
         {
-            throw new NotImplementedException();
+            if (user == null)
+                return BadRequest();
+
+            ValidateUserToUpdate(user);
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            var userFromRepo = userRepository.FindById(userId);
+            if (userFromRepo == null)
+            {
+                var userEntity = new UserEntity(userId);
+                Mapper.Map(user, userEntity);
+                userRepository.Create(userEntity);
+
+                return CreatedAtRoute(
+                    nameof(GetUserById),
+                    new {userId = userEntity.Id},
+                    userEntity.Id);
+            }
+
+            Mapper.Map(user, userFromRepo);
+            userRepository.Update(userFromRepo);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Частично обновить пользователя
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <param name="patchDoc">JSON Patch для пользователя</param>
+        /// <response code="201">Пользователь создан</response>
+        /// <response code="204">Пользователь обновлен</response>
+        /// <response code="400">Некорректные входные данные</response>
+        /// <response code="404">Пользователь не найден</response>
+        /// <response code="422">Ошибка при проверке</response>
+        [HttpPatch("{userId}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(422)]
+        [Consumes("application/json-patch+json")]
+        public virtual IActionResult PartiallyUpdateUser([FromRoute, Required] Guid userId,
+            [FromBody] JsonPatchDocument<UserToUpdateDto> patchDoc)
+        {
+            if (patchDoc == null)
+                return BadRequest();
+
+            var userFromRepo = userRepository.FindById(userId);
+            if (userFromRepo == null)
+            {
+                var user = new UserToUpdateDto();
+
+                patchDoc.ApplyTo(user, ModelState);
+                ValidateUserToUpdate(user);
+                if (!ModelState.IsValid)
+                    return new UnprocessableEntityObjectResult(ModelState);
+
+                var userEntity = new UserEntity(userId);
+                Mapper.Map(user, userEntity);
+                userRepository.Create(userEntity);
+
+                return CreatedAtRoute(
+                    nameof(GetUserById),
+                    new {userId = userEntity.Id},
+                    userEntity.Id);
+            }
+            else
+            {
+                var user = Mapper.Map<UserToUpdateDto>(userFromRepo);
+
+                patchDoc.ApplyTo(user, ModelState);
+                ValidateUserToUpdate(user);
+                if (!ModelState.IsValid)
+                    return new UnprocessableEntityObjectResult(ModelState);
+
+                Mapper.Map(user, userFromRepo);
+                userRepository.Update(userFromRepo);
+
+                return NoContent();
+            }
+        }
+
+        /// <summary>
+        /// Получить пользователей
+        /// </summary>
+        /// <param name="pageNumber">Номер страницы, по умолчанию 1</param>
+        /// <param name="pageSize">Размер страницы, по умолчанию 20</param>
+        /// <response code="200">OK</response>
+        [HttpGet(Name = nameof(GetUsers))]
+        [ProducesResponseType(typeof(IEnumerable<UserDto>), 200)]
+        public IActionResult GetUsers(int pageNumber = 1, int pageSize = 10)
+        {
+            pageNumber = Math.Max(pageNumber, 1);
+            pageSize = Math.Min(Math.Max(pageSize, 1), 20);
+            var pageList = userRepository.GetPage(pageNumber, pageSize);
+
+            var users = Mapper.Map<IEnumerable<UserDto>>(pageList);
+
+            var paginationHeader = new
+            {
+                previousPageLink = pageList.HasPrevious
+                    ? CreateGetUsersUri(pageList.CurrentPage - 1, pageList.PageSize)
+                    : null,
+                nextPageLink = pageList.HasNext
+                    ? CreateGetUsersUri(pageList.CurrentPage + 1, pageList.PageSize)
+                    : null,
+                totalCount = pageList.TotalCount,
+                pageSize = pageList.PageSize,
+                currentPage = pageList.CurrentPage,
+                totalPages = pageList.TotalPages
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationHeader));
+
+            return Ok(users);
+        }
+
+        /// <summary>
+        /// Опции по запросам о пользователях
+        /// </summary>
+        [HttpOptions]
+        public IActionResult GetUsersOptions()
+        {
+            Response.Headers.Add("Allow", "POST,GET,OPTIONS");
+            return Ok();
+        }
+
+        private string CreateGetUsersUri(int pageNumber, int pageSize)
+        {
+            return linkGenerator.GetUriByRouteValues(HttpContext, nameof(GetUsers),
+                new
+                {
+                    pageNumber,
+                    pageSize
+                });
+        }
+
+        private void ValidateUserToUpdate(UserToUpdateDto user)
+        {
+            if (!user.Login.All(c => char.IsLetter(c) || char.IsDigit(c)))
+            {
+                ModelState.AddModelError(nameof(UserToUpdateDto),
+                    "Login should contain only letters or digits.");
+            }
         }
     }
 }

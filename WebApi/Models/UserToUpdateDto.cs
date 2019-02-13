@@ -1,17 +1,16 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Models
 {
-    public class UserToCreate
+    public class UserToUpdateDto
     {
         [Required]
         public string Login { get; set; }
 
-        [DefaultValue("John")]
+        [Required]
         public string FirstName { get; set; }
 
-        [DefaultValue("Doe")]
+        [Required]
         public string LastName { get; set; }
     }
 }

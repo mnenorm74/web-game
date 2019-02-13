@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         /// </remarks>
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
-        /// <param name="body">Имя игрока</param>
+        /// <param name="player">Имя игрока</param>
         /// <response code="204">Пользователь добавлен в качестве игрока</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Игра или пользователь не найдены</response>
@@ -36,7 +36,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(422)]
         [Consumes("application/json")]
         public virtual IActionResult AddPlayerToGame([FromRoute, Required] Guid gameId,
-            [FromRoute, Required] Guid userId, [FromBody] PlayerToUpdate body)
+            [FromRoute, Required] Guid userId, [FromBody] PlayerToUpdateDto player)
         {
             throw new NotImplementedException();
         }
@@ -90,7 +90,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
-        /// <param name="body">Решение игрока</param>
+        /// <param name="player">Решение игрока</param>
         /// <response code="201">Решение задано</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Игра или пользователь не найдены</response>
@@ -102,7 +102,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(422)]
         [Consumes("application/json")]
         public virtual IActionResult SetPlayerDecision([FromRoute, Required] Guid gameId,
-            [FromRoute, Required] Guid userId, [FromBody] PlayerDecision body)
+            [FromRoute, Required] Guid userId, [FromBody] PlayerDecision player)
         {
             throw new NotImplementedException();
         }

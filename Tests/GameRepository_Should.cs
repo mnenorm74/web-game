@@ -38,12 +38,12 @@ namespace Tests
         public void UpdateGame()
         {
             var createdGame = repo.Create(new GameEntity(10));
-            var userId = Guid.NewGuid();
-            createdGame.AddPlayer(new UserEntity(userId) { Login = "someUserName" });
+            var login = "someUserName";
+            createdGame.AddPlayer(new UserEntity { Login = login });
             repo.Update(createdGame);
             var retrievedGame = repo.FindById(createdGame.Id);
             retrievedGame.Players.Should().HaveCount(1);
-            retrievedGame.Players[0].UserId.Should().Be(userId);
+            retrievedGame.Players[0].Name.Should().Be(login);
         }
     }
 }

@@ -1,19 +1,79 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using AutoMapper;
 using WebApi.Models;
 using WebGame.Domain;
 
 namespace WebApi.Controllers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Route("api/[controller]")]
     [Produces("application/json", "application/xml")]
     public class GamesController : Controller
     {
-        //todo метод создания игры
+        private readonly IGameRepository gameRepository;
+        private readonly IUserRepository userRepository;
+
+        public GamesController(IGameRepository gameRepository, IUserRepository userRepository)
+        {
+            this.gameRepository = gameRepository;
+            this.userRepository = userRepository;
+        }
+
+        /// <summary>
+        /// Получить игру
+        /// </summary>
+        /// <param name="gameId">Идентификатор игры</param>
+        /// <response code="200">OK</response>
+        /// <response code="404">Игра не найдена</response>
+        [HttpGet("{gameId}")]
+        [ProducesResponseType(typeof(GameDto), 200)]
+        [ProducesResponseType(404)]
+        public ActionResult<GameDto> GetGameById([FromRoute, Required] Guid gameId)
+        {
+            var gameFromRepo = gameRepository.FindById(gameId);
+
+            if (gameFromRepo == null)
+                return NotFound();
+
+            var game = Mapper.Map<GameDto>(gameFromRepo);
+            return Ok(game);
+        }
+
+        /// <summary>
+        /// Создать игру
+        /// </summary>
+        /// <param name="game">Данные для создания игры</param>
+        /// <response code="201">Игра создана</response>
+        /// <response code="400">Некорректные входные данные</response>
+        /// <response code="422">Ошибка при проверке</response>
+        [HttpPost]
+        [Consumes("application/json")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
+        public IActionResult CreateGame([FromBody] GameToCreateDto game)
+        {
+            if (game == null)
+                return BadRequest();
+
+            if (game.TurnsCount < 1)
+            {
+                ModelState.AddModelError(nameof(GameToCreateDto),
+                    "TurnsCount should be a positive number.");
+            }
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            var gameEntity = new GameEntity(game.TurnsCount);
+            var createdGameEntity = gameRepository.Create(gameEntity);
+
+            return CreatedAtRoute(
+                nameof(GetGameById),
+                new {gameId = createdGameEntity.Id},
+                createdGameEntity.Id);
+        }
 
         /// <summary>
         /// Добавить игрока в игру
@@ -28,31 +88,33 @@ namespace WebApi.Controllers
         /// <response code="204">Пользователь добавлен в качестве игрока</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Игра или пользователь не найдены</response>
-        /// <response code="422">Ошибка при проверке</response>
         [HttpPut("{gameId}/players/{userId}")]
+        [Consumes("application/json")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(422)]
-        [Consumes("application/json")]
-        public virtual IActionResult AddPlayerToGame([FromRoute, Required] Guid gameId,
-            [FromRoute, Required] Guid userId, [FromBody] PlayerToUpdateDto player)
+        public IActionResult AddPlayerToGame(
+            [FromRoute, Required] Guid gameId,
+            [FromRoute, Required] Guid userId)
         {
-            throw new NotImplementedException();
-        }
+            var gameFromRepo = gameRepository.FindById(gameId);
+            if (gameFromRepo == null)
+                return NotFound();
 
-        /// <summary>
-        /// Получить игру
-        /// </summary>
-        /// <param name="gameId">Идентификатор игры</param>
-        /// <response code="200">OK</response>
-        /// <response code="404">Игра не найдена</response>
-        [HttpGet("{gameId}")]
-        [ProducesResponseType(typeof(GameDto), 200)]
-        [ProducesResponseType(404)]
-        public virtual ActionResult<GameDto> GetGameById([FromRoute, Required] Guid gameId)
-        {
-            throw new NotImplementedException();
+            var userFromRepo = userRepository.FindById(userId);
+            if (userFromRepo == null)
+                return NotFound();
+
+            try
+            {
+                gameFromRepo.AddPlayer(userFromRepo);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return NoContent();
         }
 
         /// <summary>
@@ -64,9 +126,14 @@ namespace WebApi.Controllers
         [HttpGet("{gameId}/status")]
         [ProducesResponseType(typeof(GameStatus), 200)]
         [ProducesResponseType(404)]
-        public virtual ActionResult<GameStatus> GetGameStatusById([FromRoute, Required] Guid gameId)
+        public ActionResult<GameStatus> GetGameStatusById([FromRoute, Required] Guid gameId)
         {
-            throw new NotImplementedException();
+            var gameFromRepo = gameRepository.FindById(gameId);
+
+            if (gameFromRepo == null)
+                return NotFound();
+
+            return Ok(gameFromRepo.Status);
         }
 
         /// <summary>
@@ -75,14 +142,24 @@ namespace WebApi.Controllers
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
         /// <response code="200">OK</response>
-        /// <response code="404">Игра или пользователь не найдены</response>
+        /// <response code="404">Игра или игрок не найдены</response>
         [HttpGet("{gameId}/players/{userId}")]
         [ProducesResponseType(typeof(PlayerDto), 200)]
         [ProducesResponseType(404)]
-        public virtual ActionResult<PlayerDto> GetPlayerOfGame([FromRoute, Required] Guid gameId,
+        public ActionResult<PlayerDto> GetPlayerOfGame(
+            [FromRoute, Required] Guid gameId,
             [FromRoute, Required] Guid userId)
         {
-            throw new NotImplementedException();
+            var gameFromRepo = gameRepository.FindById(gameId);
+            if (gameFromRepo == null)
+                return NotFound();
+
+            var playerFromRepo = gameFromRepo.Players.FirstOrDefault(p => p.UserId == userId);
+            if (playerFromRepo == null)
+                return NotFound();
+
+            var player = Mapper.Map<PlayerDto>(playerFromRepo);
+            return Ok(player);
         }
 
         /// <summary>
@@ -90,21 +167,38 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
-        /// <param name="player">Решение игрока</param>
-        /// <response code="201">Решение задано</response>
+        /// <param name="decision">Решение игрока</param>
+        /// <response code="200">Решение задано</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Игра или пользователь не найдены</response>
-        /// <response code="422">Неверное состояние игры</response>
         [HttpPost("{gameId}/players/{userId}/decision")]
-        [ProducesResponseType(201)]
+        [Consumes("application/json")]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(422)]
-        [Consumes("application/json")]
-        public virtual IActionResult SetPlayerDecision([FromRoute, Required] Guid gameId,
-            [FromRoute, Required] Guid userId, [FromBody] PlayerDecision player)
+        public IActionResult SetPlayerDecision(
+            [FromRoute, Required] Guid gameId,
+            [FromRoute, Required] Guid userId,
+            [FromBody] PlayerDecision decision)
         {
-            throw new NotImplementedException();
+            var gameFromRepo = gameRepository.FindById(gameId);
+            if (gameFromRepo == null)
+                return NotFound();
+
+            var playerFromRepo = gameFromRepo.Players.FirstOrDefault(p => p.UserId == userId);
+            if (playerFromRepo == null)
+                return NotFound();
+
+            try
+            {
+                gameFromRepo.SetPlayerDecision(userId, decision);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return NoContent();
         }
     }
 }

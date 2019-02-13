@@ -35,7 +35,7 @@ namespace WebApi.Controllers
         [HttpHead("{userId}")]
         [ProducesResponseType(typeof(UserDto), 200)]
         [ProducesResponseType(404)]
-        public virtual ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId)
+        public ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId)
         {
             var userFromRepo = userRepository.FindById(userId);
 
@@ -65,11 +65,11 @@ namespace WebApi.Controllers
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="422">Ошибка при проверке</response>
         [HttpPost]
+        [Consumes("application/json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(422)]
-        [Consumes("application/json")]
-        public virtual IActionResult CreateUser([FromBody] UserToCreateDto user)
+        public IActionResult CreateUser([FromBody] UserToCreateDto user)
         {
             if (user == null)
                 return BadRequest();
@@ -83,14 +83,13 @@ namespace WebApi.Controllers
             if (!ModelState.IsValid)
                 return new UnprocessableEntityObjectResult(ModelState);
 
-            var userEntity = new UserEntity(Guid.NewGuid());
-            Mapper.Map(user, userEntity);
-            userRepository.Create(userEntity);
+            var userEntity = Mapper.Map<UserEntity>(user);
+            var createdUserEntity = userRepository.Create(userEntity);
 
             return CreatedAtRoute(
                 nameof(GetUserById),
-                new {userId = userEntity.Id},
-                userEntity.Id);
+                new {userId = createdUserEntity.Id},
+                createdUserEntity.Id);
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace WebApi.Controllers
         [HttpDelete("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public virtual IActionResult DeleteUser([FromRoute, Required] Guid userId)
+        public IActionResult DeleteUser([FromRoute, Required] Guid userId)
         {
             var userFromRepo = userRepository.FindById(userId);
             if (userFromRepo == null)
@@ -120,16 +119,14 @@ namespace WebApi.Controllers
         /// <response code="201">Пользователь создан</response>
         /// <response code="204">Пользователь обновлен</response>
         /// <response code="400">Некорректные входные данные</response>
-        /// <response code="404">Пользователь не найден</response>
         /// <response code="422">Ошибка при проверке</response>
         [HttpPut("{userId}")]
+        [Consumes("application/json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
         [ProducesResponseType(422)]
-        [Consumes("application/json")]
-        public virtual IActionResult UpdateUser([FromRoute, Required] Guid userId, [FromBody] UserToUpdateDto user)
+        public IActionResult UpdateOrCreateUser([FromRoute, Required] Guid userId, [FromBody] UserToUpdateDto user)
         {
             if (user == null)
                 return BadRequest();
@@ -141,9 +138,8 @@ namespace WebApi.Controllers
             var userFromRepo = userRepository.FindById(userId);
             if (userFromRepo == null)
             {
-                var userEntity = new UserEntity(userId);
-                Mapper.Map(user, userEntity);
-                userRepository.Create(userEntity);
+                var userEntity = Mapper.Map<UserEntity>(new UserEntity(userId));
+                userRepository.UpdateOrCreate(userEntity);
 
                 return CreatedAtRoute(
                     nameof(GetUserById),
@@ -161,19 +157,17 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="userId">Идентификатор пользователя</param>
         /// <param name="patchDoc">JSON Patch для пользователя</param>
-        /// <response code="201">Пользователь создан</response>
         /// <response code="204">Пользователь обновлен</response>
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Пользователь не найден</response>
         /// <response code="422">Ошибка при проверке</response>
         [HttpPatch("{userId}")]
-        [ProducesResponseType(201)]
+        [Consumes("application/json-patch+json")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(422)]
-        [Consumes("application/json-patch+json")]
-        public virtual IActionResult PartiallyUpdateUser([FromRoute, Required] Guid userId,
+        public IActionResult PartiallyUpdateUser([FromRoute, Required] Guid userId,
             [FromBody] JsonPatchDocument<UserToUpdateDto> patchDoc)
         {
             if (patchDoc == null)
@@ -181,37 +175,19 @@ namespace WebApi.Controllers
 
             var userFromRepo = userRepository.FindById(userId);
             if (userFromRepo == null)
-            {
-                var user = new UserToUpdateDto();
+                NotFound();
+            
+            var user = Mapper.Map<UserToUpdateDto>(userFromRepo);
 
-                patchDoc.ApplyTo(user, ModelState);
-                ValidateUserToUpdate(user);
-                if (!ModelState.IsValid)
-                    return new UnprocessableEntityObjectResult(ModelState);
+            patchDoc.ApplyTo(user, ModelState);
+            ValidateUserToUpdate(user);
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
 
-                var userEntity = new UserEntity(userId);
-                Mapper.Map(user, userEntity);
-                userRepository.Create(userEntity);
+            Mapper.Map(user, userFromRepo);
+            userRepository.Update(userFromRepo);
 
-                return CreatedAtRoute(
-                    nameof(GetUserById),
-                    new {userId = userEntity.Id},
-                    userEntity.Id);
-            }
-            else
-            {
-                var user = Mapper.Map<UserToUpdateDto>(userFromRepo);
-
-                patchDoc.ApplyTo(user, ModelState);
-                ValidateUserToUpdate(user);
-                if (!ModelState.IsValid)
-                    return new UnprocessableEntityObjectResult(ModelState);
-
-                Mapper.Map(user, userFromRepo);
-                userRepository.Update(userFromRepo);
-
-                return NoContent();
-            }
+            return NoContent();
         }
 
         /// <summary>

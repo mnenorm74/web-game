@@ -1,12 +1,29 @@
 using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace WebGame.Domain
 {
     public class UserEntity
     {
+        public UserEntity()
+        {
+            Id = Guid.Empty;
+        }
+
         public UserEntity(Guid id)
         {
             Id = id;
+        }
+
+        [BsonConstructor]
+        public UserEntity(Guid id, string login, string lastName, string firstName, int gamesPlayed, Guid? currentGameId)
+        {
+            Id = id;
+            Login = login;
+            LastName = lastName;
+            FirstName = firstName;
+            GamesPlayed = gamesPlayed;
+            CurrentGameId = currentGameId;
         }
 
         public Guid Id
@@ -15,6 +32,7 @@ namespace WebGame.Domain
             // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local For MongoDB
             private set;
         }
+
         public string Login { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }

@@ -54,6 +54,9 @@ namespace WebApi
 
                 cfg.CreateMap<UserToCreateDto, UserEntity>();
                 cfg.CreateMap<UserToUpdateDto, UserEntity>();
+
+                cfg.CreateMap<GameEntity, GameDto>();
+                cfg.CreateMap<Player, PlayerDto>();
             });
 
             services.AddSingleton<IUserRepository, InMemoryUserRepository>();

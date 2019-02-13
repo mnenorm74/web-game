@@ -13,7 +13,7 @@ namespace WebGame.Domain
             userCollection = database.GetCollection<UserEntity>("users");
         }
 
-        public void Create(UserEntity user)
+        public UserEntity Create(UserEntity user)
         {
             //см userCollection.InsertЧегоТоТам
             throw new NotImplementedException();
@@ -32,6 +32,12 @@ namespace WebGame.Domain
         }
 
         public void Update(UserEntity user)
+        {
+            //см userCollection.ReplaceЧегоТоТам
+            throw new NotImplementedException();
+        }
+
+        public UserEntity UpdateOrCreate(UserEntity user)
         {
             //см userCollection.ReplaceЧегоТоТам
             throw new NotImplementedException();
@@ -59,12 +65,10 @@ namespace WebGame.Domain
             userCollection = database.GetCollection<UserEntity>(CollectionName);
         }
 
-        public void Create(UserEntity user)
+        public UserEntity Create(UserEntity user)
         {
-            userCollection.ReplaceOne(u => u.Id == user.Id, user, new UpdateOptions
-            {
-                IsUpsert = true
-            });
+            userCollection.InsertOne(user);
+            return user;
         }
 
         public UserEntity FindById(Guid id)
@@ -92,6 +96,15 @@ namespace WebGame.Domain
         public void Update(UserEntity user)
         {
             userCollection.ReplaceOne(u => u.Id == user.Id, user);
+        }
+
+        public UserEntity UpdateOrCreate(UserEntity user)
+        {
+            userCollection.ReplaceOne(u => u.Id == user.Id, user, new UpdateOptions
+            {
+                IsUpsert = true
+            });
+            return user;
         }
 
         public void Delete(Guid id)

@@ -10,20 +10,31 @@ namespace WebGame.Domain
 
         public GameEntity Create(GameEntity game)
         {
+            if (game.Id != Guid.Empty)
+                throw new Exception();
+
             var id = Guid.NewGuid();
-            game = new GameEntity(id, game.Status, game.TurnsCount, game.CurrentTurnIndex, game.Players.ToList());
-            entities[id] = game;
-            return game;
+            var entity = Clone(id, game);
+            entities[id] = entity;
+            return Clone(id, entity);
         }
 
         public GameEntity FindById(Guid id)
         {
-            return entities.TryGetValue(id, out var entity) ? entity : null;
+            return entities.TryGetValue(id, out var entity) ? Clone(id, entity) : null;
         }
 
         public void Update(GameEntity game)
         {
-            entities[game.Id] = game;
+            if (!entities.ContainsKey(game.Id))
+                throw new InvalidOperationException();
+
+            entities[game.Id] = Clone(game.Id, game);
+        }
+
+        private GameEntity Clone(Guid id, GameEntity game)
+        {
+            return new GameEntity(id, game.Status, game.TurnsCount, game.CurrentTurnIndex, game.Players.ToList());
         }
     }
 }

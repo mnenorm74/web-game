@@ -15,7 +15,7 @@ namespace Tests
         [Test]
         public void CanSerializeUser()
         {
-            var userEntity = new UserEntity(Guid.NewGuid()) { Login = "someUserName", CurrentGameId = Guid.NewGuid() };
+            var userEntity = new UserEntity(Guid.NewGuid(), "someUserName", "", "", 0, Guid.NewGuid());
             AssertCorrectSerialization(userEntity);
         }
 

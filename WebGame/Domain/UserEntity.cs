@@ -26,6 +26,10 @@ namespace WebGame.Domain
             return $"{nameof(Id)}: {Id}, {nameof(Login)}: {Login}, {nameof(CurrentGameId)}: {CurrentGameId}";
         }
 
-        // Социальные сети, аватарки, ...
+        public void FinishGame()
+        {
+            GamesPlayed++;
+            CurrentGameId = null;
+        }
     }
 }

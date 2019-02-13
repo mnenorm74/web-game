@@ -4,52 +4,6 @@ using MongoDB.Driver;
 
 namespace WebGame.Domain
 {
-    public class MongoUserRepositoty2 : IUserRepository
-    {
-        private readonly IMongoCollection<UserEntity> userCollection;
-
-        public MongoUserRepositoty2(IMongoDatabase database)
-        {
-            userCollection = database.GetCollection<UserEntity>("users");
-        }
-
-        public void Create(UserEntity user)
-        {
-            //см userCollection.InsertЧегоТоТам
-            throw new NotImplementedException();
-        }
-
-        public UserEntity FindById(Guid id)
-        {
-            //см userCollection.FindЧегоТоТам
-            throw new NotImplementedException();
-        }
-
-        public UserEntity GetOrCreateByLogin(string login)
-        {
-            //см userCollection.InsertЧегоТоТам
-            throw new NotImplementedException();
-        }
-
-        public void Update(UserEntity user)
-        {
-            //см userCollection.ReplaceЧегоТоТам
-            throw new NotImplementedException();
-        }
-
-        public void UpdateOrCreate(UserEntity user)
-        {
-            //см userCollection.ReplaceЧегоТоТам
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Guid id)
-        {
-            //см userCollection.DeleteЧегоТоТам
-            throw new NotImplementedException();
-        }
-    }
-
     public class MongoUserRepositoty : IUserRepository
     {
         private readonly IMongoCollection<UserEntity> userCollection;
@@ -58,6 +12,11 @@ namespace WebGame.Domain
         public MongoUserRepositoty(IMongoDatabase database)
         {
             userCollection = database.GetCollection<UserEntity>(CollectionName);
+
+            // Индекс для быстрого поиска по совпадению логина
+            var indexModel = new CreateIndexModel<UserEntity>(
+                Builders<UserEntity>.IndexKeys.Ascending(f => f.Login), new CreateIndexOptions { Unique = true });
+            userCollection.Indexes.CreateOne(indexModel);
         }
 
         public void Create(UserEntity user)
@@ -72,19 +31,31 @@ namespace WebGame.Domain
 
         public UserEntity GetOrCreateByLogin(string login)
         {
-            return userCollection.FindOneAndUpdate<UserEntity>(
-                u => u.Login == login, 
-                Builders<UserEntity>.Update.SetOnInsert(u => u.Id, Guid.NewGuid()), 
-                new FindOneAndUpdateOptions<UserEntity, UserEntity>
-                {
-                    IsUpsert = true,
-                    ReturnDocument = ReturnDocument.After
-                });
-            //var userEntity = userCollection.FindSync(u => u.Login == login).FirstOrDefault();
-            //if (userEntity != null) return userEntity;
-            //var newUser = new UserEntity(){Login = login};
-            //userCollection.InsertOne(newUser);
-            //return newUser;
+            // Возможен data-race двух параллельных запросов GetOrCreate
+            // В один запрос c Upsert-ом
+            try
+            {
+                return userCollection.FindOneAndUpdate<UserEntity>(
+                    u => u.Login == login,
+                    Builders<UserEntity>.Update
+                        .SetOnInsert(u => u.Id, Guid.NewGuid()),
+                    new FindOneAndUpdateOptions<UserEntity, UserEntity>
+                    {
+                        IsUpsert = true,
+                        ReturnDocument = ReturnDocument.After
+                    });
+
+            }
+            catch (MongoCommandException e) when (e.Code == 11000)
+            {
+                return userCollection.FindSync(u => u.Login == login).First();
+            }            
+            //Без изысков в два запроса. 
+            var userEntity = userCollection.FindSync(u => u.Login == login).FirstOrDefault();
+            if (userEntity != null) return userEntity;
+            var newUser = new UserEntity(Guid.NewGuid()){Login = login};
+            userCollection.InsertOne(newUser);
+            return newUser;
         }
 
         public void Update(UserEntity user)
@@ -105,7 +76,7 @@ namespace WebGame.Domain
             userCollection.DeleteOne(u => u.Id == id);
         }
 
-        // Атомарное обновление
+        // Частичное обновление в батч-запросе
         public void UpdatePlayersWhenGameIsFinished(IEnumerable<Guid> userIds)
         {
             var updateBuilder = Builders<UserEntity>.Update;

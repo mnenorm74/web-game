@@ -33,7 +33,7 @@ namespace WebGame.Domain
         }
 
         [BsonIgnore]
-        public IReadOnlyList<Player> Players => players;
+        public IReadOnlyList<Player> Players => players.AsReadOnly();
 
         [BsonElement]
         public int TurnsCount { get; }
@@ -56,29 +56,41 @@ namespace WebGame.Domain
             return CurrentTurnIndex >= TurnsCount;
         }
 
+        public bool HaveDecisionOfEveryPlayer => Players.All(p => p.Decision != PlayerDecision.None);
+
         public void SetPlayerDecision(Guid userId, PlayerDecision decision)
         {
             if (Status != GameStatus.Playing)
                 throw new ArgumentException(Status.ToString());
             foreach (var player in Players.Where(p => p.UserId == userId))
                 player.Decision = decision;
-            if (Players.All(p => p.Decision != PlayerDecision.None))
-                FinishTurn();
         }
 
-        private void FinishTurn()
+        public GameTurnEntity FinishTurn()
         {
-            if (Players[1].Decision.Beats(Players[0].Decision))
-                Players[1].Score++;
-            if (Players[0].Decision.Beats(Players[1].Decision))
-                Players[0].Score++;
-
+            var winnerId = Guid.Empty;
+            for (int i = 0; i < 2; i++)
+            {
+                var player = Players[i];
+                var opponent = Players[1 - i];
+                if (player.Decision.Beats(opponent.Decision))
+                {
+                    player.Score++;
+                    winnerId = player.UserId;
+                }
+            }
+#if SOLVED
+            var result = new GameTurnEntity(Id, CurrentTurnIndex, Players.ToDictionary(p => p.UserId, p => p.Decision), winnerId);
+#else
+            var result = new GameTurnEntity();
+#endif
+            // Must be after GameTurnEntity creation:
             foreach (var player in Players)
                 player.Decision = PlayerDecision.None;
-
             CurrentTurnIndex++;
             if (CurrentTurnIndex == TurnsCount)
                 Status = GameStatus.Finished;
+            return result;
         }
     }
 }

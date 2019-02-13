@@ -6,7 +6,8 @@ namespace WebGame.Domain
 {
     public class InMemoryUserRepository : IUserRepository
     {
-        private readonly Guid AdminId = Guid.Parse("77777777-7777-7777-7777-777777777777");
+        private readonly Guid adminId = Guid.Parse("77777777-7777-7777-7777-777777777777");
+        private const string AdminLogin = "Admin";
         private readonly Dictionary<Guid, UserEntity> entities = new Dictionary<Guid, UserEntity>();
 
         public InMemoryUserRepository()
@@ -16,8 +17,13 @@ namespace WebGame.Domain
 
         private void AddAdmin()
         {
-            var user = new UserEntity(AdminId);
+            var user = new UserEntity(adminId) {Login = AdminLogin};
             entities[user.Id] = user;
+        }
+
+        public void Create(UserEntity user)
+        {
+            entities.Add(user.Id, user);
         }
 
         public UserEntity FindById(Guid id)
@@ -38,7 +44,18 @@ namespace WebGame.Domain
 
         public void Update(UserEntity user)
         {
+            if (entities.ContainsKey(user.Id))
+                entities[user.Id] = user;
+        }
+
+        public void UpdateOrCreate(UserEntity user)
+        {
             entities[user.Id] = user;
+        }
+
+        public void Delete(Guid id)
+        {
+            entities.Remove(id);
         }
     }
 }

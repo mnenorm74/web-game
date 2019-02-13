@@ -13,6 +13,8 @@ namespace WebApi.Controllers
     [Produces("application/json", "application/xml")]
     public class GamesController : Controller
     {
+        //todo метод создания игры
+
         /// <summary>
         /// Добавить игрока в игру
         /// </summary>
@@ -27,8 +29,7 @@ namespace WebApi.Controllers
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Игра или пользователь не найдены</response>
         /// <response code="422">Ошибка при проверке</response>
-        [HttpPut]
-        [Route("{gameId}/players/{userId}")]
+        [HttpPut("{gameId}/players/{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -46,8 +47,7 @@ namespace WebApi.Controllers
         /// <param name="gameId">Идентификатор игры</param>
         /// <response code="200">OK</response>
         /// <response code="404">Игра не найдена</response>
-        [HttpGet]
-        [Route("{gameId}")]
+        [HttpGet("{gameId}")]
         [ProducesResponseType(typeof(GameDto), 200)]
         [ProducesResponseType(404)]
         public virtual ActionResult<GameDto> GetGameById([FromRoute, Required] Guid gameId)
@@ -61,8 +61,7 @@ namespace WebApi.Controllers
         /// <param name="gameId">Идентификатор игры</param>
         /// <response code="200">OK</response>
         /// <response code="404">Игра не найдена</response>
-        [HttpGet]
-        [Route("{gameId}/status")]
+        [HttpGet("{gameId}/status")]
         [ProducesResponseType(typeof(GameStatus), 200)]
         [ProducesResponseType(404)]
         public virtual ActionResult<GameStatus> GetGameStatusById([FromRoute, Required] Guid gameId)
@@ -77,8 +76,7 @@ namespace WebApi.Controllers
         /// <param name="userId">Идентификатор пользователя</param>
         /// <response code="200">OK</response>
         /// <response code="404">Игра или пользователь не найдены</response>
-        [HttpGet]
-        [Route("{gameId}/players/{userId}")]
+        [HttpGet("{gameId}/players/{userId}")]
         [ProducesResponseType(typeof(PlayerDto), 200)]
         [ProducesResponseType(404)]
         public virtual ActionResult<PlayerDto> GetPlayerOfGame([FromRoute, Required] Guid gameId,
@@ -97,8 +95,7 @@ namespace WebApi.Controllers
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Игра или пользователь не найдены</response>
         /// <response code="422">Неверное состояние игры</response>
-        [HttpPost]
-        [Route("{gameId}/players/{userId}/decision")]
+        [HttpPost("{gameId}/players/{userId}/decision")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

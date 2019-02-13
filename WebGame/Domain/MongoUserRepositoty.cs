@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 
 namespace WebGame.Domain
@@ -12,6 +11,12 @@ namespace WebGame.Domain
         public MongoUserRepositoty2(IMongoDatabase database)
         {
             userCollection = database.GetCollection<UserEntity>("users");
+        }
+
+        public void Create(UserEntity user)
+        {
+            //см userCollection.InsertЧегоТоТам
+            throw new NotImplementedException();
         }
 
         public UserEntity FindById(Guid id)
@@ -31,6 +36,18 @@ namespace WebGame.Domain
             //см userCollection.ReplaceЧегоТоТам
             throw new NotImplementedException();
         }
+
+        public void UpdateOrCreate(UserEntity user)
+        {
+            //см userCollection.ReplaceЧегоТоТам
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Guid id)
+        {
+            //см userCollection.DeleteЧегоТоТам
+            throw new NotImplementedException();
+        }
     }
 
     public class MongoUserRepositoty : IUserRepository
@@ -41,6 +58,11 @@ namespace WebGame.Domain
         public MongoUserRepositoty(IMongoDatabase database)
         {
             userCollection = database.GetCollection<UserEntity>(CollectionName);
+        }
+
+        public void Create(UserEntity user)
+        {
+            userCollection.InsertOne(user);
         }
 
         public UserEntity FindById(Guid id)
@@ -68,6 +90,19 @@ namespace WebGame.Domain
         public void Update(UserEntity user)
         {
             userCollection.ReplaceOne(u => u.Id == user.Id, user);
+        }
+
+        public void UpdateOrCreate(UserEntity user)
+        {
+            userCollection.ReplaceOne(u => u.Id == user.Id, user, new UpdateOptions
+            {
+                IsUpsert = true
+            });
+        }
+
+        public void Delete(Guid id)
+        {
+            userCollection.DeleteOne(u => u.Id == id);
         }
 
         // Атомарное обновление

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using WebApi.Models;
 using WebGame.Domain;
 
 namespace WebApi
@@ -24,11 +25,12 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(setupAction =>
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddMvc(options =>
             {
-                setupAction.ReturnHttpNotAcceptable = true;
-                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
-                setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+                options.ReturnHttpNotAcceptable = true;
+                options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                options.InputFormatters.Add(new XmlDataContractSerializerInputFormatter(options));
 
                 //var jsonInputFormatter = setupAction.InputFormatters
                 //    .OfType<JsonInputFormatter>().FirstOrDefault();
@@ -42,6 +44,23 @@ namespace WebApi
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<UserEntity, UserDto>()
+                    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src =>
+                        $"{src.FirstName} {src.LastName}"));
+
+                cfg.CreateMap<UserToCreate, UserEntity>()
+                    .ConstructUsing(x => new UserEntity(Guid.NewGuid()));
+            });
+
+            services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+
+            AddSwaggerGen(services);
+        }
+
+        private void AddSwaggerGen(IServiceCollection services)
+        {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("web-game", new OpenApiInfo
@@ -58,10 +77,6 @@ namespace WebApi
 
                 c.EnableAnnotations();
             });
-
-            services.AddSingleton<IUserRepository, InMemoryUserRepository>();
-
-            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

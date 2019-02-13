@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using WebApi.Models;
 using WebGame.Domain;
@@ -19,6 +20,26 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
+        /// Получить пользователя
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <response code="200">OK</response>
+        /// <response code="404">Пользователь не найден</response>
+        [HttpGet("{userId}", Name = nameof(GetUserById))]
+        [ProducesResponseType(typeof(UserDto), 200)]
+        [ProducesResponseType(404)]
+        public virtual ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId)
+        {
+            var userEntity = userRepository.FindById(userId);
+
+            if (userEntity == null)
+                return NotFound();
+
+            var user = Mapper.Map<UserDto>(userEntity);
+            return Ok(user);
+        }
+
+        /// <summary>
         /// Создать пользователя
         /// </summary>
         /// <remarks>
@@ -26,10 +47,9 @@ namespace WebApi.Controllers
         ///
         ///     POST /api/users
         ///     {
-        ///        "userName": "JohnDoe",
+        ///        "login": "johndoe375",
         ///        "firstName": "John",
-        ///        "lastName": "Doe",
-        ///        "email": "johndoe375@gmail.com"
+        ///        "lastName": "Doe"
         ///     }
         ///
         /// </remarks>
@@ -44,7 +64,16 @@ namespace WebApi.Controllers
         [Consumes("application/json")]
         public virtual IActionResult CreateUser([FromBody] UserToCreate body)
         {
-            throw new NotImplementedException();
+            if (body == null)
+                return BadRequest();
+
+            var userEntity = Mapper.Map<UserEntity>(body);
+            userRepository.Create(userEntity);
+
+            return CreatedAtRoute(
+                nameof(GetUserById),
+                new {userId = userEntity.Id},
+                userEntity.Id);
         }
 
         /// <summary>
@@ -53,41 +82,12 @@ namespace WebApi.Controllers
         /// <param name="userId">Идентификатор пользователя</param>
         /// <response code="204">Пользователь удален</response>
         /// <response code="404">Пользователь не найден</response>
-        [HttpDelete]
-        [Route("{userId}")]
+        [HttpDelete("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public virtual IActionResult DeleteUser([FromRoute, Required] string userId)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Получить пользователя
-        /// </summary>
-        /// <param name="userId">Идентификатор пользователя</param>
-        /// <response code="200">OK</response>
-        /// <response code="404">Пользователь не найден</response>
-        [HttpGet]
-        [Route("{userId}")]
-        [ProducesResponseType(typeof(UserDto), 200)]
-        [ProducesResponseType(404)]
-        public virtual ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId)
-        {
-            var userEntity = userRepository.FindById(userId);
-
-            if (userEntity == null)
-                return NotFound();
-
-            var user = new UserDto
-            {
-                Id = userEntity.Id,
-                Login = userEntity.Login,
-                FullName = $"{userEntity.LastName} {userEntity.FirstName}",
-                CurrentGameId = userEntity.CurrentGameId,
-                GamesPlayed = userEntity.GamesPlayed
-            };
-            return Ok(user);
         }
 
         /// <summary>
@@ -99,8 +99,7 @@ namespace WebApi.Controllers
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Пользователь не найден</response>
         /// <response code="422">Ошибка при проверке</response>
-        [HttpPatch]
-        [Route("{userId}")]
+        [HttpPatch("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -123,8 +122,7 @@ namespace WebApi.Controllers
         /// <response code="400">Некорректные входные данные</response>
         /// <response code="404">Пользователь не найден</response>
         /// <response code="422">Ошибка при проверке</response>
-        [HttpPut]
-        [Route("{userId}")]
+        [HttpPut("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

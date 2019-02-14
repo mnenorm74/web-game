@@ -15,7 +15,6 @@ namespace ConsoleApp
 
         private Program(string[] args)
         {
-#if SOLVED
             var mongoConnectionString =
                 Environment.GetEnvironmentVariable("WEBGAME_MONGO_CONNECTION_STRING")
                 ?? "mongodb://localhost:27017";
@@ -23,10 +22,6 @@ namespace ConsoleApp
             userRepo = new MongoUserRepositoty(db);
             gameRepo = new MongoGameRepository(db);
             turnsRepo = new MongoTurnsRepository(db);
-#else
-            userRepo = new InMemoryUserRepository();
-            gameRepo = new InMemoryGameRepository();
-#endif
         }
 
         public static void Main(string[] args)
@@ -107,9 +102,7 @@ namespace ConsoleApp
             {
                 var gameTurn = game.FinishTurn();
                 // Save Turn Information to database:
-#if SOLVED
                 turnsRepo.Insert(gameTurn);
-#endif
             }
             gameRepo.Update(game);
             return true;
@@ -155,7 +148,6 @@ namespace ConsoleApp
         {
             var players = game.Players;
             // Show 5 last turns: decisions of both players and the winner
-#if SOLVED
             var turns = turnsRepo.GetLastTurns(game.Id, 5);
             Console.WriteLine();
             Console.WriteLine("Last turns:");
@@ -164,7 +156,6 @@ namespace ConsoleApp
                 var line = $"{players[0].Name}: {turn.PlayerDecisions[players[0].UserId],-8} vs {turn.PlayerDecisions[players[1].UserId],8} {players[1].Name} --> {players.FirstOrDefault(p => p.UserId == turn.WinnerId)?.Name ?? "nobody"} wins";
                 Console.WriteLine($"{turn.TurnIndex,-2} {line}");
             }
-#endif
             Console.WriteLine($"Score: {players[0].Name} {players[0].Score} : {players[1].Score} {players[1].Name}");
         }
     }

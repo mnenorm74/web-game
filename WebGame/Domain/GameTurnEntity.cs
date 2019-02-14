@@ -7,7 +7,6 @@ namespace WebGame.Domain
 {
     public class GameTurnEntity
     {
-#if SOLVED
         [BsonElement]
         public Guid Id { get; private set; }
         [BsonElement]
@@ -41,6 +40,5 @@ namespace WebGame.Domain
         public int TurnIndex { get; }
 
         public IReadOnlyDictionary<Guid, PlayerDecision> PlayerDecisions => playerDecisions;
-#endif
     }
 }

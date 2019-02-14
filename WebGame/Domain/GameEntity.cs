@@ -79,11 +79,7 @@ namespace WebGame.Domain
                     winnerId = player.UserId;
                 }
             }
-#if SOLVED
             var result = new GameTurnEntity(Id, CurrentTurnIndex, Players.ToDictionary(p => p.UserId, p => p.Decision), winnerId);
-#else
-            var result = new GameTurnEntity();
-#endif
             // Must be after GameTurnEntity creation:
             foreach (var player in Players)
                 player.Decision = PlayerDecision.None;

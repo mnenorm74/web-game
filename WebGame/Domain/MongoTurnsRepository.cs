@@ -1,4 +1,3 @@
-#if SOLVED
 using System;
 using System.Collections.Generic;
 using MongoDB.Driver;
@@ -32,4 +31,3 @@ namespace WebGame.Domain
         }
     }
 }
-#endif

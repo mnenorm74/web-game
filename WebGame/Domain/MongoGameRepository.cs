@@ -3,30 +3,28 @@ using MongoDB.Driver;
 
 namespace WebGame.Domain
 {
+    // TODO Сделате по аналогии с MongoUserRepository
     public class MongoGameRepository : IGameRepository
     {
         public const string CollectionName = "games";
-        private readonly IMongoCollection<GameEntity> gameCollection;
 
-        public MongoGameRepository(IMongoDatabase database)
+        public MongoGameRepository(IMongoDatabase db)
         {
-            gameCollection = database.GetCollection<GameEntity>(CollectionName);
         }
 
-        public GameEntity Create(GameEntity game)
+        public GameEntity Insert(GameEntity game)
         {
-            gameCollection.InsertOne(game);
-            return game;
+            throw new NotImplementedException();
         }
 
         public GameEntity FindById(Guid gameId)
         {
-            return gameCollection.Find(g => g.Id == gameId).SingleOrDefault();
+            throw new NotImplementedException();
         }
 
         public void Update(GameEntity game)
         {
-            gameCollection.ReplaceOne(g => g.Id == game.Id, game);
+            throw new NotImplementedException();
         }
     }
 }

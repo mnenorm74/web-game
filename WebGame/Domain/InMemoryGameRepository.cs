@@ -8,7 +8,7 @@ namespace WebGame.Domain
     {
         private readonly Dictionary<Guid, GameEntity> entities = new Dictionary<Guid, GameEntity>();
 
-        public GameEntity Create(GameEntity game)
+        public GameEntity Insert(GameEntity game)
         {
             var id = Guid.NewGuid();
             game = new GameEntity(id, game.Status, game.TurnsCount, game.CurrentTurnIndex, game.Players.ToList());

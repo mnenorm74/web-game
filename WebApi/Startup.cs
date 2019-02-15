@@ -1,16 +1,11 @@
-using System;
-using System.IO;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using WebApi.Models;
+using WebApi.Samples;
 using WebGame.Domain;
 
 namespace WebApi
@@ -34,16 +29,6 @@ namespace WebApi
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 options.InputFormatters.Add(new XmlDataContractSerializerInputFormatter(options));
 
-                //var jsonInputFormatter = setupAction.InputFormatters
-                //    .OfType<JsonInputFormatter>().FirstOrDefault();
-                //jsonInputFormatter?.SupportedMediaTypes
-                //    .Add("application/vnd.kontur.v2+json");
-
-                //var jsonOutputFormatter = setupAction.OutputFormatters
-                //    .OfType<JsonOutputFormatter>().FirstOrDefault();
-                //jsonOutputFormatter?.SupportedMediaTypes
-                //    .Add("application/vnd.kontur.hateoas+json");
-
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             AutoMapper.Mapper.Initialize(cfg =>
@@ -61,27 +46,7 @@ namespace WebApi
 
             services.AddSingleton<IUserRepository, InMemoryUserRepository>();
 
-            AddSwaggerGen(services);
-        }
-
-        private void AddSwaggerGen(IServiceCollection services)
-        {
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("web-game", new OpenApiInfo
-                {
-                    Title = "Web Game API",
-                    Version = "0.1",
-                });
-
-                c.DescribeAllEnumsAsStrings();
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-
-                c.EnableAnnotations();
-            });
+            services.AddSwaggerGeneration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,12 +62,7 @@ namespace WebApi
                 app.UseHsts();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/web-game/swagger.json", "Web Game API");
-                //c.RoutePrefix = string.Empty;
-            });
+            app.UseSwaggerWithUI();
 
             app.UseHttpsRedirection();
             app.UseMvc();

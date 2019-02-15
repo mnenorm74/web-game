@@ -14,11 +14,11 @@ namespace Tests
         public void SetUp()
         {
             var db = TestMongoDatabase.Create();
-            db.DropCollection(MongoUserRepositoty.CollectionName);
-            repo = new MongoUserRepositoty(db);
+            db.DropCollection(MongoUserRepository.CollectionName);
+            repo = new MongoUserRepository(db);
         }
 
-        private MongoUserRepositoty repo;
+        private MongoUserRepository repo;
 
         [Test]
         public void CreateUser()
@@ -58,8 +58,8 @@ namespace Tests
             retrieved.CurrentGameId.Should().Be(gameId);
         }
 
-        [Test(Description = "Тест на наличие индекса по логину")]
-        [Explicit("Это дополнительная задача Индекс")]
+        [Test(Description = "РўРµСЃС‚ РЅР° РЅР°Р»РёС‡РёРµ РёРЅРґРµРєСЃР° РїРѕ Р»РѕРіРёРЅСѓ")]
+        [Explicit("Р­С‚Рѕ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ Р·Р°РґР°С‡Р° РРЅРґРµРєСЃ")]
         [MaxTime(10000)]
         public void SearchByLoginFast()
         {
@@ -67,8 +67,8 @@ namespace Tests
                 repo.GetOrCreateByLogin(i.ToString());
         }
 
-        [Test(Description = "Параллельные запросы не должны падать")]
-        [Explicit("Это дополнительная задача")]
+        [Test(Description = "РџР°СЂР°Р»Р»РµР»СЊРЅС‹Рµ Р·Р°РїСЂРѕСЃС‹ РЅРµ РґРѕР»Р¶РЅС‹ РїР°РґР°С‚СЊ")]
+        [Explicit("Р­С‚Рѕ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ Р·Р°РґР°С‡Р°")]
         public void MassiveConcurrentCreateUser()
         {
             try

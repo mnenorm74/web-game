@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.Models;
 using WebGame.Domain;
 
@@ -25,11 +26,9 @@ namespace WebApi.Controllers
         /// Получить игру
         /// </summary>
         /// <param name="gameId">Идентификатор игры</param>
-        /// <response code="200">OK</response>
-        /// <response code="404">Игра не найдена</response>
         [HttpGet("{gameId}")]
-        [ProducesResponseType(typeof(GameDto), 200)]
-        [ProducesResponseType(404)]
+        [SwaggerResponse(200, "OK", typeof(GameDto))]
+        [SwaggerResponse(404, "Игра не найдена")]
         public ActionResult<GameDto> GetGameById([FromRoute, Required] Guid gameId)
         {
             var gameFromRepo = gameRepository.FindById(gameId);
@@ -45,14 +44,11 @@ namespace WebApi.Controllers
         /// Создать игру
         /// </summary>
         /// <param name="game">Данные для создания игры</param>
-        /// <response code="201">Игра создана</response>
-        /// <response code="400">Некорректные входные данные</response>
-        /// <response code="422">Ошибка при проверке</response>
         [HttpPost]
         [Consumes("application/json")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(422)]
+        [SwaggerResponse(201, "Игра создана")]
+        [SwaggerResponse(400, "Некорректные входные данные")]
+        [SwaggerResponse(422, "Ошибка при проверке")]
         public IActionResult CreateGame([FromBody] GameToCreateDto game)
         {
             if (game == null)
@@ -85,14 +81,11 @@ namespace WebApi.Controllers
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
         /// <param name="player">Имя игрока</param>
-        /// <response code="204">Пользователь добавлен в качестве игрока</response>
-        /// <response code="400">Некорректные входные данные</response>
-        /// <response code="404">Игра или пользователь не найдены</response>
         [HttpPut("{gameId}/players/{userId}")]
         [Consumes("application/json")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
+        [SwaggerResponse(204, "Пользователь добавлен в качестве игрока")]
+        [SwaggerResponse(400, "Некорректные входные данные")]
+        [SwaggerResponse(404, "Игра или пользователь не найдены")]
         public IActionResult AddPlayerToGame(
             [FromRoute, Required] Guid gameId,
             [FromRoute, Required] Guid userId)
@@ -121,11 +114,9 @@ namespace WebApi.Controllers
         /// Получить статус игры
         /// </summary>
         /// <param name="gameId">Идентификатор игры</param>
-        /// <response code="200">OK</response>
-        /// <response code="404">Игра не найдена</response>
         [HttpGet("{gameId}/status")]
-        [ProducesResponseType(typeof(GameStatus), 200)]
-        [ProducesResponseType(404)]
+        [SwaggerResponse(200, "OK", typeof(GameStatus))]
+        [SwaggerResponse(404, "Игра не найдена")]
         public ActionResult<GameStatus> GetGameStatusById([FromRoute, Required] Guid gameId)
         {
             var gameFromRepo = gameRepository.FindById(gameId);
@@ -141,11 +132,9 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
-        /// <response code="200">OK</response>
-        /// <response code="404">Игра или игрок не найдены</response>
         [HttpGet("{gameId}/players/{userId}")]
-        [ProducesResponseType(typeof(PlayerDto), 200)]
-        [ProducesResponseType(404)]
+        [SwaggerResponse(200, "OK", typeof(PlayerDto))]
+        [SwaggerResponse(404, "Игра или игрок не найдены")]
         public ActionResult<PlayerDto> GetPlayerOfGame(
             [FromRoute, Required] Guid gameId,
             [FromRoute, Required] Guid userId)
@@ -168,14 +157,14 @@ namespace WebApi.Controllers
         /// <param name="gameId">Идентификатор игры</param>
         /// <param name="userId">Идентификатор пользователя</param>
         /// <param name="decision">Решение игрока</param>
-        /// <response code="200">Решение задано</response>
-        /// <response code="400">Некорректные входные данные</response>
+        /// <response code="200"></response>
+        /// <response code="400"></response>
         /// <response code="404">Игра или пользователь не найдены</response>
         [HttpPost("{gameId}/players/{userId}/decision")]
         [Consumes("application/json")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
+        [SwaggerResponse(204, "Решение задано")]
+        [SwaggerResponse(400, "Некорректные входные данные")]
+        [SwaggerResponse(404)]
         public IActionResult SetPlayerDecision(
             [FromRoute, Required] Guid gameId,
             [FromRoute, Required] Guid userId,

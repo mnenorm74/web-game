@@ -21,7 +21,7 @@ namespace WebGame.Domain
             entities[user.Id] = user;
         }
 
-        public UserEntity Create(UserEntity user)
+        public UserEntity Insert(UserEntity user)
         {
             if (user.Id != Guid.Empty)
                 throw new InvalidOperationException();
@@ -57,7 +57,7 @@ namespace WebGame.Domain
             entities[user.Id] = Clone(user.Id, user);
         }
 
-        public UserEntity UpdateOrCreate(UserEntity user)
+        public UserEntity UpdateOrInsert(UserEntity user)
         {
             if (user.Id == Guid.Empty)
                 throw new InvalidOperationException();
@@ -82,10 +82,11 @@ namespace WebGame.Domain
         public PageList<UserEntity> GetPage(int pageNumber, int pageSize)
         {
             var count = entities.Count;
-            var items = entities
+            var items = entities.Values
+                .OrderBy(u => u.Login)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .Select(pair => Clone(pair.Value.Id, pair.Value))
+                .Select(u => Clone(u.Id, u))
                 .ToList();
             return new PageList<UserEntity>(items, count, pageNumber, pageSize);
         }

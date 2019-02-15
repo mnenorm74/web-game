@@ -3,17 +3,17 @@ using MongoDB.Driver;
 
 namespace WebGame.Domain
 {
-    public class MongoUserRepositoty : IUserRepository
+    public class MongoUserRepository : IUserRepository
     {
         private readonly IMongoCollection<UserEntity> userCollection;
         public const string CollectionName = "users";
 
-        public MongoUserRepositoty(IMongoDatabase database)
+        public MongoUserRepository(IMongoDatabase database)
         {
             userCollection = database.GetCollection<UserEntity>(CollectionName);
         }
 
-        public UserEntity Create(UserEntity user)
+        public UserEntity Insert(UserEntity user)
         {
             //TODO: Ищите в документации InsertXXX
             throw new NotImplementedException();
@@ -37,7 +37,7 @@ namespace WebGame.Domain
             throw new NotImplementedException();
         }
 
-        public UserEntity UpdateOrCreate(UserEntity user)
+        public UserEntity UpdateOrInsert(UserEntity user)
         {
             throw new NotImplementedException();
         }

@@ -1,420 +1,676 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "API простой пошаговой веб-игры"
-  version: "1.0.0"
-  title: "Web Game"
-host: "localhost:8080"
-basePath: "/api/"
-tags:
-- name: "users"
-  description: "Операции с пользователям"
-- name: "games"
-  description: "Операции с играми"
-schemes:
-- "http"
+  title: Web Game API
+  version: '0.1'
 paths:
-  /users:
-    post:
-      tags:
-      - "users"
-      summary: "Создать пользователя"
-      description: ""
-      operationId: "createUser"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Данные для создания пользователя"
-        required: true
-        schema:
-          $ref: "#/definitions/UserToPost"
-      responses:
-        201:
-          headers:
-            Location:
-              type: "string"
-              format: "uri"
-              description: "URI созданного пользователя"
-          description: "Пользователь создан"
-        400:
-          description: "Некорректные входные данные"
-        422:
-          description: "Ошибка при проверке"
-  /users/{userId}:
+  '/api/games/{gameId}':
     get:
       tags:
-      - "users"
-      summary: "Получить пользователя"
-      description: ""
-      operationId: "getUserById"
-      produces:
-      - "application/xml"
-      - "application/json"
+        - Games
+      summary: Получить игру
+      operationId: GetGameById
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      responses:
-        200:
-          description: "OK"
+        - name: gameId
+          in: path
+          description: Идентификатор игры
+          required: true
           schema:
-            $ref: "#/definitions/User"
-        404:
-          description: "Пользователь не найден"
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/GameDto'
+        '404':
+          description: Игра не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+  /api/games:
+    post:
+      tags:
+        - Games
+      summary: Создать игру
+      operationId: CreateGame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameToCreateDto'
+      responses:
+        '201':
+          description: Игра создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '422':
+          description: Ошибка при проверке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+  '/api/games/{gameId}/players/{userId}':
     put:
       tags:
-      - "users"
-      summary: "Обновить пользователя"
-      description: ""
-      operationId: "updateUser"
-      produces:
-      - "application/xml"
-      - "application/json"
+        - Games
+      summary: Добавить игрока в игру
+      description: "Имя игрока в каждой игре может быть уникальным, поэтому его надо передать.\r\nВ случае нескольких запросов для одного пользователя, должно быть установлено имя из последнего запроса."
+      operationId: AddPlayerToGame
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      - in: "body"
-        name: "body"
-        description: "Обновленные данные пользователя"
-        required: true
-        schema:
-          $ref: "#/definitions/UserToPut"
+        - name: gameId
+          in: path
+          description: Идентификатор игры
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
-        204:
-          description: "Пользователь обновлен"
-        400:
-          description: "Некорректные входные данные"
-        404:
-          description: "Пользователь не найден"
-        422:
-          description: "Ошибка при проверке"
-    patch:
+        '204':
+          description: Пользователь добавлен в качестве игрока
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '404':
+          description: Игра или пользователь не найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+    get:
       tags:
-      - "users"
-      summary: "Частично обновить пользователя"
-      description: ""
-      operationId: "partiallyUpdateUser"
-      produces:
-      - "application/xml"
-      - "application/json"
+        - Games
+      summary: Получить игрока в игре
+      operationId: GetPlayerOfGame
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      - in: "body"
-        name: "body"
-        description: "JSON Patch для пользователя"
-        required: true
-        schema:
-          $ref: "#/definitions/PatchRequest"
+        - name: gameId
+          in: path
+          description: Идентификатор игры
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
-        204:
-          description: "Пользователь обновлен"
-        400:
-          description: "Некорректные входные данные"
-        404:
-          description: "Пользователь не найден"
-        422:
-          description: "Ошибка при проверке"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PlayerDto'
+        '404':
+          description: Игра или игрок не найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+  '/api/games/{gameId}/status':
+    get:
+      tags:
+        - Games
+      summary: Получить статус игры
+      operationId: GetGameStatusById
+      parameters:
+        - name: gameId
+          in: path
+          description: Идентификатор игры
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                enum:
+                  - WaitingToStart
+                  - Playing
+                  - Finished
+                  - Canceled
+                type: string
+            application/xml:
+              schema:
+                enum:
+                  - WaitingToStart
+                  - Playing
+                  - Finished
+                  - Canceled
+                type: string
+        '404':
+          description: Игра не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+  '/api/games/{gameId}/players/{userId}/decision':
+    post:
+      tags:
+        - Games
+      summary: Задать решение игрока
+      operationId: SetPlayerDecision
+      parameters:
+        - name: gameId
+          in: path
+          description: Идентификатор игры
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              enum:
+                - None
+                - Rock
+                - Scissors
+                - Paper
+              type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: Решение задано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '404':
+          description: Игра или пользователь не найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+  '/api/users/{userId}':
+    get:
+      tags:
+        - Users
+      summary: Получить пользователя
+      operationId: GetUserById
+      parameters:
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+    head:
+      tags:
+        - Users
+      summary: Получить пользователя
+      operationId: GetUserById
+      parameters:
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
     delete:
       tags:
-      - "users"
-      summary: "Удалить пользователя"
-      description: ""
-      operationId: "deleteUser"
-      produces:
-      - "application/xml"
-      - "application/json"
+        - Users
+      summary: Удалить пользователя
+      operationId: DeleteUser
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      responses:
-        204:
-          description: "Пользователь удален"
-        404:
-          description: "Пользователь не найден"
-  /games/{gameId}:
-    get:
-      tags:
-      - "games"
-      summary: "Получить игру"
-      description: ""
-      operationId: "getGameById"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "gameId"
-        in: "path"
-        description: "Идентификатор игры"
-        required: true
-        type: "string"
-        format: "uuid"
-      responses:
-        200:
-          description: "OK"
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
           schema:
-            $ref: "#/definitions/Game"
-        404:
-          description: "Игра не найдена"
-  /games/{gameId}/status:
-    get:
-      tags:
-      - "games"
-      summary: "Получить статус игры"
-      description: ""
-      operationId: "getGameStatusById"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "gameId"
-        in: "path"
-        description: "Идентификатор игры"
-        required: true
-        type: "string"
-        format: "uuid"
+            type: string
+            format: uuid
       responses:
-        200:
-          description: "OK"
-          schema:
-            $ref: "#/definitions/GameStatus"
-        404:
-          description: "Игра не найдена"
-  /games/{gameId}/players/{userId}:
-    get:
-      tags:
-      - "games"
-      summary: "Получить игрока в игре"
-      description: ""
-      operationId: "getPlayerOfGame"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "gameId"
-        in: "path"
-        description: "Идентификатор игры"
-        required: true
-        type: "string"
-        format: "uuid"
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      responses:
-        200:
-          description: "OK"
-          schema:
-            $ref: "#/definitions/Player"
-        404:
-          description: "Игра или пользователь не найдены"
+        '204':
+          description: Пользователь удален
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
     put:
       tags:
-      - "games"
-      summary: "Добавить игрока в игру"
-      description: ""
-      operationId: "addPlayerToGame"
-      produces:
-      - "application/xml"
-      - "application/json"
+        - Users
+      summary: Обновить пользователя
+      operationId: UpdateUser
       parameters:
-      - name: "gameId"
-        in: "path"
-        description: "Идентификатор игры"
-        required: true
-        type: "string"
-        format: "uuid"
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      - in: "body"
-        name: "body"
-        description: "Имя игрока"
-        required: true
-        schema:
-          $ref: "#/definitions/PlayerToPut"
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserToUpdateDto'
       responses:
-        204:
-          description: "Пользователь добавлен в качестве игрока"
-        400:
-          description: "Некорректные входные данные"
-        404:
-          description: "Игра или пользователь не найдены"
-        422:
-          description: "Ошибка при проверке"
-  /games/{gameId}/players/{userId}/decision:
+        '201':
+          description: Пользователь создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '204':
+          description: Пользователь обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '422':
+          description: Ошибка при проверке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+    patch:
+      tags:
+        - Users
+      summary: Частично обновить пользователя
+      operationId: PartiallyUpdateUser
+      parameters:
+        - name: userId
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              uniqueItems: false
+              type: array
+              items:
+                $ref: '#/components/schemas/Operation'
+      responses:
+        '204':
+          description: Пользователь обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '422':
+          description: Ошибка при проверке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+  /api/users:
     post:
       tags:
-      - "games"
-      summary: "Задать решение игрока"
-      description: ""
-      operationId: "setPlayerDecision"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "gameId"
-        in: "path"
-        description: "Идентификатор игры"
-        required: true
-        type: "string"
-        format: "uuid"
-      - name: "userId"
-        in: "path"
-        description: "Идентификатор пользователя"
-        required: true
-        type: "string"
-        format: "uuid"
-      - in: "body"
-        name: "body"
-        description: "Решение игрока"
-        required: true
-        schema:
-          $ref: "#/definitions/PlayerDecision"
+        - Users
+      summary: Создать пользователя
+      description: "Пример запроса:\r\n            \r\n    POST /api/users\r\n    {\r\n       \"login\": \"johndoe375\",\r\n       \"firstName\": \"John\",\r\n       \"lastName\": \"Doe\"\r\n    }"
+      operationId: CreateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserToCreateDto'
       responses:
-        201:
-          description: "Решение задано"
-        400:
-          description: "Некорректные входные данные"
-        404:
-          description: "Игра или пользователь не найдены"
-        422:
-          description: "Неверное состояние игры"
-definitions:
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      userName:
-        type: "string"
-      fullName:
-        type: "string"
-      email:
-        type: "string"
-    xml:
-      name: "User"
-  UserToChange:
-    type: "object"
-    properties:
-      userName:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-    xml:
-      name: "User"
-  UserToPut:
-   allOf:
-      - $ref: '#/definitions/UserToChange'
-  UserToPost:
-   allOf:
-      - $ref: '#/definitions/UserToChange'
-  Player:
-    type: "object"
-    properties:
-      userId:
-        type: "string"
-        format: "uuid"
-      name:
-        type: "string"
-      decision:
-        $ref: '#/definitions/PlayerDecision'
-      score:
-        type: "integer"
-        format: "int32"
-    xml:
-      name: "Player"
-  PlayerDecision:
-    type: "string"
-    enum:
-    - "none"
-    - "rock"
-    - "scissors"
-    - "paper"
-  PlayerToPut:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-    xml:
-      name: "Player"
-  Game:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-        format: "uuid"
-      status:
-        $ref: "#/definitions/GameStatus"
-      players:
-        type: "array"
-        xml:
-          name: "Player"
-          wrapped: true
-        items:
-          $ref: "#/definitions/Player"
-    xml:
-      name: "Game"
-  GameStatus:
-    type: "string"
-    enum:
-    - "waitingToStart"
-    - "playing"
-    - "finished"
-    - "canceled"
-  PatchRequest:
-    type: "array"
-    items:
-      $ref: "#/definitions/PatchDocument"
-  PatchDocument:
-    description: "JSON Patch документ, определенный согласно RFC 6902"
-    required:
-     - "op"
-     - "path"
-    properties:
-     op:
-      type: "string"
-      description: "Операция"
-      enum:
-       - "add"
-       - "remove"
-       - "replace"
-       - "move"
-       - "copy"
-       - "test"
-     path:
-      type: "string"
-      description: "JSON Pointer, к которому будет применена операция"
-     value:
-      type: "object"
-      description: "Значение, которое будет использоваться в операции"
-     from:
-      type: "string"
-      description: "JSON Pointer, из которого берется значение в случае move или copy"
+        '201':
+          description: Пользователь создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+        '422':
+          description: Ошибка при проверке
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+    get:
+      tags:
+        - Users
+      summary: Получить пользователей
+      operationId: GetUsers
+      parameters:
+        - name: pageNumber
+          in: query
+          description: 'Номер страницы, по умолчанию 1'
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: pageSize
+          in: query
+          description: 'Размер страницы, по умолчанию 20'
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: false
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+            application/xml:
+              schema:
+                uniqueItems: false
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+    options:
+      tags:
+        - Users
+      summary: Опции по запросам о пользователях
+      operationId: GetUsersOptions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Void'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Void'
+components:
+  schemas:
+    GameDto:
+      type: object
+      properties:
+        id:
+          type: string
+        players:
+          uniqueItems: false
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerDto'
+        turnsCount:
+          type: integer
+          format: int32
+        currentTurnIndex:
+          type: integer
+          format: int32
+        status:
+          enum:
+            - WaitingToStart
+            - Playing
+            - Finished
+            - Canceled
+          type: string
+    PlayerDto:
+      type: object
+      properties:
+        userId:
+          type: string
+        name:
+          type: string
+        decision:
+          enum:
+            - None
+            - Rock
+            - Scissors
+            - Paper
+          type: string
+        score:
+          type: integer
+          format: int32
+    Void:
+      type: object
+    GameToCreateDto:
+      required:
+        - turnsCount
+      type: object
+      properties:
+        turnsCount:
+          type: integer
+          format: int32
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        login:
+          type: string
+        fullName:
+          type: string
+        gamesPlayed:
+          type: integer
+          format: int32
+        currentGameId:
+          type: string
+          format: uuid
+    UserToUpdateDto:
+      required:
+        - firstName
+        - lastName
+        - login
+      type: object
+      properties:
+        login:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    Operation:
+      type: object
+      properties:
+        value:
+          type: object
+        path:
+          type: string
+        op:
+          type: string
+        from:
+          type: string
+    UserToCreateDto:
+      required:
+        - login
+      type: object
+      properties:
+        login:
+          type: string
+        firstName:
+          type: string
+          default: John
+        lastName:
+          type: string
+          default: Doe

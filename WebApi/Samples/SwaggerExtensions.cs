@@ -2,12 +2,15 @@ using System;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace WebApi.Samples
 {
-    public static class SwaggerStartupExtensions
+    public static class SwaggerExtensions
     {
         public static void AddSwaggerGeneration(this IServiceCollection services)
         {
@@ -37,6 +40,20 @@ namespace WebApi.Samples
                 c.SwaggerEndpoint("/swagger/web-game/swagger.json", "Web Game API");
                 c.RoutePrefix = string.Empty;
             });
+        }
+
+        public static string GetSwaggerDocument(this IWebHost host, string documentName)
+        {
+            var sw = (ISwaggerProvider)host.Services.GetService(typeof(ISwaggerProvider));
+            var doc = sw.GetSwagger(documentName);
+
+            return JsonConvert.SerializeObject(
+                doc,
+                Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                });
         }
     }
 }

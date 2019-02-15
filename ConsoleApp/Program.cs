@@ -1,23 +1,19 @@
 using System;
-using System.Dynamic;
 using System.Linq;
-using MongoDB.Driver;
 using WebGame.Domain;
 
 namespace ConsoleApp
 {
     class Program
     {
-        private IUserRepository userRepo;
-        private IGameRepository gameRepo;
+        private readonly IUserRepository userRepo;
+        private readonly IGameRepository gameRepo;
+        private readonly Random random = new Random();
 
         private Program(string[] args)
         {
-            var mongoConnectionString = Environment.GetEnvironmentVariable("PROJECT5100_MONGO_CONNECTION_STRING")
-                                        ?? "mongodb://localhost:27017";
-            var db = new MongoClient(mongoConnectionString).GetDatabase("web-game");
-            userRepo = new MongoUserRepositoty(db);
-            gameRepo = new MongoGameRepository(db);
+            userRepo = new InMemoryUserRepository();
+            gameRepo = new InMemoryGameRepository();
         }
 
         public static void Main(string[] args)
@@ -31,13 +27,14 @@ namespace ConsoleApp
             var aiUser = userRepo.GetOrCreateByLogin("AI");
             if (FindCurrentGame(humanUser) == null)
                 StartNewGame(humanUser, aiUser);
-            RunGameLoop(humanUser.Id);
-
+            while (HandleOneGameTurn(humanUser.Id))
+            {
+            }
             Console.WriteLine("Game is finished");
             Console.ReadLine();
         }
 
-        private GameEntity StartNewGame(UserEntity humanUser, UserEntity aiUser)
+        private void StartNewGame(UserEntity humanUser, UserEntity aiUser)
         {
             Console.WriteLine("Enter desired number of turns in game:");
             if (!int.TryParse(Console.ReadLine(), out var turnsCount))
@@ -48,12 +45,11 @@ namespace ConsoleApp
             var game = new GameEntity(turnsCount);
             game.AddPlayer(humanUser);
             game.AddPlayer(aiUser);
-            var savedGame = gameRepo.Create(game);
+            var savedGame = gameRepo.Insert(game);
             humanUser.CurrentGameId = savedGame.Id;
             aiUser.CurrentGameId = savedGame.Id;
             userRepo.Update(humanUser);
             userRepo.Update(aiUser);
-            return game;
         }
 
         private GameEntity FindCurrentGame(UserEntity humanUser)
@@ -74,51 +70,61 @@ namespace ConsoleApp
             }
         }
 
-        private void RunGameLoop(Guid humanUserId)
+        private bool HandleOneGameTurn(Guid humanUserId)
         {
-            while (true)
+            var user = userRepo.FindById(humanUserId) ?? throw new Exception($"Unknown user with id {humanUserId}");
+            var userCurrentGameId = user.CurrentGameId ?? throw new Exception($"No current game for user: {user}");
+            var game = gameRepo.FindById(userCurrentGameId);
+            ShowScore(game);
+
+            if (game.IsFinished())
             {
-                var user = userRepo.FindById(humanUserId);
-                var game = gameRepo.FindById(user.CurrentGameId.Value);
-                ShowScore(game);
-
-                if (game.IsFinished())
-                {
-                    UpdatePlayersWhenGameFinished(game);
-                    return;
-                }
-
-                PlayerDecision? decision = AskHumanDecision(game);
-                if (!decision.HasValue)
-                    return;
-                game.SetPlayerDecision(humanUserId, decision.Value);
-
-                var aiPlayer = game.Players.First(p => p.UserId != humanUserId);
-                game.SetPlayerDecision(aiPlayer.UserId, PlayerDecision.Rock);
-
-                gameRepo.Update(game);
+                UpdatePlayersWhenGameFinished(game);
+                return false;
             }
+
+            PlayerDecision? decision = AskHumanDecision();
+            if (!decision.HasValue)
+                return false;
+            game.SetPlayerDecision(humanUserId, decision.Value);
+
+            var aiPlayer = game.Players.First(p => p.UserId != humanUserId);
+            game.SetPlayerDecision(aiPlayer.UserId, GetAiDecision());
+            if (game.HaveDecisionOfEveryPlayer)
+            {
+                // TODO: Сохранить информацию о прошедшем туре в ITurnsRepository. Сформировать информацию о закончившемся туре внутри FinishTurn и вернуть её сюда.
+                game.FinishTurn();
+            }
+            gameRepo.Update(game);
+            return true;
+        }
+
+        private PlayerDecision GetAiDecision()
+        {
+            return (PlayerDecision)Math.Min(3, 1 + random.Next(4));
         }
 
         private void UpdatePlayersWhenGameFinished(GameEntity game)
         {
+            // Вместо этого кода можно написать специализированный метод в userRepo, который сделает все эти обновления за одну операцию UpdateMany.
+            // Вместо 4 запросов к БД будет 1, но усложнится репозиторий. В данном случае, это редкая операция, поэтому нет смысла оптимизировать.
             foreach (var player in game.Players)
             {
                 var playerUser = userRepo.FindById(player.UserId);
-                playerUser.GamesPlayed++;
-                playerUser.CurrentGameId = null;
+                if (playerUser == null) continue;
+                playerUser.FinishGame();
                 userRepo.Update(playerUser);
             }
         }
 
-        private static PlayerDecision? AskHumanDecision(GameEntity game)
+        private static PlayerDecision? AskHumanDecision()
         {
             Console.WriteLine();
             Console.WriteLine("Select your next decision:");
             Console.WriteLine("1 - Rock");
             Console.WriteLine("2 - Scissors");
             Console.WriteLine("3 - Paper");
-            
+
             while (true)
             {
                 var key = Console.ReadKey(true);
@@ -129,10 +135,11 @@ namespace ConsoleApp
             }
         }
 
-        private static void ShowScore(GameEntity game)
+        private void ShowScore(GameEntity game)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Score: Human {game.Players[0].Score} : {game.Players[1].Score} Computer");
+            var players = game.Players;
+            // TODO: Показать информацию про 5 последних туров: кто как ходил и кто в итоге выиграл. Прочитать эту информацию из ITurnsRepository
+            Console.WriteLine($"Score: {players[0].Name} {players[0].Score} : {players[1].Score} {players[1].Name}");
         }
     }
 }

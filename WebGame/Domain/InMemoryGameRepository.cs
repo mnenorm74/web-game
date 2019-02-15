@@ -8,7 +8,7 @@ namespace WebGame.Domain
     {
         private readonly Dictionary<Guid, GameEntity> entities = new Dictionary<Guid, GameEntity>();
 
-        public GameEntity Create(GameEntity game)
+        public GameEntity Insert(GameEntity game)
         {
             if (game.Id != Guid.Empty)
                 throw new Exception();

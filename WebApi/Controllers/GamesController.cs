@@ -67,7 +67,7 @@ namespace WebApi.Controllers
                 return new UnprocessableEntityObjectResult(ModelState);
 
             var gameEntity = new GameEntity(game.TurnsCount);
-            var createdGameEntity = gameRepository.Create(gameEntity);
+            var createdGameEntity = gameRepository.Insert(gameEntity);
 
             return CreatedAtRoute(
                 nameof(GetGameById),

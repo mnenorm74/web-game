@@ -21,7 +21,7 @@ namespace Tests
         [Test]
         public void CreateGame()
         {
-            var gameEntity = repo.Create(new GameEntity(10));
+            var gameEntity = repo.Insert(new GameEntity(10));
             Console.WriteLine(gameEntity.Id);
             gameEntity.Id.Should().NotBe(Guid.Empty);
         }
@@ -29,7 +29,7 @@ namespace Tests
         [Test]
         public void FindGameById()
         {
-            var gameEntity = repo.Create(new GameEntity(10));
+            var gameEntity = repo.Insert(new GameEntity(10));
             repo.FindById(gameEntity.Id)
                 .Should().NotBe(Guid.Empty);
         }
@@ -37,7 +37,7 @@ namespace Tests
         [Test]
         public void UpdateGame()
         {
-            var createdGame = repo.Create(new GameEntity(10));
+            var createdGame = repo.Insert(new GameEntity(10));
             var login = "someUserName";
             createdGame.AddPlayer(new UserEntity { Login = login });
             repo.Update(createdGame);

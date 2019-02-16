@@ -105,7 +105,7 @@ namespace Tests
 
         [Test(Description = "Тест на наличие индекса по логину")]
         [Explicit("Это дополнительная задача Индекс")]
-        [MaxTime(10000)]
+        [MaxTime(15000)]
         public void SearchByLoginFast()
         {
             for (int i = 0; i < 10000; i++)

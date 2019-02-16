@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MongoDB.Driver;
@@ -21,7 +22,25 @@ namespace Tests
         private MongoUserRepository repo;
 
         [Test]
-        public void CreateUser()
+        public void InsertUser()
+        {
+            var newUser = new UserEntity(Guid.Empty, "login", "last", "first", 2, null);
+            var user = repo.Insert(newUser);
+            user.Should().BeEquivalentTo(newUser, o => o.Excluding(u => u.Id));
+            user.Id.Should().NotBe(Guid.Empty);
+        }
+
+        [Test]
+        public void FindUserById()
+        {
+            var newUser = new UserEntity(Guid.Empty, "login", "last", "first", 2, Guid.NewGuid());
+            var user = repo.Insert(newUser);
+            var retrieved = repo.FindById(user.Id);
+            retrieved.Should().BeEquivalentTo(user);
+        }
+
+        [Test]
+        public void CreateUserByLogin()
         {
             var user = repo.GetOrCreateByLogin("login");
             Console.WriteLine(user.Id);
@@ -38,15 +57,6 @@ namespace Tests
         }
 
         [Test]
-        public void FindUserById()
-        {
-            var user = repo.GetOrCreateByLogin("login");
-            var retrieved = repo.FindById(user.Id);
-            Assert.NotNull(retrieved);
-            retrieved.Login.Should().Be("login");
-        }
-
-        [Test]
         public void UpdateUser()
         {
             var gameId = Guid.NewGuid();
@@ -57,6 +67,41 @@ namespace Tests
             Assert.NotNull(retrieved);
             retrieved.CurrentGameId.Should().Be(gameId);
         }
+
+        [Test]
+        public void GetFirstPage()
+        {
+            repo.GetOrCreateByLogin("1");
+            repo.GetOrCreateByLogin("2");
+            repo.GetOrCreateByLogin("3");
+            var page = repo.GetPage(1, 2);
+            page.CurrentPage.Should().Be(1);
+            page.TotalCount.Should().Be(3);
+            page.PageSize.Should().Be(2);
+            page.Select(u => u.Login).Should().BeEquivalentTo("1", "2");
+        }
+
+        [Test]
+        public void GetSecondNotFullPage()
+        {
+            repo.GetOrCreateByLogin("1");
+            repo.GetOrCreateByLogin("2");
+            repo.GetOrCreateByLogin("3");
+            var page = repo.GetPage(2, 2);
+            page.CurrentPage.Should().Be(2);
+            page.TotalCount.Should().Be(3);
+            page.PageSize.Should().Be(2);
+            page.Select(u => u.Login).Should().BeEquivalentTo("3");
+        }
+
+        [Test]
+        public void Delete()
+        {
+            var user = repo.GetOrCreateByLogin("login");
+            repo.Delete(user.Id);
+            repo.FindById(user.Id).Should().BeNull();
+        }
+
 
         [Test(Description = "Тест на наличие индекса по логину")]
         [Explicit("Это дополнительная задача Индекс")]
@@ -71,27 +116,12 @@ namespace Tests
         [Explicit("Это дополнительная задача")]
         public void MassiveConcurrentCreateUser()
         {
-            try
+            for (int i = 0; i < 1000; i++)
             {
-                for (int i = 0; i < 1000; i++)
-                {
-                    var login = "login" + i;
-                    Task.WaitAll(
-                        Task.Run(() => repo.GetOrCreateByLogin(login)),
-                        Task.Run(() => repo.GetOrCreateByLogin(login)));
-                }
-
-            }
-            catch (AggregateException e)
-            {
-                var cmd = (MongoCommandException)(e.InnerExceptions[0]);
-                Console.WriteLine(cmd.Code);
-                Console.WriteLine(cmd.CodeName);
-                Console.WriteLine(cmd.ErrorMessage);
-                Console.WriteLine(cmd.Command);
-                Console.WriteLine(cmd.Result);
-                Console.WriteLine(string.Join(",", cmd.ErrorLabels));
-                Assert.Fail("Multiple concurrent GetOrCreateByLogin Failed!");
+                var login = "login" + i;
+                Task.WaitAll(
+                    Task.Run(() => repo.GetOrCreateByLogin(login)),
+                    Task.Run(() => repo.GetOrCreateByLogin(login)));
             }
         }
     }

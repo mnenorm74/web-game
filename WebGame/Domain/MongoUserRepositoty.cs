@@ -15,7 +15,7 @@ namespace WebGame.Domain
 
         public UserEntity Insert(UserEntity user)
         {
-            //TODO: Ищите в документации InsertXXX
+            //TODO: Ищите в документации InsertXXX.
             throw new NotImplementedException();
         }
 

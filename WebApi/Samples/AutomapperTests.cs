@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using NUnit.Framework;
 
@@ -7,8 +9,9 @@ namespace WebApi.Samples
     [TestFixture]
     public class AutomapperTests
     {
-        class User
+        class UserEntity
         {
+            public int Id { get; set; }
             public string Login { get; set; }
             public string Name { get; set; }
             public DateTime RegistrationTime { get; set; }
@@ -16,9 +19,15 @@ namespace WebApi.Samples
 
         class UserDto
         {
-            public string Name { get; set; }
+            public int Id { get; set; }
+            public string VisibleName { get; set; }
             public DateTime RegistrationTime { get; set; }
-            public int Code { get; set; }
+        }
+
+        class UserToUpdateDto
+        {
+            public string Login { get; set; }
+            public string Name { get; set; }
         }
 
         [OneTimeSetUp]
@@ -26,39 +35,107 @@ namespace WebApi.Samples
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<User, UserDto>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name ?? src.Login));
+                // Регистрация преобразования UserEntity в UserDto с дополнительным правилом.
+                // Также поля и свойства с совпадающими именами будут скопировны (поведение по умолчанию).
+                cfg.CreateMap<UserEntity, UserDto>()
+                    .ForMember(dest => dest.VisibleName, opt => opt.MapFrom(src => src.Name ?? src.Login));
+
+                // Регистрация преобразования UserToUpdateDto в UserEntity без дополнительных правил.
+                // Все поля и свойства с совпадающими именами будут скопировны (поведение по умолчанию).
+                cfg.CreateMap<UserToUpdateDto, UserEntity>();
             });
         }
 
         [Test]
-        public static void TestCreateNew()
+        public static void TestCreateFrom()
         {
-            var user = new User
+            const int id = 1;
+            var registrationTime = DateTime.Now.AddYears(-1);
+            var userEntity = new UserEntity
             {
+                Id = id,
                 Login = "Anonymous",
                 Name = null,
-                RegistrationTime = DateTime.Now.AddYears(-1)
+                RegistrationTime = registrationTime
             };
-            var userDto = Mapper.Map<UserDto>(user);
-            Assert.AreEqual("Anonymous", userDto.Name);
+
+            // userDto создается на основе значений из userEntity
+            var userDto = Mapper.Map<UserDto>(userEntity);
+
+            Assert.AreEqual(id, userDto.Id);
+            Assert.AreEqual(registrationTime, userDto.RegistrationTime);
+            Assert.AreEqual("Anonymous", userDto.VisibleName);
         }
 
         [Test]
         public static void TestFillBy()
         {
-            var user = new User
+            var registrationTime = DateTime.Now.AddYears(-1);
+            var userDto = new UserToUpdateDto
             {
-                Login = "Anonymous",
-                Name = null,
-                RegistrationTime = DateTime.Now.AddYears(-1)
+                Login = "SuperAdmin",
+                Name = "Jack"
             };
-            var userDto = Mapper.Map(user, new UserDto
+
+            var userEntity = new UserEntity
             {
-                Code = 5
+                Id = 777,
+                Login = "Admin",
+                RegistrationTime = registrationTime,
+            };
+
+            // userEntity дополняется значениями из userDto
+            Mapper.Map(userDto, userEntity);
+
+            Assert.AreEqual(777, userEntity.Id);
+            Assert.AreEqual("SuperAdmin", userEntity.Login);
+            Assert.AreEqual("Jack", userEntity.Name);
+            Assert.AreEqual(registrationTime, userEntity.RegistrationTime);
+        }
+
+        [Test]
+        public static void TestFillByReturnSyntax()
+        {
+            var registrationTime = DateTime.Now.AddYears(-1);
+            var userDto = new UserToUpdateDto
+            {
+                Login = "SuperAdmin",
+                Name = "Jack"
+            };
+
+            // Mapper.Map возвращает ссылку на второй аргумент.
+            // Поэтому можно вторым аргументом передавать только что созданный объект,
+            // а потом получать ссылку на него как возвращаемое значение Map.
+            var userEntity = Mapper.Map(userDto, new UserEntity
+            {
+                Id = 777,
+                Login = "Admin",
+                RegistrationTime = registrationTime,
             });
-            Assert.AreEqual("Anonymous", userDto.Name);
-            Assert.AreEqual(5, userDto.Code);
+
+            Assert.AreEqual(777, userEntity.Id);
+            Assert.AreEqual("SuperAdmin", userEntity.Login);
+            Assert.AreEqual("Jack", userEntity.Name);
+            Assert.AreEqual(registrationTime, userEntity.RegistrationTime);
+        }
+
+        [Test]
+        public static void TestCreateMany()
+        {
+            var userEntities = Enumerable.Range(1, 10)
+                .Select(id => new UserEntity
+                {
+                    Id = id
+                })
+                .ToList();
+
+            // Каждый userDto создается на основе значений из userEntity.
+            // Используется преобразование UserEntity в UserDto.
+            var userDtos = Mapper.Map<IEnumerable<UserDto>>(userEntities).ToList();
+
+            Assert.AreEqual(userEntities.Count, userDtos.Count);
+            for (int i = 0; i < userDtos.Count; i++)
+                Assert.AreEqual(userEntities[i].Id, userDtos[i].Id);
         }
     }
 }

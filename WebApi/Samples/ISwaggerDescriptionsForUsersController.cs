@@ -19,7 +19,7 @@ namespace WebApi.Samples
         [Produces("application/json", "application/xml")]
         [SwaggerResponse(200, "OK", typeof(UserDto))]
         [SwaggerResponse(404, "Пользователь не найден")]
-        ActionResult<UserDto> GetUserById([FromRoute, Required] Guid userId);
+        ActionResult<UserDto> GetUserById([FromRoute] Guid userId);
 
         /// <summary>
         /// Создать пользователя
@@ -52,7 +52,7 @@ namespace WebApi.Samples
         [Produces("application/json", "application/xml")]
         [SwaggerResponse(204, "Пользователь удален")]
         [SwaggerResponse(404, "Пользователь не найден")]
-        IActionResult DeleteUser([FromRoute, Required] Guid userId);
+        IActionResult DeleteUser([FromRoute] Guid userId);
 
         /// <summary>
         /// Обновить пользователя
@@ -66,7 +66,7 @@ namespace WebApi.Samples
         [SwaggerResponse(204, "Пользователь обновлен")]
         [SwaggerResponse(400, "Некорректные входные данные")]
         [SwaggerResponse(422, "Ошибка при проверке")]
-        IActionResult UpdateUser([FromRoute, Required] Guid userId, [FromBody] object user);
+        IActionResult UpdateUser([FromRoute] Guid userId, [FromBody] object user);
 
         /// <summary>
         /// Частично обновить пользователя
@@ -80,7 +80,7 @@ namespace WebApi.Samples
         [SwaggerResponse(400, "Некорректные входные данные")]
         [SwaggerResponse(404, "Пользователь не найден")]
         [SwaggerResponse(422, "Ошибка при проверке")]
-        IActionResult PartiallyUpdateUser([FromRoute, Required] Guid userId,
+        IActionResult PartiallyUpdateUser([FromRoute] Guid userId,
             [FromBody] JsonPatchDocument<object> patchDoc);
 
         /// <summary>

@@ -153,6 +153,14 @@ HTTP/1.1 204 No Content
 
 ***
 
+### Рассмотрим API для конкретной задачи
+
+Я хочу записаться на прием к врачу.
+От веб службы мне нужно получить свободные часы приема на конкретную дату и после записаться на прием.
+
+
+***
+
 ### Вся инфомация в теле запроса
 
 ```http
@@ -558,8 +566,6 @@ Location: http://royalhope.nhs.uk/slots/1234/appointment
 
 ```bash
 dotnet new webapi -n ValuesApi
-# Опционально, чтобы смотреть код в Visual Studio
-dotnet sln add ValuesApi
 ```
 
 ***
@@ -662,6 +668,8 @@ http://localhost:5000/api/values
    *Найти*: Params, Headers, Body, Pre-request Script, Tests
 5. Runner / Collection Runner / ValuesApi / Run ValuesApi
    *Посмотреть результат прохождения тестов*
+6. Console
+   *Показать, что можно смотреть информацию по запросам*
 
 ***
 
@@ -711,12 +719,16 @@ http://localhost:5000/api/values
 
 ***
 
-### Нюансы
+### Нюанс. Именование коллекции
 
-<span class="fragment">Как правильно `PUT /users/4` или `PUT /user/5`?</span>
+<span class="fragment">Как правильно `PUT /users/4` или `PUT /user/4`?</span>
 <ul><li class="fragment">Верны оба варианта. Но важно, чтобы везде в API был один стиль
   Так как в любом случае `GET /users`,
   то `PUT /users/4` более единообразен</li></ul>
+
+***
+
+### Нюанс. Запросы-функции
 
 <span class="fragment">
   Можно ли использовать функции или только ресурсы?
@@ -724,6 +736,13 @@ http://localhost:5000/api/values
 </span>
 <ul><li class="fragment">Можно, если выражение идеи через ресурсы
   сделает API менее понятным</li></ul>
+
+<span class="fragment">
+  Какой код ответа в случае успеха?
+</span>
+<ul><li class="fragment">Часто `200 OK` или `204 No Content`,
+  потому что выполняется функция, а не создается ресурс</li></ul>
+<ul><li class="fragment">В случае `200 OK` возвращается релевантная запросу информация</li></ul>
 
 ***
 
@@ -809,12 +828,20 @@ interface IUserRepository
 
 ***
 
+### Демо. Swagger
+
+***
+
 ### Результат
 
 - **Автогенерация описания** по коду сервера
 - Стандартная и понятная **визуализация API**
 - **Песочница**, чтобы делать запросы: встроенная и Postman
 - **Автогенерация клиентов и серверов** по описанию
+
+***
+
+<h3 class="center">Даже автосгенерированный Swagger значительно облегчает жизнь фронтендеру!</h3>
 
 </script></section>
 

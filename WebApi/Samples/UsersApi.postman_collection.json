@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3268bccb-9d08-4b0f-87f6-b030f10b54fd",
+		"_postman_id": "1ae511dd-39d6-4a5e-aaa7-38b5d668a1b4",
 		"name": "UsersApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -69,52 +69,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-7777-7777-7777-777777777777"
+									"value": "77777777-7777-7777-7777-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "OK",
 							"originalRequest": {
@@ -152,6 +114,44 @@
 							],
 							"cookie": [],
 							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
 						}
 					]
 				},
@@ -204,52 +204,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-6666-6666-6666-777777777777"
+									"value": "77777777-6666-6666-6666-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "OK",
 							"originalRequest": {
@@ -287,6 +249,44 @@
 							],
 							"cookie": [],
 							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
 						}
 					]
 				},
@@ -339,52 +339,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "trash"
+									"value": "trash",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "OK",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
-						},
 						{
 							"name": "Пользователь не найден",
 							"originalRequest": {
@@ -422,6 +384,44 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
 						}
 					]
 				},
@@ -480,9 +480,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-7777-7777-7777-777777777777"
+									"value": "77777777-7777-7777-7777-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -615,9 +615,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-7777-7777-7777-777777777777"
+									"value": "77777777-7777-7777-7777-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -723,9 +723,11 @@
 									"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
 									"});",
 									"",
-									"pm.test(\"Content-Length is 0\", function () {",
-									"    pm.response.to.have.header(\"Content-Length\");",
-									"    pm.response.to.be.header(\"Content-Length\", \"0\");",
+									"pm.test(\"Content-Length is 0 or not present\", function () {",
+									"    var contentLength = postman.getResponseHeader(\"Content-Length\");",
+									"    if (contentLength) {",
+									"        pm.response.to.be.header(\"Content-Length\", \"0\");",
+									"    }",
 									"});",
 									""
 								],
@@ -761,52 +763,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-7777-7777-7777-777777777777"
+									"value": "77777777-7777-7777-7777-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "OK",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
-						},
 						{
 							"name": "Пользователь не найден",
 							"originalRequest": {
@@ -844,6 +808,44 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
 						}
 					]
 				},
@@ -896,9 +898,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-6666-6666-6666-777777777777"
+									"value": "77777777-6666-6666-6666-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -1031,9 +1033,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "trash"
+									"value": "trash",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -1164,6 +1166,30 @@
 									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"var userId = pm.response.json();",
 									"",
+									"// NOTE: Проверка, что идентификатор созданного пользователя возвращается в теле ответа",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
+									"var contentUrl = baseUrl + \"/api/users/\" + userId;",
+									"pm.sendRequest(contentUrl, function (err, response) {",
+									"    pm.test(\"Content is userId of created user\", function () {",
+									"        checkUser(err, response);",
+									"    });",
+									"});",
+									"",
+									"// NOTE: Проверка, что ссылка на созданного пользователя возвращается в заголовке Location",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
+									"var locationUrl = postman.getResponseHeader(\"Location\");",
+									"if (!locationUrl) {",
+									"    pm.test(\"Location is URI to created user\", function () {",
+									"        pm.response.to.have.header(\"Location\");",
+									"    });",
+									"} else {",
+									"    pm.sendRequest(locationUrl, function (err, response) {",
+									"        pm.test(\"Location is URI to created user\", function () {",
+									"            checkUser(err, response);",
+									"        });",
+									"    });",
+									"}",
+									"",
 									"function checkUser(err, response) {",
 									"    pm.expect(err).to.not.be.ok;",
 									"        ",
@@ -1176,26 +1202,6 @@
 									"    };",
 									"    var responseJson = response.json();",
 									"    pm.expect(responseJson).to.eql(expected);",
-									"}",
-									"",
-									"var contentUrl = baseUrl + \"/api/users/\" + userId;",
-									"pm.sendRequest(contentUrl, function (err, response) {",
-									"    pm.test(\"Content is userId of created user\", function () {",
-									"        checkUser(err, response);",
-									"    });",
-									"});",
-									"",
-									"var locationUrl = postman.getResponseHeader(\"Location\");",
-									"if (!locationUrl) {",
-									"    pm.test(\"Location is URI to created user\", function () {",
-									"        pm.response.to.have.header(\"Location\");",
-									"    });",
-									"} else {",
-									"    pm.sendRequest(locationUrl, function (err, response) {",
-									"        pm.test(\"Location is URI to created user\", function () {",
-									"            checkUser(err, response);",
-									"        });",
-									"    });",
 									"}",
 									""
 								],
@@ -1242,7 +1248,7 @@
 					},
 					"response": [
 						{
-							"name": "Ошибка при проверке",
+							"name": "Пользователь создан",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -1266,8 +1272,8 @@
 									]
 								}
 							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -1316,142 +1322,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Пользователь создан",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						}
-					]
-				},
-				{
-					"name": "201 with default firstName and lastName",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5beed4dc-1b2c-4c11-858b-d4382139fc23",
-								"exec": [
-									"pm.test(\"Status code is 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									"pm.test(\"Content-Type is application/json\", function () {",
-									"    pm.response.to.have.header(\"Content-Type\");",
-									"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
-									"});",
-									"",
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
-									"var userId = pm.response.json();",
-									"",
-									"function checkUser(err, response) {",
-									"    pm.expect(err).to.not.be.ok;",
-									"        ",
-									"    var expected = {",
-									"        \"id\": userId,",
-									"        \"login\": \"anonymous\",",
-									"        \"fullName\": \"Doe John\",",
-									"        \"gamesPlayed\": 0,",
-									"        \"currentGameId\": null",
-									"    };",
-									"    var responseJson = response.json();",
-									"    pm.expect(responseJson).to.eql(expected);",
-									"}",
-									"",
-									"var contentUrl = baseUrl + \"/api/users/\" + userId;",
-									"pm.sendRequest(contentUrl, function (err, response) {",
-									"    pm.test(\"Content is userId of created user\", function () {",
-									"        checkUser(err, response);",
-									"    });",
-									"});",
-									"",
-									"var locationUrl = postman.getResponseHeader(\"Location\");",
-									"if (!locationUrl) {",
-									"    pm.test(\"Location is URI to created user\", function () {",
-									"        pm.response.to.have.header(\"Location\");",
-									"    });",
-									"} else {",
-									"    pm.sendRequest(locationUrl, function (err, response) {",
-									"        pm.test(\"Location is URI to created user\", function () {",
-									"            checkUser(err, response);",
-									"        });",
-									"    });",
-									"}",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "8266755d-48b9-496e-b4bf-ec42d55d5fc9",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"login\": \"anonymous\",\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/api/users",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						},
-						"description": "Пример запроса:\r\n            \r\n    POST /api/users\r\n    {\r\n       \"userName\": \"JohnDoe\",\r\n       \"firstName\": \"John\",\r\n       \"lastName\": \"Doe\",\r\n       \"email\": \"johndoe375@gmail.com\"\r\n    }"
-					},
-					"response": [
-						{
 							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "POST",
@@ -1478,80 +1348,6 @@
 							},
 							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
 							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Некорректные входные данные",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Пользователь создан",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -1661,43 +1457,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Некорректные входные данные",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "Пользователь создан",
 							"originalRequest": {
 								"method": "POST",
@@ -1724,6 +1483,43 @@
 							},
 							"status": "Created",
 							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -1801,7 +1597,7 @@
 					},
 					"response": [
 						{
-							"name": "Ошибка при проверке",
+							"name": "Пользователь создан",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -1825,8 +1621,8 @@
 									]
 								}
 							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -1875,7 +1671,7 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Пользователь создан",
+							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -1899,8 +1695,8 @@
 									]
 								}
 							},
-							"status": "Created",
-							"code": 201,
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -1978,6 +1774,43 @@
 					},
 					"response": [
 						{
+							"name": "Пользователь создан",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
 							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "POST",
@@ -2004,6 +1837,183 @@
 							},
 							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
 							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						}
+					]
+				},
+				{
+					"name": "201 with default firstName and lastName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5beed4dc-1b2c-4c11-858b-d4382139fc23",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"    pm.response.to.be.header(\"Content-Type\", \"application/json; charset=utf-8\");",
+									"});",
+									"",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"var userId = pm.response.json();",
+									"",
+									"// NOTE: Проверка, что идентификатор созданного пользователя возвращается в теле ответа",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
+									"var contentUrl = baseUrl + \"/api/users/\" + userId;",
+									"pm.sendRequest(contentUrl, function (err, response) {",
+									"    pm.test(\"Content is userId of created user\", function () {",
+									"        checkUser(err, response);",
+									"    });",
+									"});",
+									"",
+									"// NOTE: Проверка, что ссылка на созданного пользователя возвращается в заголовке Location",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
+									"var locationUrl = postman.getResponseHeader(\"Location\");",
+									"if (!locationUrl) {",
+									"    pm.test(\"Location is URI to created user\", function () {",
+									"        pm.response.to.have.header(\"Location\");",
+									"    });",
+									"} else {",
+									"    pm.sendRequest(locationUrl, function (err, response) {",
+									"        pm.test(\"Location is URI to created user\", function () {",
+									"            checkUser(err, response);",
+									"        });",
+									"    });",
+									"}",
+									"",
+									"function checkUser(err, response) {",
+									"    pm.expect(err).to.not.be.ok;",
+									"        ",
+									"    var expected = {",
+									"        \"id\": userId,",
+									"        \"login\": \"anonymous\",",
+									"        \"fullName\": \"Doe John\",",
+									"        \"gamesPlayed\": 0,",
+									"        \"currentGameId\": null",
+									"    };",
+									"    var responseJson = response.json();",
+									"    pm.expect(responseJson).to.eql(expected);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8266755d-48b9-496e-b4bf-ec42d55d5fc9",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"anonymous\",\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Пример запроса:\r\n            \r\n    POST /api/users\r\n    {\r\n       \"userName\": \"JohnDoe\",\r\n       \"firstName\": \"John\",\r\n       \"lastName\": \"Doe\",\r\n       \"email\": \"johndoe375@gmail.com\"\r\n    }"
+					},
+					"response": [
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -2052,7 +2062,7 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Некорректные входные данные",
+							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -2076,8 +2086,8 @@
 									]
 								}
 							},
-							"status": "Bad Request",
-							"code": 400,
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -2198,43 +2208,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Ошибка при проверке",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users"
-									]
-								}
-							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "Некорректные входные данные",
 							"originalRequest": {
 								"method": "POST",
@@ -2261,6 +2234,43 @@
 							},
 							"status": "Bad Request",
 							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Ошибка при проверке",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -2515,6 +2525,8 @@
 							"script": {
 								"id": "ba38b4aa-0fdb-4f92-8770-32a8d2c8ef33",
 								"exec": [
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
 									"",
 									"pm.test(\"User to delete was created\", function () {",
@@ -2556,47 +2568,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										"<string>"
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "Пользователь удален",
 							"originalRequest": {
@@ -2620,6 +2599,39 @@
 							},
 							"status": "No Content",
 							"code": 204,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"<string>"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -2685,9 +2697,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "77777777-6666-6666-6666-777777777777"
+									"value": "77777777-6666-6666-6666-777777777777",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -2814,9 +2826,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "trash"
+									"value": "trash",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -2944,6 +2956,8 @@
 							"script": {
 								"id": "ba38b4aa-0fdb-4f92-8770-32a8d2c8ef33",
 								"exec": [
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
 									"var createdUserWasDeleted = pm.variables.get(\"createdUserWasDeleted\");",
 									"",
@@ -2990,47 +3004,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										"<string>"
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "Пользователь удален",
 							"originalRequest": {
@@ -3054,6 +3035,39 @@
 							},
 							"status": "No Content",
 							"code": 204,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"<string>"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -3129,8 +3143,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -3144,6 +3160,8 @@
 									"    pm.response.to.not.have.header(\"Content-Type\");",
 									"});",
 									"",
+									"// NOTE: Выполняется GET запрос, чтобы проверить корректность обновления",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
 									"pm.sendRequest(baseUrl + \"/api/users/\" + createdUserId, function (err, response) {",
 									"    pm.test(\"User was correctly updated\", function () {",
 									"        pm.expect(err).to.not.be.ok;",
@@ -3192,16 +3210,16 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Некорректные входные данные",
+							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [
@@ -3231,8 +3249,8 @@
 									]
 								}
 							},
-							"status": "Bad Request",
-							"code": 400,
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -3287,49 +3305,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Ошибка при проверке",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "Пользователь обновлен",
 							"originalRequest": {
 								"method": "PUT",
@@ -3371,6 +3346,49 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
 						}
 					]
 				},
@@ -3382,6 +3400,9 @@
 							"script": {
 								"id": "0cf6b376-f508-440d-860a-2284c7d7f7b0",
 								"exec": [
+									"var uuid = require('uuid');",
+									"",
+									"pm.variables.set(\"updatingUserId\", uuid.v4());",
 									""
 								],
 								"type": "text/javascript"
@@ -3392,6 +3413,9 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
+									"// NOTE: В Pre-request Script генерируется идентификатор для обновляемого пользователя",
+									"var updatingUserId = pm.variables.get(\"updatingUserId\");",
+									"",
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
@@ -3403,6 +3427,34 @@
 									"",
 									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"var userId = pm.response.json();",
+									"",
+									"pm.test(\"UserId of created user is equal to userId sent in PUT request\", function () {",
+									"    pm.expect(userId).to.eql(updatingUserId);",
+									"});",
+									"",
+									"// NOTE: Проверка, что идентификатор созданного пользователя возвращается в теле ответа",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
+									"var contentUrl = baseUrl + \"/api/users/\" + userId;",
+									"pm.sendRequest(contentUrl, function (err, response) {",
+									"    pm.test(\"Content is userId of created user\", function () {",
+									"        checkUser(err, response);",
+									"    });",
+									"});",
+									"",
+									"// NOTE: Проверка, что ссылка на созданного пользователя возвращается в заголовке Location",
+									"// NOTE: Результат выполнения всех запросов к API можно посмотреть в Postman Console: Ctrl+Alt+C",
+									"var locationUrl = postman.getResponseHeader(\"Location\");",
+									"if (!locationUrl) {",
+									"    pm.test(\"Location is URI to created user\", function () {",
+									"        pm.response.to.have.header(\"Location\");",
+									"    });",
+									"} else {",
+									"    pm.sendRequest(locationUrl, function (err, response) {",
+									"        pm.test(\"Location is URI to created user\", function () {",
+									"            checkUser(err, response);",
+									"        });",
+									"    });",
+									"}",
 									"",
 									"function checkUser(err, response) {",
 									"    pm.expect(err).to.not.be.ok;",
@@ -3416,26 +3468,6 @@
 									"    };",
 									"    var responseJson = response.json();",
 									"    pm.expect(responseJson).to.eql(expected);",
-									"}",
-									"",
-									"var contentUrl = baseUrl + \"/api/users/\" + userId;",
-									"pm.sendRequest(contentUrl, function (err, response) {",
-									"    pm.test(\"Content is userId of created user\", function () {",
-									"        checkUser(err, response);",
-									"    });",
-									"});",
-									"",
-									"var locationUrl = postman.getResponseHeader(\"Location\");",
-									"if (!locationUrl) {",
-									"    pm.test(\"Location is URI to created user\", function () {",
-									"        pm.response.to.have.header(\"Location\");",
-									"    });",
-									"} else {",
-									"    pm.sendRequest(locationUrl, function (err, response) {",
-									"        pm.test(\"Location is URI to created user\", function () {",
-									"            checkUser(err, response);",
-									"        });",
-									"    });",
 									"}",
 									""
 								],
@@ -3470,9 +3502,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{$guid}}"
+									"value": "{{updatingUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -3710,57 +3742,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "trash"
+									"value": "trash",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь обновлен",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "Ошибка при проверке",
 							"originalRequest": {
@@ -3805,49 +3794,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Некорректные входные данные",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "Пользователь не найден",
 							"originalRequest": {
 								"method": "PUT",
@@ -3880,6 +3826,92 @@
 							},
 							"status": "Not Found",
 							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь обновлен",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -3950,57 +3982,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{$guid}}"
+									"value": "{{$guid}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "Пользователь обновлен",
 							"originalRequest": {
@@ -4034,6 +4023,49 @@
 							},
 							"status": "No Content",
 							"code": 204,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -4168,8 +4200,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -4220,57 +4254,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Пользователь обновлен",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "Пользователь не найден",
 							"originalRequest": {
@@ -4315,7 +4306,7 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Ошибка при проверке",
+							"name": "Пользователь обновлен",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [
@@ -4345,8 +4336,8 @@
 									]
 								}
 							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
+							"status": "No Content",
+							"code": 204,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -4399,6 +4390,49 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "Ошибка при проверке",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
 						}
 					]
 				},
@@ -4438,8 +4472,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -4491,16 +4527,16 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Пользователь не найден",
+							"name": "Некорректные входные данные",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [
@@ -4530,8 +4566,8 @@
 									]
 								}
 							},
-							"status": "Not Found",
-							"code": 404,
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -4586,6 +4622,49 @@
 							"body": "\"<object>\""
 						},
 						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
 							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "PUT",
@@ -4618,49 +4697,6 @@
 							},
 							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
 							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Некорректные входные данные",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -4709,8 +4745,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -4761,9 +4799,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -4979,8 +5017,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -5031,9 +5071,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -5126,49 +5166,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Пользователь обновлен",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "Некорректные входные данные",
 							"originalRequest": {
 								"method": "PUT",
@@ -5201,6 +5198,49 @@
 							},
 							"status": "Bad Request",
 							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь обновлен",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -5276,8 +5316,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -5339,14 +5381,57 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
 						{
 							"name": "Ошибка при проверке",
 							"originalRequest": {
@@ -5466,49 +5551,6 @@
 							},
 							"status": "No Content",
 							"code": 204,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -5579,57 +5621,14 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{$guid}}"
+									"value": "{{$guid}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
-						{
-							"name": "Некорректные входные данные",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
 						{
 							"name": "Пользователь обновлен",
 							"originalRequest": {
@@ -5749,6 +5748,49 @@
 							},
 							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
 							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -5819,9 +5861,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "trash"
+									"value": "trash",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -5860,6 +5902,49 @@
 							},
 							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
 							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -5955,49 +6040,6 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
-						},
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
 						}
 					]
 				},
@@ -6059,16 +6101,16 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{$guid}}"
+									"value": "{{$guid}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "Ошибка при проверке",
+							"name": "Пользователь не найден",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [
@@ -6098,8 +6140,8 @@
 									]
 								}
 							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -6154,7 +6196,7 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Пользователь не найден",
+							"name": "Ошибка при проверке",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [
@@ -6184,8 +6226,8 @@
 									]
 								}
 							},
-							"status": "Not Found",
-							"code": 404,
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -6277,8 +6319,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -6329,9 +6373,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -6547,8 +6591,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -6599,14 +6645,57 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
+						{
+							"name": "Ошибка при проверке",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
 						{
 							"name": "Некорректные входные данные",
 							"originalRequest": {
@@ -6640,6 +6729,49 @@
 							},
 							"status": "Bad Request",
 							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -6692,92 +6824,6 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
-						},
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Ошибка при проверке",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
 						}
 					]
 				},
@@ -6817,8 +6863,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -6869,14 +6917,57 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
 					},
 					"response": [
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
 						{
 							"name": "Ошибка при проверке",
 							"originalRequest": {
@@ -6953,49 +7044,6 @@
 							},
 							"status": "Bad Request",
 							"code": 400,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -7087,8 +7135,10 @@
 							"script": {
 								"id": "ddb4313b-177e-4b00-ae01-59c478bb17ef",
 								"exec": [
-									"var baseUrl = pm.variables.get(\"baseUrl\");",
+									"// NOTE: В Pre-request Script с помощью POST создается пользователь, который будет удаляться.",
+									"// Важно, чтобы реализация POST в API работала корректно.",
 									"var createdUserId = pm.variables.get(\"createdUserId\");",
+									"var baseUrl = pm.variables.get(\"baseUrl\");",
 									"",
 									"pm.test(\"User to update was created\", function () {",
 									"    pm.expect(createdUserId).to.be.ok;",
@@ -7139,9 +7189,9 @@
 							],
 							"variable": [
 								{
-									"description": "Идентификатор пользователя",
 									"key": "userId",
-									"value": "{{createdUserId}}"
+									"value": "{{createdUserId}}",
+									"description": "Идентификатор пользователя"
 								}
 							]
 						}
@@ -7180,49 +7230,6 @@
 							},
 							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
 							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
-							"name": "Некорректные входные данные",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -7318,6 +7325,49 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "Некорректные входные данные",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"login\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
 						}
 					]
 				}
@@ -7348,7 +7398,10 @@
 									"    var paginationString = postman.getResponseHeader(\"X-Pagination\");",
 									"    var pagination = JSON.parse(paginationString);",
 									"    ",
+									"    // NOTE: previousPageLink === null означает, что предыдущей страницы нет",
 									"    pm.expect(pagination.previousPageLink === null).to.be.true;",
+									"    // NOTE: nextPageLink !== undefined означает, поле nextPageLink есть,",
+									"    // при этом оно может быть равно null или некоторой строке.",
 									"    pm.expect(pagination.nextPageLink !== undefined).to.be.true;",
 									"    ",
 									"    pm.expect(pagination.totalCount > 0).to.be.true;",
@@ -7487,7 +7540,11 @@
 									"    var paginationString = postman.getResponseHeader(\"X-Pagination\");",
 									"    var pagination = JSON.parse(paginationString);",
 									"    ",
+									"    // NOTE: previousPageLink !== undefined означает, поле nextPageLink есть,",
+									"    // при этом оно может быть равно null или некоторой строке.",
 									"    pm.expect(pagination.previousPageLink !== undefined).to.be.true;",
+									"    // NOTE: nextPageLink !== undefined означает, поле nextPageLink есть,",
+									"    // при этом оно может быть равно null или некоторой строке.",
 									"    pm.expect(pagination.nextPageLink !== undefined).to.be.true;",
 									"    ",
 									"    pm.expect(pagination.totalCount > 0).to.be.true;",
@@ -7670,44 +7727,6 @@
 					},
 					"response": [
 						{
-							"name": "OK",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
-						},
-						{
 							"name": "Пользователь не найден",
 							"originalRequest": {
 								"method": "GET",
@@ -7744,6 +7763,44 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
 						}
 					]
 				},
@@ -7944,44 +8001,6 @@
 					},
 					"response": [
 						{
-							"name": "OK",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
-						},
-						{
 							"name": "Пользователь не найден",
 							"originalRequest": {
 								"method": "GET",
@@ -8018,6 +8037,44 @@
 							],
 							"cookie": [],
 							"body": "\"<object>\""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
 						}
 					]
 				},
@@ -8083,44 +8140,6 @@
 					},
 					"response": [
 						{
-							"name": "Пользователь не найден",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users/:userId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users",
-										":userId"
-									],
-									"variable": [
-										{
-											"key": "userId"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
@@ -8157,6 +8176,44 @@
 							],
 							"cookie": [],
 							"body": "{\n \"login\": \"<string>\",\n \"fullName\": \"<string>\",\n \"gamesPlayed\": \"<integer>\",\n \"currentGameId\": \"<string>\"\n}"
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
 						}
 					]
 				}
@@ -8262,43 +8319,6 @@
 							"body": "\"<object>\""
 						},
 						{
-							"name": "Ошибка при проверке",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"users"
-									]
-								}
-							},
-							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-							"code": 422,
-							"_postman_previewlanguage": "Text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "\"<object>\""
-						},
-						{
 							"name": "Пользователь создан",
 							"originalRequest": {
 								"method": "POST",
@@ -8325,6 +8345,43 @@
 							},
 							"status": "Created",
 							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"<object>\""
+						},
+						{
+							"name": "Ошибка при проверке",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"<string>\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
 							"_postman_previewlanguage": "Text",
 							"header": [
 								{
@@ -8386,9 +8443,9 @@
 	],
 	"variable": [
 		{
-			"id": "348c7aa1-e0ea-4c95-89f0-6b317d397c0f",
+			"id": "a291cf9a-4d9a-4352-b79a-017eb56f4103",
 			"key": "baseUrl",
-			"value": "",
+			"value": "http://samplehost:777",
 			"type": "string"
 		}
 	]

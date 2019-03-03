@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -78,9 +78,9 @@ namespace WebGame.Domain
                     winnerId = player.UserId;
                 }
             }
-            //TODO Заполнить все внутри GameTurnEntity, в том числе winnerId
+            //TODO Р—Р°РїРѕР»РЅРёС‚СЊ РІСЃРµ РІРЅСѓС‚СЂРё GameTurnEntity, РІ С‚РѕРј С‡РёСЃР»Рµ winnerId
             var result = new GameTurnEntity();
-            // Это должно быть после создания GameTurnEntity
+            // Р­С‚Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ GameTurnEntity
             foreach (var player in Players)
                 player.Decision = PlayerDecision.None;
             CurrentTurnIndex++;

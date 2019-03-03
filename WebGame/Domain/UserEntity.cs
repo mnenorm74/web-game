@@ -56,8 +56,11 @@ namespace WebGame.Domain
 
         public void FinishGame()
         {
-            GamesPlayed++;
-            CurrentGameId = null;
+            if (CurrentGameId.HasValue)
+            {
+                GamesPlayed++;
+                CurrentGameId = null;
+            }
         }
     }
 }

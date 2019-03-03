@@ -56,9 +56,13 @@ namespace WebGame.Domain
         public void SetPlayerDecision(Guid userId, PlayerDecision decision)
         {
             if (Status != GameStatus.Playing)
-                throw new ArgumentException(Status.ToString());
+                throw new InvalidOperationException(Status.ToString());
             foreach (var player in Players.Where(p => p.UserId == userId))
+            {
+                if (player.Decision != PlayerDecision.None)
+                    throw new InvalidOperationException(player.Decision.ToString());
                 player.Decision = decision;
+            }
         }
 
         public GameTurnEntity FinishTurn()

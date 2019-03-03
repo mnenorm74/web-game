@@ -61,8 +61,8 @@ services.AddMvc(options =>
 Было бы удобно, если бы код копирования из `Entity` в `DTO` генерировался автоматически,
 и только отличия надо было описать вручную.
 
-И средство для этого есть — `Automapper`.
-Изучи тесты в `WebApi/Samples/AutomapperTests.cs`, чтобы понять как им пользоваться.
+И средство для этого есть — `AutoMapper`.
+Изучи тесты в `WebApi/Samples/AutoMapperTests.cs`, чтобы понять как им пользоваться.
 Прежде всего `OneTimeSetUp` и тест `TestCreateFrom`.
 И примени для получения `UserDto` из `UserEntity`!
 Необходимую конфигураию запиши в `Startup.ConfigureServices`.
@@ -88,7 +88,7 @@ HEAD — это то же самое, что GET, только без тела.
 
 В аргументе `user` метода `CreateUser` замени тип `object` на созданный тобой класс.
 
-Снова используй `Automapper`, чтобы создать `UserEntity` по своему DTO.
+Снова используй `AutoMapper`, чтобы создать `UserEntity` по своему DTO.
 Обрати внимание, что тебе НЕ нужно задавать идентификатор,
 потому что он будет задан при вызове метода `Insert` в `IUserRepository`.
 
@@ -224,7 +224,7 @@ services.AddMvc(...)
 Подсказка 1: Для вставки новой сущности в репозиторий используй метод `UpdateOrInsert`,
 потому что, в отличие от `Insert`, он использует переданный id сущности, а не задает новый.
 
-Подсказка 2: Посмотри тесты `TestFillBy` и `TestFillByReturnSyntax` из `WebApi/Samples/AutomapperTests.cs`.
+Подсказка 2: Посмотри тесты `TestFillBy` и `TestFillByReturnSyntax` из `WebApi/Samples/AutoMapperTests.cs`.
 
 
 ### 6. PATCH /users/{userId}
@@ -282,7 +282,7 @@ TryValidateModel(user);
 var users = Mapper.Map<IEnumerable<UserDto>>(userEntities);
 return Ok(users);
 ```
-Даже не придется дополнительно конфигурировать `Automapper`.
+Даже не придется дополнительно конфигурировать `AutoMapper`.
 
 
 Только так делать нельзя: пользователей обычно много, а значит результат надо возвращать постранично.

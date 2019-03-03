@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace WebApi.Samples
 {
     [TestFixture]
-    public class AutomapperTests
+    public class AutoMapperTests
     {
         class UserEntity
         {

@@ -23,7 +23,7 @@ namespace WebGame.Domain
         /// <summary>
         /// Ход, который выбрал игрок
         /// </summary>
-        public PlayerDecision Decision { get; set; }
+        public PlayerDecision? Decision { get; set; }
         
         /// <summary>
         /// Текущие очки в игре. Сколько туров выиграл этот игрок.

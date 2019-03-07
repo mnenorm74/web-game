@@ -54,7 +54,7 @@ namespace WebGame.Domain
             return $"{nameof(Id)}: {Id}, {nameof(Login)}: {Login}, {nameof(CurrentGameId)}: {CurrentGameId}";
         }
 
-        public void FinishGame()
+        public void ExitGame()
         {
             if (CurrentGameId.HasValue)
             {

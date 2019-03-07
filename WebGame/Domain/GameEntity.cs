@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,10 +48,18 @@ namespace WebGame.Domain
 
         public bool IsFinished()
         {
-            return CurrentTurnIndex >= TurnsCount;
+            return CurrentTurnIndex >= TurnsCount
+                   || Status == GameStatus.Finished
+                   || Status == GameStatus.Canceled;
         }
 
-        public bool HaveDecisionOfEveryPlayer => Players.All(p => p.Decision != PlayerDecision.None);
+        public void Cancel()
+        {
+            if (!IsFinished())
+                Status = GameStatus.Canceled;
+        }
+
+        public bool HaveDecisionOfEveryPlayer => Players.All(p => p.Decision.HasValue);
 
         public void SetPlayerDecision(Guid userId, PlayerDecision decision)
         {
@@ -59,7 +67,7 @@ namespace WebGame.Domain
                 throw new InvalidOperationException(Status.ToString());
             foreach (var player in Players.Where(p => p.UserId == userId))
             {
-                if (player.Decision != PlayerDecision.None)
+                if (player.Decision.HasValue)
                     throw new InvalidOperationException(player.Decision.ToString());
                 player.Decision = decision;
             }
@@ -72,7 +80,9 @@ namespace WebGame.Domain
             {
                 var player = Players[i];
                 var opponent = Players[1 - i];
-                if (player.Decision.Beats(opponent.Decision))
+                if (!player.Decision.HasValue || !opponent.Decision.HasValue)
+                    throw new InvalidOperationException();
+                if (player.Decision.Value.Beats(opponent.Decision.Value))
                 {
                     player.Score++;
                     winnerId = player.UserId;
@@ -82,7 +92,7 @@ namespace WebGame.Domain
             var result = new GameTurnEntity();
             // Это должно быть после создания GameTurnEntity
             foreach (var player in Players)
-                player.Decision = PlayerDecision.None;
+                player.Decision = null;
             CurrentTurnIndex++;
             if (CurrentTurnIndex == TurnsCount)
                 Status = GameStatus.Finished;

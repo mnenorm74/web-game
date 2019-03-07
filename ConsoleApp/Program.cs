@@ -112,7 +112,7 @@ namespace ConsoleApp
             {
                 var playerUser = userRepo.FindById(player.UserId);
                 if (playerUser == null) continue;
-                playerUser.FinishGame();
+                playerUser.ExitGame();
                 userRepo.Update(playerUser);
             }
         }

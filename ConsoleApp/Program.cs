@@ -25,16 +25,22 @@ namespace ConsoleApp
         {
             var humanUser = userRepo.GetOrCreateByLogin("Human");
             var aiUser = userRepo.GetOrCreateByLogin("AI");
-            if (FindCurrentGame(humanUser) == null)
-                StartNewGame(humanUser, aiUser);
+            var game = FindCurrentGame(humanUser) ?? StartNewGame(humanUser);
+            if (!TryJoinToGame(game, aiUser))
+            {
+                Console.WriteLine("Can't add AI user to the game");
+                return;
+            }
+
             while (HandleOneGameTurn(humanUser.Id))
             {
             }
+
             Console.WriteLine("Game is finished");
             Console.ReadLine();
         }
 
-        private void StartNewGame(UserEntity humanUser, UserEntity aiUser)
+        private GameEntity StartNewGame(UserEntity user)
         {
             Console.WriteLine("Enter desired number of turns in game:");
             if (!int.TryParse(Console.ReadLine(), out var turnsCount))
@@ -42,14 +48,43 @@ namespace ConsoleApp
                 turnsCount = 5;
                 Console.WriteLine($"Bad input. Use default value for turns count: {turnsCount}");
             }
+
             var game = new GameEntity(turnsCount);
-            game.AddPlayer(humanUser);
-            game.AddPlayer(aiUser);
+            game.AddPlayer(user);
             var savedGame = gameRepo.Insert(game);
-            humanUser.CurrentGameId = savedGame.Id;
-            aiUser.CurrentGameId = savedGame.Id;
-            userRepo.Update(humanUser);
-            userRepo.Update(aiUser);
+
+            user.CurrentGameId = savedGame.Id;
+            userRepo.Update(user);
+
+            return savedGame;
+        }
+
+        private bool TryJoinToGame(GameEntity game, UserEntity user)
+        {
+            if (IsUserInGame(user, game))
+                return true;
+
+            if (user.CurrentGameId.HasValue)
+                return false;
+
+            if (game.Status != GameStatus.WaitingToStart)
+                return false;
+
+            game.AddPlayer(user);
+            if (!gameRepo.TryUpdateWaitingToStart(game))
+                return false;
+
+            user.CurrentGameId = game.Id;
+            userRepo.Update(user);
+
+            return true;
+        }
+
+        private static bool IsUserInGame(UserEntity user, GameEntity game)
+        {
+            return user.CurrentGameId.HasValue
+                   && user.CurrentGameId.Value == game.Id
+                   && game.Players.Any(p => p.UserId == user.Id);
         }
 
         private GameEntity FindCurrentGame(UserEntity humanUser)
@@ -72,10 +107,7 @@ namespace ConsoleApp
 
         private bool HandleOneGameTurn(Guid humanUserId)
         {
-            var user = userRepo.FindById(humanUserId) ?? throw new Exception($"Unknown user with id {humanUserId}");
-            var userCurrentGameId = user.CurrentGameId ?? throw new Exception($"No current game for user: {user}");
-            var game = gameRepo.FindById(userCurrentGameId);
-            ShowScore(game);
+            var game = GetGameByUser(humanUserId);
 
             if (game.IsFinished())
             {
@@ -90,13 +122,23 @@ namespace ConsoleApp
 
             var aiPlayer = game.Players.First(p => p.UserId != humanUserId);
             game.SetPlayerDecision(aiPlayer.UserId, GetAiDecision());
+
             if (game.HaveDecisionOfEveryPlayer)
             {
                 // TODO: Сохранить информацию о прошедшем туре в ITurnsRepository. Сформировать информацию о закончившемся туре внутри FinishTurn и вернуть её сюда.
                 game.FinishTurn();
             }
+
+            ShowScore(game);
             gameRepo.Update(game);
             return true;
+        }
+
+        private GameEntity GetGameByUser(Guid userId)
+        {
+            var user = userRepo.FindById(userId) ?? throw new Exception($"Unknown user with id {userId}");
+            var userCurrentGameId = user.CurrentGameId ?? throw new Exception($"No current game for user: {user}");
+            return gameRepo.FindById(userCurrentGameId);
         }
 
         private PlayerDecision GetAiDecision()

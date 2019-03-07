@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace WebGame.Domain
 {
@@ -7,5 +8,7 @@ namespace WebGame.Domain
         GameEntity Insert(GameEntity game);
         GameEntity FindById(Guid gameId);
         void Update(GameEntity game);
+        IList<GameEntity> FindWaitingToStart(int limit = 10);
+        bool TryUpdateWaitingToStart(GameEntity game);
     }
 }

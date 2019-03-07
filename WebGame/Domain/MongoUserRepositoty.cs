@@ -55,6 +55,5 @@ namespace WebGame.Domain
         {
             throw new NotImplementedException();
         }
-
     }
 }

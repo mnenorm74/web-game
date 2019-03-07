@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MongoDB.Driver;
 
 namespace WebGame.Domain
@@ -23,6 +24,16 @@ namespace WebGame.Domain
         }
 
         public void Update(GameEntity game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<GameEntity> FindWaitingToStart(int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryUpdateWaitingToStart(GameEntity game)
         {
             throw new NotImplementedException();
         }

@@ -27,9 +27,29 @@ namespace WebGame.Domain
         public void Update(GameEntity game)
         {
             if (!entities.ContainsKey(game.Id))
-                throw new InvalidOperationException();
+                return;
 
             entities[game.Id] = Clone(game.Id, game);
+        }
+
+        public IList<GameEntity> FindWaitingToStart(int limit)
+        {
+            return entities
+                .Select(pair => pair.Value)
+                .Where(e => e.Status == GameStatus.WaitingToStart)
+                .Take(limit)
+                .Select(e => Clone(e.Id, e))
+                .ToArray();
+        }
+
+        public bool TryUpdateWaitingToStart(GameEntity game)
+        {
+            if (!entities.TryGetValue(game.Id, out var savedGame)
+                || savedGame.Status != GameStatus.WaitingToStart)
+                return false;
+
+            entities[game.Id] = Clone(game.Id, game);
+            return true;
         }
 
         private GameEntity Clone(Guid id, GameEntity game)

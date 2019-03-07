@@ -52,7 +52,7 @@ namespace WebGame.Domain
         public void Update(UserEntity user)
         {
             if (!entities.ContainsKey(user.Id))
-                throw new InvalidOperationException();
+                return;
 
             entities[user.Id] = Clone(user.Id, user);
         }

@@ -1777,7 +1777,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstPlayerId\": \"11111111-1111-1111-1111-111111111111\",\n    \"secondPlayerId\": \"22222222-2222-2222-2222-222222222222\",\n    \"turnsCount\": \"3\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{baseUrl}}/api/users/:userId/game/exit",
@@ -1952,7 +1952,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstPlayerId\": \"11111111-1111-1111-1111-111111111111\",\n    \"secondPlayerId\": \"22222222-2222-2222-2222-222222222222\",\n    \"turnsCount\": \"3\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{baseUrl}}/api/users/:userId/game/exit",
@@ -2130,7 +2130,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstPlayerId\": \"11111111-1111-1111-1111-111111111111\",\n    \"secondPlayerId\": \"22222222-2222-2222-2222-222222222222\",\n    \"turnsCount\": \"3\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{baseUrl}}/api/games/:gameId",
@@ -2532,7 +2532,7 @@
 	],
 	"variable": [
 		{
-			"id": "8f34db51-122a-475e-b7ef-1e48717b83c4",
+			"id": "4447fe7a-0e01-4724-88e2-68f43f8e389d",
 			"key": "baseUrl",
 			"value": "http://samplehost:777",
 			"type": "string"

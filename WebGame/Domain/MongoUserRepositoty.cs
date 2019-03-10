@@ -51,7 +51,7 @@ namespace WebGame.Domain
         }
 
         // Не нужно реализовывать этот метод
-        public UserEntity UpdateOrInsert(UserEntity user)
+        public void UpdateOrInsert(UserEntity user, out bool isInserted)
         {
             throw new NotImplementedException();
         }

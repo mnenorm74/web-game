@@ -11,7 +11,7 @@ namespace WebGame.Domain
         [NotNull]
         UserEntity GetOrCreateByLogin(string login);
         void Update(UserEntity user);
-        UserEntity UpdateOrInsert(UserEntity user);
+        void UpdateOrInsert(UserEntity user, out bool isInserted);
         void Delete(Guid id);
         PageList<UserEntity> GetPage(int pageNumber, int pageSize);
     }

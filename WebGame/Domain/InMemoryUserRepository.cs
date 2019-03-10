@@ -57,7 +57,7 @@ namespace WebGame.Domain
             entities[user.Id] = Clone(user.Id, user);
         }
 
-        public UserEntity UpdateOrInsert(UserEntity user)
+        public void UpdateOrInsert(UserEntity user, out bool isInserted)
         {
             if (user.Id == Guid.Empty)
                 throw new InvalidOperationException();
@@ -66,12 +66,13 @@ namespace WebGame.Domain
             if (entities.ContainsKey(id))
             {
                 entities[id] = Clone(id, user);
-                return user;
+                isInserted = false;
+                return;
             }
 
             var entity = Clone(id, user);
             entities[id] = entity;
-            return Clone(id, entity);
+            isInserted = true;
         }
 
         public void Delete(Guid id)

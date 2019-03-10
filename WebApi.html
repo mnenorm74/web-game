@@ -826,7 +826,7 @@ interface IUserRepository
 
 ### Стандарт описания API — решение
 
-**Swagger 2.0** или **OpenApi 3.0**
+**Swagger 2.0** или **OpenApi 3.0** от SmartBear
 
 Можно описывать API на yaml или json
 
@@ -834,18 +834,109 @@ interface IUserRepository
 
 ### Демо Swagger
 
+Для использования Swagger в .NET есть библиотека **Swashbuckle**
+
+Чтобы воспользоваться, надо подключить к `Startup.cs`
+методы из `/WebApi/Samples/SwaggerExtensions.cs`
+
+В результате:
+- Появится визуализация API при старте WebApi
+- UI можно использовать для отправки запросов
+- Реальное описание доступно по адресу в виде JSON
+`/swagger/web-game/swagger.json`
+- `swagger.json` можно редактировать в https://editor.swagger.io
+- Содержимое `swagger.json` можно импортировать в Postman
+
 ***
 
-### Результат
+<h3 class="center">Даже автосгенерированный Swagger значительно облегчает жизнь фронтендеру!</h3>
+
+***
+
+### Дополнительные источники документации
+
+- Аннотации из ASP.NET Core
+- Xml Documentation Comments
+- Swashbuckle Annotations
+
+***
+
+### Аннотации из ASP.NET Core
+
+```cs
+[HttpGet("{userId}")]
+[Produces("application/json", "application/xml")]
+ActionResult<UserDto> GetUserById([FromRoute] Guid userId) { /*...*/ }
+```
+
+***
+
+### Xml Documentation Comments
+
+```cs
+/// <summary>
+/// Получить пользователя
+/// </summary>
+/// <param name="userId">Идентификатор пользователя</param>
+ActionResult<UserDto> GetUserById([FromRoute] Guid userId) { /*...*/ }
+```
+
+***
+
+### Swashbuckle Annotations
+
+```cs
+[SwaggerResponse(200, "OK", typeof(UserDto))]
+[SwaggerResponse(404, "Пользователь не найден")]
+ActionResult<UserDto> GetUserById([FromRoute] Guid userId) { /*...*/ }
+```
+
+***
+
+### Описание без Swashbuckle Annotations
+
+```cs
+/// <summary>
+/// Получить пользователей
+/// </summary>
+/// <param name="pageNumber">Номер страницы, по умолчанию 1</param>
+/// <param name="pageSize">Размер страницы, по умолчанию 20</param>
+/// <response code="200">OK</response>
+[HttpGet(Name = nameof(GetUsers))]
+[Produces("application/json", "application/xml")]
+[ProducesResponseType(typeof(IEnumerable<UserDto>), 200)]
+IActionResult GetUsers(int pageNumber, int pageSize) { /*...*/ }
+```
+
+**Приходится описывать code у response в двух местах :(**
+
+***
+
+### Описание Media Type для PATCH
+
+```cs
+[HttpPatch("{userId}")]
+[Consumes("application/json-patch+json")]
+[Produces("application/json", "application/xml")]
+IActionResult PartiallyUpdateUser([FromRoute] Guid userId,
+    [FromBody] JsonPatchDocument<object> patchDoc) { /*...*/ }
+```
+
+***
+
+### Демо Описания для Swagger
+
+Скопировать в `UsersController` описания из
+`/WebApi/Samples/ISwaggerDescriptionsForUsersController.cs`
+
+***
+
+### Результат использования Swagger
 
 - **Автогенерация описания** по коду сервера
 - Стандартная и понятная **визуализация API**
 - **Песочница**, чтобы делать запросы: встроенная и Postman
 - **Автогенерация клиентов и серверов** по описанию
-
-***
-
-<h3 class="center">Даже автосгенерированный Swagger значительно облегчает жизнь фронтендеру!</h3>
 
 </script></section>
 

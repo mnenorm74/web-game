@@ -16,6 +16,7 @@ namespace WebApi.Samples
         {
             services.AddSwaggerGen(c =>
             {
+                // Создаем документ с описанием API
                 c.SwaggerDoc("web-game", new OpenApiInfo
                 {
                     Title = "Web Game API",
@@ -24,10 +25,12 @@ namespace WebApi.Samples
 
                 c.DescribeAllEnumsAsStrings();
 
+                // Конфигурируем Swashbuckle, чтобы использовались Xml Documentation Comments
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
 
+                // Конфигурируем Swashbuckle, чтобы работали атрибуты
                 c.EnableAnnotations();
             });
         }

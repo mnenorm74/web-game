@@ -15,13 +15,13 @@ namespace WebGame.Domain
 
         public UserEntity Insert(UserEntity user)
         {
-            //TODO: Ищите в документации InsertXXX.
+            //TODO: Ищи в документации InsertXXX.
             throw new NotImplementedException();
         }
 
         public UserEntity FindById(Guid id)
         {
-            //TODO: Ищите в документации FindXXX
+            //TODO: Ищи в документации FindXXX
             throw new NotImplementedException();
         }
 
@@ -33,7 +33,7 @@ namespace WebGame.Domain
 
         public void Update(UserEntity user)
         {
-            //TODO: Ищите в документации ReplaceXXX
+            //TODO: Ищи в документации ReplaceXXX
             throw new NotImplementedException();
         }
 
@@ -46,7 +46,7 @@ namespace WebGame.Domain
         // страницы нумеруются с единицы
         public PageList<UserEntity> GetPage(int pageNumber, int pageSize)
         {
-            //TODO: Вам понадобятся Sort, Skip и Limit
+            //TODO: Тебе понадобятся SortBy, Skip и Limit
             throw new NotImplementedException();
         }
 

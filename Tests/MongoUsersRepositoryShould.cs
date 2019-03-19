@@ -9,7 +9,7 @@ using WebGame.Domain;
 namespace Tests
 {
     [TestFixture]
-    public class UsersRepository_Should
+    public class MongoUsersRepositoryShould
     {
         [SetUp]
         public void SetUp()
@@ -95,6 +95,16 @@ namespace Tests
         }
 
         [Test]
+        public void GetSortedPage()
+        {
+            repo.GetOrCreateByLogin("2");
+            repo.GetOrCreateByLogin("3");
+            repo.GetOrCreateByLogin("1");
+            var page = repo.GetPage(1, 3);
+            page.Select(u => u.Login).Should().Equal("1", "2", "3");
+        }
+
+        [Test]
         public void Delete()
         {
             var user = repo.GetOrCreateByLogin("login");
@@ -112,8 +122,21 @@ namespace Tests
                 repo.GetOrCreateByLogin(i.ToString());
         }
 
+
+        [Test(Description = "Тест на уникальный индекс по логину")]
+        [Explicit("Это дополнительная задача Индекс")]
+        public void LoginDuplicateNotAllowed()
+        {
+            Action action = () =>
+            {
+                repo.Insert(new UserEntity(Guid.Empty, "somelogin", "last1", "first1", 0, null));
+                repo.Insert(new UserEntity(Guid.Empty, "somelogin", "last2", "first2", 0, null));
+            };
+            action.Should().Throw<MongoWriteException>();
+        }
+
         [Test(Description = "Параллельные запросы не должны падать")]
-        [Explicit("Это дополнительная задача")]
+        [Explicit("Наивная реализация GetOrCreateByLogin не пройдет этот тест")]
         public void MassiveConcurrentCreateUser()
         {
             for (int i = 0; i < 1000; i++)

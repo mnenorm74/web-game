@@ -51,7 +51,9 @@ namespace Tests
             var memoryStream = new MemoryStream();
             BsonSerializer.Serialize(new BsonBinaryWriter(memoryStream), entity);
             var bytes = memoryStream.ToArray();
+
             var deserializedEntity = BsonSerializer.Deserialize<TEntity>(new MemoryStream(bytes));
+
             Console.WriteLine(deserializedEntity);
             deserializedEntity.Should().BeEquivalentTo(entity);
         }

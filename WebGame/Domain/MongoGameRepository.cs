@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace WebGame.Domain
 {
-    // TODO ������� �� �������� � MongoUserRepository
+    // TODO Сделать по аналогии с MongoUserRepository
     public class MongoGameRepository : IGameRepository
     {
         public const string CollectionName = "games";
@@ -30,11 +30,14 @@ namespace WebGame.Domain
 
         public IList<GameEntity> FindWaitingToStart(int limit)
         {
+            //TODO: Реализуй метод, который возвращает не более чем limit игр со статусом GameStatus.WaitingToStart
             throw new NotImplementedException();
         }
 
         public bool TryUpdateWaitingToStart(GameEntity game)
         {
+            //TODO: Реализуй метод, который обновляет игру, если она находится в статусе GameStatus.WaitingToStart
+            // Для проверки успешности используй IsAcknowledged и ModifiedCount из результата.
             throw new NotImplementedException();
         }
     }

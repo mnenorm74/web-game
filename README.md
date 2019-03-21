@@ -10,5 +10,5 @@
 
 * [.Net Core 2.2 SDK](https://dotnet.microsoft.com/download)
 * [Postman](https://www.getpostman.com/)
-* [MongoDB](https://www.mongodb.com/download-center/community) (у установщике нужно согласиться установить ещё и MongoDB Comapss)
+* [MongoDB](https://www.mongodb.com/download-center/community) (у установщике нужно согласиться установить ещё и MongoDB Compass)
 

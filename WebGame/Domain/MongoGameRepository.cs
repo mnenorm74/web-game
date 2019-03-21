@@ -28,16 +28,17 @@ namespace WebGame.Domain
             throw new NotImplementedException();
         }
 
+        // Возвращает не более чем limit игр со статусом GameStatus.WaitingToStart
         public IList<GameEntity> FindWaitingToStart(int limit)
         {
-            //TODO: Реализуй метод, который возвращает не более чем limit игр со статусом GameStatus.WaitingToStart
+            //TODO: Используй Find и Limit
             throw new NotImplementedException();
         }
 
+        // Обновляет игру, если она находится в статусе GameStatus.WaitingToStart
         public bool TryUpdateWaitingToStart(GameEntity game)
         {
-            //TODO: Реализуй метод, который обновляет игру, если она находится в статусе GameStatus.WaitingToStart
-            // Для проверки успешности используй IsAcknowledged и ModifiedCount из результата.
+            //TODO: Для проверки успешности используй IsAcknowledged и ModifiedCount из результата
             throw new NotImplementedException();
         }
     }

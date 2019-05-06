@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     public interface IGameRepository
     {

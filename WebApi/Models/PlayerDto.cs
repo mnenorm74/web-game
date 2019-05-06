@@ -1,4 +1,4 @@
-using WebGame.Domain;
+using Game.Domain;
 
 namespace WebApi.Models
 {

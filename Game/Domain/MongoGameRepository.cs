@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MongoDB.Driver;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     // TODO Сделать по аналогии с MongoUserRepository
     public class MongoGameRepository : IGameRepository

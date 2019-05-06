@@ -1,7 +1,7 @@
 using System;
 using MongoDB.Driver;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     public class MongoUserRepository : IUserRepository
     {

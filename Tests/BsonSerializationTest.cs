@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using FluentAssertions;
+using Game.Domain;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using NUnit.Framework;
-using WebGame.Domain;
 
 namespace Tests
 {

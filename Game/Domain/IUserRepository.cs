@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     public interface IUserRepository
     {

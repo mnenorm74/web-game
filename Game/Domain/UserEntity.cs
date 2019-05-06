@@ -1,6 +1,6 @@
 using System;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     public class UserEntity
     {

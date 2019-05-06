@@ -1,6 +1,6 @@
 using System;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     /// <summary>
     /// Состояние игрока в рамках какой-то запущенной или планируемой игры.

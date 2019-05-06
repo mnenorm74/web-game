@@ -1,7 +1,7 @@
 ﻿using System;
+using Game.Domain;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
-using WebGame.Domain;
 
 namespace WebApi.Controllers
 {

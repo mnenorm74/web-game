@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WebGame.Domain
+namespace Game.Domain
 {
     public class InMemoryUserRepository : IUserRepository
     {

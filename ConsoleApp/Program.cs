@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using WebGame.Domain;
+using Game.Domain;
 
 namespace ConsoleApp
 {

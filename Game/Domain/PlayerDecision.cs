@@ -1,4 +1,4 @@
-namespace WebGame.Domain
+namespace Game.Domain
 {
     public enum PlayerDecision
     {

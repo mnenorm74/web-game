@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Game.Domain;
 using MongoDB.Driver;
 using NUnit.Framework;
-using WebGame.Domain;
 
 namespace Tests
 {

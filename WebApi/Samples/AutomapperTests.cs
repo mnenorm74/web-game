@@ -30,10 +30,12 @@ namespace WebApi.Samples
             public string Name { get; set; }
         }
 
+        IMapper mapper;
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            Mapper.Initialize(cfg =>
+            var config = new MapperConfiguration(cfg =>
             {
                 // Регистрация преобразования UserEntity в UserDto с дополнительным правилом.
                 // Также поля и свойства с совпадающими именами будут скопировны (поведение по умолчанию).
@@ -44,10 +46,11 @@ namespace WebApi.Samples
                 // Все поля и свойства с совпадающими именами будут скопировны (поведение по умолчанию).
                 cfg.CreateMap<UserToUpdateDto, UserEntity>();
             });
+             mapper = config.CreateMapper();
         }
 
         [Test]
-        public static void TestCreateFrom()
+        public void TestCreateFrom()
         {
             const int id = 1;
             var registrationTime = DateTime.Now.AddYears(-1);
@@ -60,7 +63,7 @@ namespace WebApi.Samples
             };
 
             // userDto создается на основе значений из userEntity
-            var userDto = Mapper.Map<UserDto>(userEntity);
+            var userDto = mapper.Map<UserDto>(userEntity);
 
             Assert.AreEqual(id, userDto.Id);
             Assert.AreEqual(registrationTime, userDto.RegistrationTime);
@@ -68,7 +71,7 @@ namespace WebApi.Samples
         }
 
         [Test]
-        public static void TestFillBy()
+        public void TestFillBy()
         {
             var registrationTime = DateTime.Now.AddYears(-1);
             var userDto = new UserToUpdateDto
@@ -85,7 +88,7 @@ namespace WebApi.Samples
             };
 
             // userEntity дополняется значениями из userDto
-            Mapper.Map(userDto, userEntity);
+            mapper.Map(userDto, userEntity);
 
             Assert.AreEqual(777, userEntity.Id);
             Assert.AreEqual("SuperAdmin", userEntity.Login);
@@ -94,7 +97,7 @@ namespace WebApi.Samples
         }
 
         [Test]
-        public static void TestFillByReturnSyntax()
+        public void TestFillByReturnSyntax()
         {
             var registrationTime = DateTime.Now.AddYears(-1);
             var userDto = new UserToUpdateDto
@@ -106,7 +109,7 @@ namespace WebApi.Samples
             // Mapper.Map возвращает ссылку на второй аргумент.
             // Поэтому можно вторым аргументом передавать только что созданный объект,
             // а потом получать ссылку на него как возвращаемое значение Map.
-            var userEntity = Mapper.Map(userDto, new UserEntity
+            var userEntity = mapper.Map(userDto, new UserEntity
             {
                 Id = 777,
                 Login = "Admin",
@@ -120,7 +123,7 @@ namespace WebApi.Samples
         }
 
         [Test]
-        public static void TestCreateMany()
+        public void TestCreateMany()
         {
             var userEntities = Enumerable.Range(1, 10)
                 .Select(id => new UserEntity
@@ -131,7 +134,7 @@ namespace WebApi.Samples
 
             // Каждый userDto создается на основе значений из userEntity.
             // Используется преобразование UserEntity в UserDto.
-            var userDtos = Mapper.Map<IEnumerable<UserDto>>(userEntities).ToList();
+            var userDtos = mapper.Map<IEnumerable<UserDto>>(userEntities).ToList();
 
             Assert.AreEqual(userEntities.Count, userDtos.Count);
             for (int i = 0; i < userDtos.Count; i++)

@@ -19,7 +19,7 @@
 Реализуй этот метод API для получения пользователя в методе `GetUserById` контроллера.
 
 Для начала тебе потребуется получить `IUserRepository` через конструктор.
-Чтобы контейнер ASP.NET смог создать `IUserRepository`,
+Чтобы DI-контейнер ASP.NET смог создать `IUserRepository`,
 привяжи к этому интерфейсу `InMemoryUserRepository` в `Startup.ConfigureServices`:
 ```cs
 services.AddSingleton<IUserRepository, InMemoryUserRepository>();
@@ -45,12 +45,15 @@ return Ok(user);
 Для этого достаточно немного настроить MVC в `Startup.ConfigureServices`:
 
 ```cs
-services.AddMvc(options =>
+services.AddControllers(options =>
 {
     // Этот OutputFormatter позволяет возвращать данные в XML, если требуется.
     options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
     // Эта настройка позволяет отвечать кодом 406 Not Acceptable на запросы неизвестных форматов.
     options.ReturnHttpNotAcceptable = true;
+    // Эта настройка приводит к игнорированию заголовка Accept, когда он содержит */*
+    // Здесь она нужна, чтобы при отсутствии заголовка Accept ответ возвращался в формате JSON
+    options.RespectBrowserAcceptHeader = true;
 });
 ```
 
@@ -63,10 +66,22 @@ services.AddMvc(options =>
 и только отличия надо было описать вручную.
 
 И средство для этого есть — `AutoMapper`.
-Изучи тесты в `WebApi/Samples/AutoMapperTests.cs`, чтобы понять как им пользоваться.
-Прежде всего `OneTimeSetUp` и тест `TestCreateFrom`.
-И примени для получения `UserDto` из `UserEntity`!
-Необходимую конфигураию запиши в `Startup.ConfigureServices`.
+
+Перед тем как использовать, его нужно сконфигурировать и привязать к DI-контейнеру ASP.NET.
+Для этого добавь в `Startup.ConfigureServices` следующий код:
+```cs
+services.AddAutoMapper(cfg =>
+{
+    // TODO
+}, new System.Reflection.Assembly[0]);
+```
+После этого ты сможешь в конструкторе UserController запросить IMapper и DI-контейнер его передаст.
+
+Но чтобы понять, что написать вместо TODO и понять как пользоваться автомаппером,
+изучи тесты в `WebApi/Samples/AutoMapperTests.cs`. Прежде всего `OneTimeSetUp` и тест `TestCreateFrom`.
+
+Теперь напиши конфигурацию AutoMapper для получения `UserDto` из `UserEntity` вместо TODO
+и замени код преобразования UserEntity в UserDto на вызов автомаппера.
 
 
 ### 2. POST /users
@@ -125,7 +140,7 @@ public string Login { get; set; }
 А что делать с ошибками? Информацию о них надо возвращать с кодом 422 Unprocessable Entity.
 И есть встроенный метод, сериализующий `ModelState` и возвращающий код 422.
 ```cs
-return new UnprocessableEntityObjectResult(ModelState);
+return UnprocessableEntity(ModelState);
 ```
 
 В `ModelState` можно также добавлять информацию о любых других ошибках.
@@ -143,8 +158,8 @@ ModelState.AddModelError("Ключ, с которым ассоциируется
 
 Чтобы все работало как надо, поправь настройки `JSONConvert` вот так:
 ```cs
-services.AddMvc(...)
-    .AddJsonOptions(options =>
+services.AddControllers(...)
+    .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
     });
@@ -163,8 +178,8 @@ public string FirstName { get; set; }
 
 Чтобы это заработало придется еще поднастроить `JSONConvert` вот так:
 ```cs
-services.AddMvc(...)
-    .AddJsonOptions(options =>
+services.AddControllers(...)
+    .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Populate;

@@ -23,8 +23,6 @@ namespace WebApi.Samples
                     Version = "0.1",
                 });
 
-                c.DescribeAllEnumsAsStrings();
-
                 // Конфигурируем Swashbuckle, чтобы использовались Xml Documentation Comments
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

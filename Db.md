@@ -1,4 +1,4 @@
-## Работа с БД на примере MongoDB
+# Работа с БД на примере MongoDB
 
 Game - библиотека классов для реализации мультиплеерной игры Камень Ножницы Бумага.
 ConsoleApp - консольное приложение для игры с компьютером.
@@ -10,7 +10,7 @@ ConsoleApp - консольное приложение для игры с ком
 Требуется создать новые реализации, для хранения данных в MongoDB. Ниже вся задача разбита на этапы:
 
 
-### Bson сериализация
+## 1. Bson сериализация
 
 Сначала нужно подготовить сами классы сущностей к тому, чтобы их мог сохранять и загружать из базы драйвер MongoDB.
 Драйвер делает это с помощью Bson сериализатора. Можно проверить работу сериализации отдельно от работы с сервером Mongo.
@@ -24,15 +24,17 @@ ConsoleApp - консольное приложение для игры с ком
 4. Запусти тест и проверь, что теперь класс GameEntity успешно сериализуется
 
 Более подробно про настройку сериализации в Bson читай в документации:
-http://mongodb.github.io/mongo-csharp-driver/2.7/reference/bson/mapping/
+http://mongodb.github.io/mongo-csharp-driver/2.10/reference/bson/mapping/
 
+
+## 2. UserRepository
 
 ### MongoUserRepository
 
 1. Реализуй в классе MongoUserRepository все методы.
    Тебе поможет документация.
-   Операции чтения: http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/crud/reading/
-   Операции записи: http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/crud/writing/
+   Операции чтения: http://mongodb.github.io/mongo-csharp-driver/2.10/reference/driver/crud/reading/
+   Операции записи: http://mongodb.github.io/mongo-csharp-driver/2.10/reference/driver/crud/writing/
    Проверь работоспособность тестами на этот репозиторий.
 2. С помощью MongoDB Compass убедись, что после выполнения тестов, в базе web-game-tests создаются коллекции и документы.
 
@@ -44,7 +46,7 @@ http://mongodb.github.io/mongo-csharp-driver/2.7/reference/bson/mapping/
    Так как логины у пользователей должны быть уникальными, стоит сразу сделать индекс со свойством "уникальный".
    При наличии такого индекса MongoDB будет самостоятельно проверять, что логины в сохраненных сущностях не повторяются.
    Для простоты добавь создание индекса в конструкторе репозитория. Не волнуйся, MongoDB игнорирует повторное создание индекса.
-   Тебе поможет документация http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/admin/#indexes
+   Тебе поможет документация http://mongodb.github.io/mongo-csharp-driver/2.10/reference/driver/admin/#indexes
 3. Повторно запусти тест SearchByLoginFast и сравни время работы с первоначальным.
 4. С помощью MongoDB Compass убедись, что после выполнения тестов, у коллекции users появился индекс и он используется.
 5. Раз ты создал уникальный индекс, то тест LoginDuplicateNotAllowed также должен проходить. Проверь это.
@@ -57,12 +59,14 @@ http://mongodb.github.io/mongo-csharp-driver/2.7/reference/bson/mapping/
 2. С помощью MongoDB Compass проверь, что после окончания игры у пользователя обновляется количество сыгранных игр в БД.
 
 
+## 3. GameRepository
+
 ### MongoGameRepository
 
 1. Реализуй в классе MongoGameRepository все методы.
    Тебе поможет документация.
-   Операции чтения: http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/crud/reading/
-   Операции записи: http://mongodb.github.io/mongo-csharp-driver/2.7/reference/driver/crud/writing/
+   Операции чтения: http://mongodb.github.io/mongo-csharp-driver/2.10/reference/driver/crud/reading/
+   Операции записи: http://mongodb.github.io/mongo-csharp-driver/2.10/reference/driver/crud/writing/
 2. Проверь работоспособность тестами на этот репозиторий.
 3. С помощью MongoDB Compass убедись, что после выполнения тестов, в базе web-game-tests создаются коллекции и документы.
 
@@ -73,7 +77,7 @@ http://mongodb.github.io/mongo-csharp-driver/2.7/reference/bson/mapping/
 2. Проверь, что прерванная на середине игра сохраняет состояние в БД и при перезапуске продолжается.
 
 
-### Бонус-задача «История игры»
+## 4. Бонус-задача «История игры»
 
 Самостоятельно спроектируй ещё одну сущность: GameTurnEntity — это информация об одном завершённом туре игры.
 В рамках тура каждый игрок называет Камень Ножницы или Бумага, и определяется исход тура — победитель тура или ничья.
@@ -91,7 +95,7 @@ http://mongodb.github.io/mongo-csharp-driver/2.7/reference/bson/mapping/
 
 ## Статьи и документация
 
-[.NET MongoDB Driver Reference](http://mongodb.github.io/mongo-csharp-driver/2.7/)
+[.NET MongoDB Driver Reference](http://mongodb.github.io/mongo-csharp-driver/2.10/)
 
 
 ## Статьи про проектирование в Монго

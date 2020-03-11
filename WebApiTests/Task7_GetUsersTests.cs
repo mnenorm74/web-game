@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,8 @@ namespace WebApiTests
         [Test]
         public void Test1_Code200_WhenFirstPage()
         {
+            CreateUniqueUsers(20);
+
             var request = new HttpRequestMessage();
             request.Method = HttpMethod.Get;
             request.RequestUri = BuildUsersWithPagesUri(null, null);
@@ -36,9 +39,11 @@ namespace WebApiTests
         [Test]
         public void Test2_Code200_WhenSecondPage()
         {
+            CreateUniqueUsers(30);
+
             var request = new HttpRequestMessage();
             request.Method = HttpMethod.Get;
-            request.RequestUri = BuildUsersWithPagesUri(2, null);
+            request.RequestUri = BuildUsersWithPagesUri(2, 10);
             request.Headers.Add("Accept", "*/*");
             var response = httpClient.Send(request);
 
@@ -128,6 +133,17 @@ namespace WebApiTests
             pagination.TotalCount.Should().BeGreaterThan(0);
             pagination.PageSize.Should().Be(1);
             pagination.TotalPages.Should().Be(pagination.TotalCount);
+        }
+
+        private void CreateUniqueUsers(int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                CreateUser(new
+                {
+                    login = Guid.NewGuid().ToString().Replace("-", "")
+                });
+            }
         }
 
         private class Pagination

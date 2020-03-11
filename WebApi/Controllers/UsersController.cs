@@ -6,6 +6,7 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : Controller
     {
         // Чтобы ASP.NET положил что-то в userRepository требуется конфигурация

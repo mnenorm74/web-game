@@ -7,7 +7,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using NUnit.Framework;
 
-namespace Tests
+namespace DbTests
 {
     [TestFixture]
     public class BsonSerializationTest

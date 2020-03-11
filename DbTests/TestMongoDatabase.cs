@@ -1,7 +1,7 @@
 using System;
 using MongoDB.Driver;
 
-namespace Tests
+namespace DbTests
 {
     public static class TestMongoDatabase
     {

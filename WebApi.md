@@ -71,7 +71,8 @@ services.AddControllers(options =>
     // Эта настройка приводит к игнорированию заголовка Accept, когда он содержит */*
     // Здесь она нужна, чтобы в этом случае ответ возвращался в формате JSON
     options.RespectBrowserAcceptHeader = true;
-});
+})
+.ConfigureApiBehaviorOptions(...);
 ```
 
 а также пометить метод контроллера атрибутом `[Produces("application/json", "application/xml")]`?
@@ -180,6 +181,7 @@ ModelState.AddModelError("Ключ, с которым ассоциируется
 Чтобы все работало как надо, поправь настройки `JSONConvert` вот так:
 ```cs
 services.AddControllers(...)
+    .ConfigureApiBehaviorOptions(...)
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -200,6 +202,7 @@ public string FirstName { get; set; }
 Чтобы это заработало придется еще поднастроить `JSONConvert` вот так:
 ```cs
 services.AddControllers(...)
+    .ConfigureApiBehaviorOptions(...)
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

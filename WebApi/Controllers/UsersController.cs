@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Game.Domain;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -81,11 +82,41 @@ namespace WebApi.Controllers
             var createdUser = new UserEntity(userId);
             var mappedUser = mapper.Map<UserEntity>(createdUser);
             userRepository.UpdateOrInsert(mappedUser, out var isInserted);
-            
+
             if (isInserted)
             {
                 return CreatedAtRoute(nameof(GetUserById), new {userId = createdUser.Id}, createdUser.Id);
             }
+
+            return NoContent();
+        }
+
+        [HttpPatch("{userId}")]
+        [Produces("application/json", "application/xml")]
+        public IActionResult PartiallyUpdateUser([FromRoute] Guid userId,
+            [FromBody] JsonPatchDocument<UpdatingUserDto> patchDocument)
+        {
+            if (patchDocument is null)
+            {
+                return BadRequest();
+            }
+
+            var user = userRepository.FindById(userId);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var mappedUpdatingUser = mapper.Map<UpdatingUserDto>(user);
+            patchDocument.ApplyTo(mappedUpdatingUser, ModelState);
+            
+            if (!ModelState.IsValid || !TryValidateModel(mappedUpdatingUser))
+            {
+                return UnprocessableEntity(ModelState);
+            }
+
+            var mappedUser = mapper.Map<UserEntity>(user);
+            userRepository.Update(mappedUser);
 
             return NoContent();
         }

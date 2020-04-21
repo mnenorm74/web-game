@@ -22,7 +22,8 @@ namespace WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+            services.AddSingleton<IUserRepository, MongoUserRepository>();
+            services.AddSingleton<IGameRepository, MongoGameRepository>();
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<UserEntity, UserDto>()
